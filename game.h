@@ -1,10 +1,8 @@
 #include <stdio.h>
 
-struct boardStruct{
-    pieceStructRef piece;
-    int currentPlayer;
+/*struct boardStruct{
     void*** boardMatrix;
-};
+};*/
 
 typedef struct boardStruct* boardStructRef;
 
@@ -18,7 +16,8 @@ struct pieceStruct{
 typedef struct pieceStruct* pieceStructRef;
 
 struct gameStruct{
-    boardStructRef board;
+    int currentPlayer;
+    //boardStructRef board;
 };
 
 typedef struct gameStruct* gameStructRef;

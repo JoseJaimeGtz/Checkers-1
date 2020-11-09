@@ -2,11 +2,12 @@
 #include <stdlib.h>
 
 #include "game.h"
+#include "list.h"
 
 void startGame(gameStructRef game)
 {
-    game->board->currentPlayer = 0;
-    game->board->boardMatrix[0][0] = malloc(sizeof(pieceStructRef));
-    game->board->boardMatrix[0][0].x = 0;
-    game->board->piece->y
+    game->currentPlayer = 0;
+    nodeRef first_ref = newNode(0, 0, 0, 0);
+    addNode(first_ref, newNode(0, 1, 0, 0));
+    
 }
