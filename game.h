@@ -29,12 +29,14 @@ void startGame(Board);
 Pieces newPiece(int, int, int);
 
 // libera la memoria de todos los elementos de una lista exceptuando el primero (first)
-void DestroyPice(Pieces);
+void destroyPice(Pieces);
 
 // Agrega un nodo 'newNode' a la lista
 void addPiece(Pieces, Pieces);
 
 // Elimina el nodo 'nodeToRemove' de la lista, regresa 1 si se eliminó, 0 si no se eliminó.
-int RemovePiece(Pieces *, int);
+int removePiece(Pieces *, int);
 
 void initBoard(Board, int);
+
+void printBoard(Board);

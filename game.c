@@ -3,40 +3,6 @@
 
 #include "game.h"
 
-Pieces newPiece(int x, int y, int color)
-{
-    Pieces new = malloc(sizeof(struct pieceStruct));
-    if(new == NULL)
-        exit(EXIT_FAILURE);
-    new->x = x;
-    new->y = y;
-    new->color = color;
-    new->king = 0;
-    new->next = NULL;
-    return new;
-}
-
-// implementar despues
-void DestroyPice(Pieces first)
-{
-    if(first != NULL)
-    {
-        DestroyPice(first->next);
-        free(first);
-        first = NULL;
-    }
-
-}
-
-void addPiece(Pieces piece, Pieces newPiece)
-{
-    while(piece->next != NULL)
-    {
-        piece = piece->next;
-    }
-    piece->next = newPiece;
-}
-
 void startGame(Board board)
 {
     int boardSize;
@@ -57,6 +23,7 @@ void startGame(Board board)
     printf("Creando tablero de tamaño %dx%d", boardSize,boardSize);
     initBoard(board, boardSize);
 
+
     // while para el tablero
 }
 
@@ -66,19 +33,61 @@ void initBoard(Board board, int boardSize){
     // eliminar la primera pieza creada (la siguiente linea)
     Pieces piece_ref = newPiece(0, 0, 0);
 
-    // las posiciones de las lineas impares estan mal
-
     // que empiece en 1 para que todas las fichas esten en posicion par
-    for (int x = 1; x <= boardSize; ++x) {
-        for (int y = 1; y <= boardSize; ++y) {
+    for (int y = 1; y <= boardSize; ++y) {
+        for (int x = 1; x <= boardSize; ++x) {
             // si es la mitad del tablero -1 por la linea vacia de enmedio
-            if (x <= boardSize/2-1 && y%2 == 0 && x%2!=0){
-                addPiece(piece_ref, newPiece(x, y, 1));
+            if (y <= boardSize/2-1){
+                if(x%2 == 0 && y%2 != 0){
+                    addPiece(piece_ref, newPiece(x, y, 1));
+                } else {
+                    addPiece(piece_ref, newPiece(x-1, y, 1));
+                }
                 board->whitePieces++;
-            } else if ((x != boardSize/2 || x != boardSize/2+1) && y%2 == 0){
-                addPiece(piece_ref, newPiece(x, y, 0));
+            } else if (y >= boardSize/2+1 ){
+                if(x%2 == 0 && y%2 != 0){
+                    addPiece(piece_ref, newPiece(x, y, 0));
+                } else {
+                    addPiece(piece_ref, newPiece(x, y-1, 0));
+                }
                 board->blackPieces++;
             }
         }
     }
 }
+
+Pieces newPiece(int x, int y, int color)
+{
+    Pieces new = malloc(sizeof(struct pieceStruct));
+    if(new == NULL)
+        exit(EXIT_FAILURE);
+    new->x = x;
+    new->y = y;
+    new->color = color;
+    new->king = 0;
+    new->next = NULL;
+    return new;
+}
+
+void addPiece(Pieces piece, Pieces newPiece)
+{
+    while(piece->next != NULL)
+    {
+        piece = piece->next;
+    }
+    piece->next = newPiece;
+}
+
+// implementar despues
+void destroyPice(Pieces first)
+{
+    if(first != NULL)
+    {
+        destroyPice(first->next);
+        free(first);
+        first = NULL;
+    }
+
+}
+
+
