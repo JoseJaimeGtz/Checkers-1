@@ -1,30 +1,40 @@
-#include <stdio.h>
-
-struct boardStruct{
-    pieceStructRef piece;
-    int currentPlayer;
-    void*** boardMatrix;
-};
-
-typedef struct boardStruct* boardStructRef;
+//
+// Estructuras
+//
 
 struct pieceStruct{
     int color;
-    int type;
+    int king;
     int x;
     int y;
+    struct pieceStruct* next;
 };
+typedef struct pieceStruct* Pieces;
 
-typedef struct pieceStruct* pieceStructRef;
-
-struct gameStruct{
-    boardStructRef board;
+struct board{
+    int currentPlayer;
+    int whitePieces;
+    int blackPieces;
+    Pieces pieces;
 };
-
-typedef struct gameStruct* gameStructRef;
+typedef struct board* Board;
 
 //
 //  Funciones
 //
 
-void startGame(gameStructRef game);
+void startGame(Board);
+
+// Crea un nuevo nodo con valor 'value' y retorna la referencia.
+Pieces newPiece(int, int, int);
+
+// libera la memoria de todos los elementos de una lista exceptuando el primero (first)
+void DestroyPice(Pieces);
+
+// Agrega un nodo 'newNode' a la lista
+void addPiece(Pieces, Pieces);
+
+// Elimina el nodo 'nodeToRemove' de la lista, regresa 1 si se eliminó, 0 si no se eliminó.
+int RemovePiece(Pieces *, int);
+
+void initBoard(Board, int);
