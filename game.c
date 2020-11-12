@@ -18,7 +18,7 @@ void createBoard(gameStructRef game)
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){
-                pieceStructRef new = newPiece(game, 1, 0);
+                pieceStructRef new = newPiece(game, 1, 1);
                 if(y%2!=0 && x%2==0){
                     game->board[x][y] = new;
                     printf("[%d,%d][%d]  ", x, y, game->board[x][y]->color);
@@ -27,7 +27,7 @@ void createBoard(gameStructRef game)
                     printf("[%d,%d][%d]  ", x, y, game->board[x][y]->color);
                 }
             } else if (y>=game->boardsize/2+2){
-                pieceStructRef new = newPiece(game, 0, 0);
+                pieceStructRef new = newPiece(game, 0, 1);
                 if(y%2!=0 && x%2==0){
                     game->board[x][y] = new;
                     printf("[%d,%d][%d]  ", x, y, game->board[x][y]->color);
@@ -35,6 +35,9 @@ void createBoard(gameStructRef game)
                     game->board[x][y] = new;
                     printf("[%d,%d][%d]  ", x, y, game->board[x][y]->color);
                 }
+            } else {
+                pieceStructRef new = newPiece(game, 0, 0);
+                game->board[x][y] = new;
             }
         }
     }
