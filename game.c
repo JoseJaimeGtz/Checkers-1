@@ -98,14 +98,14 @@ void createWindow(gameStructRef game)
                     DrawCircle(660, 120+(i*80), 30, WHITE);
                     DrawCircle(820, 120+(i*80), 30, WHITE);
                     if(game->boardsize == 10) DrawCircle(980, 120+(i*80), 30, WHITE);
-                    if(game->boardsize == 10) DrawCircle(1140, 120+(i*80), 30, WHITE);
+                    if(game->boardsize == 12) DrawCircle(1140, 120+(i*80), 30, WHITE);
                 } else {
                     DrawCircle(420, 120+(i*80), 30, WHITE);
                     DrawCircle(580, 120+(i*80), 30, WHITE);
                     DrawCircle(740, 120+(i*80), 30, WHITE);
                     DrawCircle(900, 120+(i*80), 30, WHITE);
                     if(game->boardsize == 10) DrawCircle(1060, 120+(i*80), 30, WHITE);
-                    if(game->boardsize == 10) DrawCircle(1220, 120+(i*80), 30, WHITE);
+                    if(game->boardsize == 12) DrawCircle(1220, 120+(i*80), 30, WHITE);
                 }
             } else if(i >= 5) {
                 if(i == 6) {
@@ -114,14 +114,14 @@ void createWindow(gameStructRef game)
                     DrawCircle(740, 120+(i*80), 30, BLACK);
                     DrawCircle(900, 120+(i*80), 30, BLACK);
                     if(game->boardsize == 10) DrawCircle(1060, 120+(i*80), 30, WHITE);
-                    if(game->boardsize == 10) DrawCircle(1220, 120+(i*80), 30, WHITE);
+                    if(game->boardsize == 12) DrawCircle(1220, 120+(i*80), 30, WHITE);
                 } else {
                     DrawCircle(340, 120+(i*80), 30, BLACK);
                     DrawCircle(500, 120+(i*80), 30, BLACK);
                     DrawCircle(660, 120+(i*80), 30, BLACK);
                     DrawCircle(820, 120+(i*80), 30, BLACK);
                     if(game->boardsize == 10) DrawCircle(980, 120+(i*80), 30, WHITE);
-                    if(game->boardsize == 10) DrawCircle(1140, 120+(i*80), 30, WHITE);
+                    if(game->boardsize == 12) DrawCircle(1140, 120+(i*80), 30, WHITE);
                 }
             }
         }
