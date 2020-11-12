@@ -1,23 +1,16 @@
 #include <stdio.h>
-
-/*struct boardStruct{
-    void*** boardMatrix;
-};*/
-
-typedef struct boardStruct* boardStructRef;
+#include <stdlib.h>
 
 struct pieceStruct{
-    int color;
-    int type;
-    int x;
-    int y;
+    int color; // 0 = black; 1 = white
+    int type; // 0 = nothing ; 1 = normal ; 2 = king
 };
 
 typedef struct pieceStruct* pieceStructRef;
 
 struct gameStruct{
-    int currentPlayer;
-    //boardStructRef board;
+    int currentPlayer, boardsize;
+    pieceStructRef board[13][13]; // 8x8 10x10 12x12
 };
 
 typedef struct gameStruct* gameStructRef;
@@ -26,4 +19,6 @@ typedef struct gameStruct* gameStructRef;
 //  Funciones
 //
 
-void startGame(gameStructRef game);
+void createBoard(gameStructRef game);
+
+pieceStructRef newPiece(gameStructRef game, int color, int type);

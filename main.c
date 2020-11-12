@@ -4,15 +4,15 @@
 #include "game.h"
 
 /* Una letra 'a' por cada vez que quise dar de baja la materia de programación (rodri)
-aaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaa
 */
 /* Una letra 'a' por cada vez que quise dar de baja la materia de programación (jaime)
-aaaaaaa
+aaaaaaaaaaaaaaaaaaaaaa
 */
 
 int main()
 {   
     struct gameStruct game;
-    //char** board = malloc(sizeof(char*) * 8);
-    startGame(&game);
+    createBoard(&game);
+    return 0;
 } 
