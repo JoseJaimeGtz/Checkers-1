@@ -14,7 +14,7 @@ pieceStructRef newPiece(gameStructRef game, int color, int type)
 void createBoard(gameStructRef game)
 {
     game->boardsize = 8;
-    game->currentPlayer = 0;
+    game->currentPlayer = "Negras";
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){
@@ -42,13 +42,13 @@ void createBoard(gameStructRef game)
 void createWindow(gameStructRef game)
 {
     game->screenWidth = 1240;
-    game->screenHeight = 800;
+    game->screenHeight = 760;
     if(game->boardsize == 10){
         game->screenWidth += 160;
-        game->screenHeight += 160;
+        game->screenHeight += 120;
     } else if(game->boardsize == 12) {
         game->screenWidth += 320;
-        game->screenHeight += 320;
+        game->screenHeight += 280;
     }
 
     InitWindow(game->screenWidth, game->screenHeight, "Checkers");
@@ -58,7 +58,15 @@ void createWindow(gameStructRef game)
     {
         // Update
         //----------------------------------------------------------------------------------
-        // TODO: Update your variables here
+        if(game->currentPlayer == "blancas") {
+            DrawRectangleLines((game->screenWidth)-250, 40, 200, 120, BLACK);
+            DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
+            DrawText(game->currentPlayer, ((game->screenWidth)-200), 100, 20, BLACK);   
+        } else {
+            DrawRectangle((game->screenWidth)-250, 40, 200, 120, BLACK);
+            DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
+            DrawText(game->currentPlayer, ((game->screenWidth)-200), 100, 20, WHITE);  
+        }
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -67,9 +75,9 @@ void createWindow(gameStructRef game)
 
         ClearBackground(RAYWHITE);
 
-        if(game->boardsize == 8) DrawRectangleLines(300, 80, 640, 640, BLACK);
-        if(game->boardsize == 10) DrawRectangleLines(300, 80, 800, 800, BLACK);
-        if(game->boardsize == 12)DrawRectangleLines(300, 80, 960, 960, BLACK);
+        if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
+        if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
+        if(game->boardsize == 12)DrawRectangleLines(300, 40, 960, 960, BLACK);           
 
         for(int i = 0; i < game->boardsize; i++){
             if (i%2 != 0){
@@ -89,8 +97,8 @@ void createWindow(gameStructRef game)
             }
         }
         for(int i = 0; i < game->boardsize; i++){
-            if(i <= 2) {
-                if(i == 1) {
+            if(i <= ((game->boardsize)/2)-2) {
+                if(i%2 != 0) {
                     DrawCircle(340, 80+(i*80), 30, WHITE);
                     DrawCircle(500, 80+(i*80), 30, WHITE);
                     DrawCircle(660, 80+(i*80), 30, WHITE);
@@ -105,21 +113,21 @@ void createWindow(gameStructRef game)
                     if(game->boardsize >= 10) DrawCircle(1060, 80+(i*80), 30, WHITE);
                     if(game->boardsize == 12) DrawCircle(1220, 80+(i*80), 30, WHITE);
                 }
-            } else if(i >= 5) {
-                if(i == 6) {
+            } else if(i >= ((game->boardsize)/2)+1) {
+                if(i%2 == 0) {
                     DrawCircle(420, 80+(i*80), 30, BLACK);
                     DrawCircle(580, 80+(i*80), 30, BLACK);
                     DrawCircle(740, 80+(i*80), 30, BLACK);
                     DrawCircle(900, 80+(i*80), 30, BLACK);
-                    if(game->boardsize >= 10) DrawCircle(1060, 80+(i*80), 30, WHITE);
-                    if(game->boardsize == 12) DrawCircle(1220, 80+(i*80), 30, WHITE);
+                    if(game->boardsize >= 10) DrawCircle(1060, 80+(i*80), 30, BLACK);
+                    if(game->boardsize == 12) DrawCircle(1220, 80+(i*80), 30, BLACK);
                 } else {
                     DrawCircle(340, 80+(i*80), 30, BLACK);
                     DrawCircle(500, 80+(i*80), 30, BLACK);
                     DrawCircle(660, 80+(i*80), 30, BLACK);
                     DrawCircle(820, 80+(i*80), 30, BLACK);
-                    if(game->boardsize >= 10) DrawCircle(980, 80+(i*80), 30, WHITE);
-                    if(game->boardsize == 12) DrawCircle(1140, 80+(i*80), 30, WHITE);
+                    if(game->boardsize >= 10) DrawCircle(980, 80+(i*80), 30, BLACK);
+                    if(game->boardsize == 12) DrawCircle(1140, 80+(i*80), 30, BLACK);
                 }
             }
         }
