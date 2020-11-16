@@ -1,6 +1,7 @@
 # Folders Ignored
 /cmake-build-debug
 /.idea
+/build
 
 # Files Ignored
 main.exe

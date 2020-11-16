@@ -4,7 +4,7 @@
 #include "game.h"
 
 /* Una letra 'a' por cada vez que quise dar de baja la materia de programación (rodri)
-aaaaaaaaaaaaaaaaaaaaaaaaa
+aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 */
 /* Una letra 'a' por cada vez que quise dar de baja la materia de programación (jaime)
 aaaaaaaaaaaaaaaaaaaaaa
@@ -13,7 +13,8 @@ aaaaaaaaaaaaaaaaaaaaaa
 int main()
 {   
     struct gameStruct game;
+    initGame(&game);
     createBoard(&game);
-    createWindow(&game);
+    drawMain(&game);
     return 0;
 } 
