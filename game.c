@@ -36,6 +36,10 @@ void drawMain(gameStructRef game)
     int state_boardSize_12 = 0;
     bool action_boardSize_12 = false;
 
+    Rectangle button_boardSize_start = {470, 500, 320, 50};
+    int state_boardSize_start = 0;
+    bool action_boardSize_start = false;
+
     Vector2 mousePoint = { 0.0f, 0.0f };
 
     InitWindow(game->screenWidth, game->screenHeight, "Checkers");
@@ -100,6 +104,21 @@ void drawMain(gameStructRef game)
             DrawRectangle(580, 100, 100, 50, WHITE);
             DrawRectangle(690, 100, 100, 50, LIME);
         }
+
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_start))
+        {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_start = 2;
+            else state_boardSize_start = 1;
+
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) action_boardSize_start = true;
+        }
+        else state_boardSize_start = 0;
+
+        if (action_boardSize_start)
+        {
+            CloseWindow();
+            createWindow(game);
+        }
         //----------------------------------------------------------------------------------
 
         // Draw
@@ -118,6 +137,9 @@ void drawMain(gameStructRef game)
         DrawRectangleLines(690, 100, 100, 50, BLACK);
         DrawText("12x12", 720, 115, 20, BLACK);    
 
+        DrawRectangleLines(470, 500, 320, 50, BLACK);
+        DrawText("Empezar juego", 550, 518, 20, BLACK);   
+
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
@@ -128,7 +150,7 @@ void drawBoard(gameStructRef game)
 {
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
     if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
-    if(game->boardsize == 12)DrawRectangleLines(300, 40, 960, 960, BLACK);           
+    if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);           
 
     for(int i = 0; i < game->boardsize; i++){
         if (i%2 != 0){
@@ -145,6 +167,11 @@ void drawBoard(gameStructRef game)
             DrawRectangle(860, 40+(i*80), 80, 80, BROWN);
             if(game->boardsize >= 10) DrawRectangle(1020, 40+(i*80), 80, 80, BROWN);
             if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
+        }
+    }
+    for(int i = 0; i < game->boardsize; i++){
+        for(int j = 0; i < game->boardsize; i++){
+            game->board[i][j]->rectangle = {580, 100, 100, 50};
         }
     }
     for(int i = 0; i < game->boardsize; i++){
@@ -244,9 +271,8 @@ void createWindow(gameStructRef game)
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        ClearBackground(RAYWHITE);
-
-
+        ClearBackground(WHITE);
+        drawBoard(game);
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
