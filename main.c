@@ -13,7 +13,6 @@ aaaaaaaaaaaaaaaaaaaaaa
 int main()
 {   
     struct gameStruct game;
-    createBoard(&game);
-    createWindow(&game);
+    initGame(&game);
     return 0;
 } 

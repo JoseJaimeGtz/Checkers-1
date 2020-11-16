@@ -41,6 +41,7 @@ typedef struct pieceStruct* pieceStructRef;
 struct gameStruct{
     int boardsize, screenWidth, screenHeight;
     char* currentPlayer;
+    char* currentWindow;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 };
 
@@ -51,6 +52,8 @@ typedef struct gameStruct* gameStructRef;
 //
 
 void createBoard(gameStructRef game);
+void drawBoard(gameStructRef game);
 void createWindow(gameStructRef game);
+void drawMain(gameStructRef game);
 
 pieceStructRef newPiece(gameStructRef game, int color, int type);
