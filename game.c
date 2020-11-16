@@ -16,7 +16,6 @@ void initGame(gameStructRef game)
     game->currentPlayer = "negras";
     game->boardsize = 8;
     game->currentWindow = 0;
-    drawMain(game);
 }
 
 void drawMain(gameStructRef game)
