@@ -32,8 +32,9 @@
 
 
 struct pieceStruct{
-    int color; // 0 = black; 1 = white
+    int color; // 0 = nothing; 1 = black ; 2 = white
     int type; // 0 = nothing ; 1 = normal ; 2 = king
+    int playerHolder; // 0 = nothing; 1 = black; 2 = white
 };
 
 typedef struct pieceStruct* pieceStructRef;
@@ -55,4 +56,4 @@ void drawBoard(gameStructRef game);
 void createWindow(gameStructRef game);
 void drawMain(gameStructRef game);
 
-pieceStructRef newPiece(gameStructRef game, int color, int type);
+pieceStructRef newPiece(gameStructRef game, int color, int type, int player);

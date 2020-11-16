@@ -3,11 +3,12 @@
 #include "raylib.h"
 #include "game.h"
 
-pieceStructRef newPiece(gameStructRef game, int color, int type)
+pieceStructRef newPiece(gameStructRef game, int color, int type, int player)
 {
     pieceStructRef new = malloc(sizeof(struct pieceStruct));
     new->color = color;
     new->type = type;
+    new->playerHolder = player;
     return new;
 }
 
@@ -141,21 +142,21 @@ void createBoard(gameStructRef game)
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){
-                pieceStructRef new = newPiece(game, 1, 1);
+                pieceStructRef new = newPiece(game, 1, 1, 1);
                 if(y%2!=0 && x%2==0){
                     game->board[x][y] = new;
                 } else if (y%2==0 && x%2!=0) {
                     game->board[x][y] = new;
                 }
             } else if (y>=game->boardsize/2+2){
-                pieceStructRef new = newPiece(game, 0, 1);
+                pieceStructRef new = newPiece(game, 0, 1, 2);
                 if(y%2!=0 && x%2==0){
                     game->board[x][y] = new;
                 } else if (y%2==0 && x%2!=0) {
                     game->board[x][y] = new;
                 }
             } else {
-                pieceStructRef new = newPiece(game, 0, 0);
+                pieceStructRef new = newPiece(game, 0, 0, 0);
                 game->board[x][y] = new;
             }
         }
