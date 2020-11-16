@@ -51,6 +51,8 @@ typedef struct gameStruct* gameStructRef;
 //  Funciones
 //
 
+void initGame(gameStructRef game);
+
 void createBoard(gameStructRef game);
 void drawBoard(gameStructRef game);
 void createWindow(gameStructRef game);

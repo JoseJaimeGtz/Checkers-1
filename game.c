@@ -21,11 +21,7 @@ void initGame(gameStructRef game)
 
 void drawMain(gameStructRef game)
 {
-    createBoard(game);
-
-    Sound fxButton = LoadSound("resources/buttonfx.wav");
-
-    Texture2D mainBackground = LoadTexture("../resources/mainBackground.png");
+    
     game->screenWidth = 1240;
     game->screenHeight = 760;
 
@@ -55,7 +51,7 @@ void drawMain(gameStructRef game)
 
         if (btnAction)
         {
-            PlaySound(fxButton);
+            
             // TODO: Any desired action
         }
         //----------------------------------------------------------------------------------
@@ -74,7 +70,6 @@ void drawMain(gameStructRef game)
         //----------------------------------------------------------------------------------
     }
     CloseWindow();
-    UnloadTexture(mainBackground);
 }
 
 void drawBoard(gameStructRef game)

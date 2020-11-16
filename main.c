@@ -14,6 +14,7 @@ int main()
 {   
     struct gameStruct game;
     initGame(&game);
+    createBoard(&game);
     drawMain(&game);
     return 0;
 } 
