@@ -21,13 +21,20 @@ void initGame(gameStructRef game)
 
 void drawMain(gameStructRef game)
 {
-    
     game->screenWidth = 1240;
     game->screenHeight = 760;
 
-    Rectangle boardSize_button = {500, 115, 100, 50};
-    int boardSize_state = 0;
-    bool btnAction = false;
+    Rectangle button_boardSize_8 = {470, 100, 100, 50};
+    int state_boardSize_8 = 0;
+    bool action_boardSize_8 = false;
+
+    Rectangle button_boardSize_10 = {580, 100, 100, 50};
+    int state_boardSize_10 = 0;
+    bool action_boardSize_10 = false;
+
+    Rectangle button_boardSize_12 = {690, 100, 100, 50};
+    int state_boardSize_12 = 0;
+    bool action_boardSize_12 = false;
 
     Vector2 mousePoint = { 0.0f, 0.0f };
 
@@ -38,21 +45,60 @@ void drawMain(gameStructRef game)
         // Update
         //----------------------------------------------------------------------------------
         mousePoint = GetMousePosition();
-        btnAction = false;
+        action_boardSize_8 = false;
+        action_boardSize_10 = false;
+        action_boardSize_12 = false;
         // Check button state
-        if (CheckCollisionPointRec(mousePoint, boardSize_button))
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_8))
         {
-            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) boardSize_state = 2;
-            else boardSize_state = 1;
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_8 = 2;
+            else state_boardSize_8 = 1;
 
-            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) btnAction = true;
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) action_boardSize_8 = true;
         }
-        else boardSize_state = 0;
+        else state_boardSize_8 = 0;
 
-        if (btnAction)
+        if (action_boardSize_8)
         {
-            
-            // TODO: Any desired action
+            game->boardsize = 8;
+            DrawRectangle(470, 100, 100, 50, LIME);
+            DrawRectangle(580, 100, 100, 50, WHITE);
+            DrawRectangle(690, 100, 100, 50, WHITE);
+        }
+
+
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_10))
+        {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_10 = 2;
+            else state_boardSize_10 = 1;
+
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) action_boardSize_10 = true;
+        }
+        else state_boardSize_10 = 0;
+
+        if (action_boardSize_10)
+        {
+            game->boardsize = 10;
+            DrawRectangle(470, 100, 100, 50, WHITE);
+            DrawRectangle(580, 100, 100, 50, LIME);
+            DrawRectangle(690, 100, 100, 50, WHITE);
+        }
+
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_12))
+        {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_12 = 2;
+            else state_boardSize_12 = 1;
+
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) action_boardSize_12 = true;
+        }
+        else state_boardSize_12 = 0;
+
+        if (action_boardSize_12)
+        {
+            game->boardsize = 12;
+            DrawRectangle(470, 100, 100, 50, WHITE);
+            DrawRectangle(580, 100, 100, 50, WHITE);
+            DrawRectangle(690, 100, 100, 50, LIME);
         }
         //----------------------------------------------------------------------------------
 
@@ -60,11 +106,17 @@ void drawMain(gameStructRef game)
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        DrawRectangleLines(470, 40, 350, 50, BLACK);
-        DrawText("Escoge el tamaño del tablero", 500, 55, 20, SKYBLUE);    
+        DrawRectangleLines(470, 40, 320, 50, BLACK);
+        DrawText("Escoge el tamaño del tablero", 480, 55, 20, BLACK);    
 
         DrawRectangleLines(470, 100, 100, 50, BLACK);
-        DrawText("8x8", 505, 115, 20, MAGENTA);    
+        DrawText("8x8", 505, 115, 20, BLACK);    
+
+        DrawRectangleLines(580, 100, 100, 50, BLACK);
+        DrawText("10x10", 610, 115, 20, BLACK);    
+
+        DrawRectangleLines(690, 100, 100, 50, BLACK);
+        DrawText("12x12", 720, 115, 20, BLACK);    
 
         EndDrawing();
         //----------------------------------------------------------------------------------
