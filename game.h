@@ -35,7 +35,6 @@ struct pieceStruct{
     int color; // 0 = nothing; 1 = black ; 2 = white
     int type; // 0 = nothing ; 1 = normal ; 2 = king
     int playerHolder; // 0 = nothing; 1 = black; 2 = white
-    struct Rectangle rectangleBox;
 };
 
 typedef struct pieceStruct* pieceStructRef;

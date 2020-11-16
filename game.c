@@ -169,11 +169,11 @@ void drawBoard(gameStructRef game)
             if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
         }
     }
-    for(int i = 0; i < game->boardsize; i++){
+    /*for(int i = 0; i < game->boardsize; i++){
         for(int j = 0; i < game->boardsize; i++){
             game->board[i][j]->rectangle = {580, 100, 100, 50};
         }
-    }
+    }*/
     for(int i = 0; i < game->boardsize; i++){
         if(i <= ((game->boardsize)/2)-2) {
             if(i%2 != 0) {
