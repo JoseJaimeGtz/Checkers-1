@@ -39,9 +39,8 @@ struct pieceStruct{
 typedef struct pieceStruct* pieceStructRef;
 
 struct gameStruct{
-    int boardsize, screenWidth, screenHeight;
+    int boardsize, screenWidth, screenHeight, currentWindow;
     char* currentPlayer;
-    char* currentWindow;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 };
 

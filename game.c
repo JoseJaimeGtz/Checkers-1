@@ -15,40 +15,66 @@ void initGame(gameStructRef game)
 {
     game->currentPlayer = "negras";
     game->boardsize = 8;
-    game->currentWindow = "main";
+    game->currentWindow = 0;
     drawMain(game);
 }
 
 void drawMain(gameStructRef game)
 {
     createBoard(game);
-    Image mainBackground = LoadImage("images/mainBackground.png");
+
+    Sound fxButton = LoadSound("resources/buttonfx.wav");
+
+    Texture2D mainBackground = LoadTexture("../resources/mainBackground.png");
     game->screenWidth = 1240;
     game->screenHeight = 760;
-    ImageResize(&mainBackground, game->screenWidth, game->screenHeight);
-    Texture2D background = LoadTextureFromImage(mainBackground);
-    Vector2 position = { (float)(game->screenWidth/2 - background.width/2), (float)(game->screenHeight/2 - background.height/2 - 20) };
+
+    Rectangle boardSize_button = {500, 115, 100, 50};
+    int boardSize_state = 0;
+    bool btnAction = false;
+
+    Vector2 mousePoint = { 0.0f, 0.0f };
+
     InitWindow(game->screenWidth, game->screenHeight, "Checkers");
     SetTargetFPS(60);
     while (!WindowShouldClose())    // Detect window close button or ESC key
     {
         // Update
         //----------------------------------------------------------------------------------
-        
+        mousePoint = GetMousePosition();
+        btnAction = false;
+        // Check button state
+        if (CheckCollisionPointRec(mousePoint, boardSize_button))
+        {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) boardSize_state = 2;
+            else boardSize_state = 1;
+
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) btnAction = true;
+        }
+        else boardSize_state = 0;
+
+        if (btnAction)
+        {
+            PlaySound(fxButton);
+            // TODO: Any desired action
+        }
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        DrawTextureV(background, position, WHITE);
-        DrawRectangleLines(470, 40, 300, 50, BLACK);
+        DrawRectangleLines(470, 40, 350, 50, BLACK);
+        DrawText("Escoge el tamaño del tablero", 500, 55, 20, SKYBLUE);    
+
+        DrawRectangleLines(470, 100, 100, 50, BLACK);
+        DrawText("8x8", 505, 115, 20, MAGENTA);    
 
         EndDrawing();
         //----------------------------------------------------------------------------------
     }
     CloseWindow();
-    UnloadImage(mainBackground);
+    UnloadTexture(mainBackground);
 }
 
 void drawBoard(gameStructRef game)
@@ -154,7 +180,7 @@ void createWindow(gameStructRef game)
     {
         // Update
         //----------------------------------------------------------------------------------
-        if(game->currentWindow == "main"){
+        if(game->currentWindow == 0){
             if(game->currentPlayer == "blancas") {
                 DrawRectangleLines((game->screenWidth)-250, 40, 200, 120, BLACK);
                 DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
