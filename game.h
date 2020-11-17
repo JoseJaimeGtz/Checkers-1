@@ -41,6 +41,7 @@ typedef struct pieceStruct* pieceStructRef;
 
 struct gameStruct{
     int boardsize, screenWidth, screenHeight, currentWindow;
+    int gameType; // 0 = 1vs1; 1 = 1vsCPU
     char* currentPlayer;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 };

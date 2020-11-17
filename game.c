@@ -15,8 +15,9 @@ pieceStructRef newPiece(gameStructRef game, int color, int type, int player)
 void initGame(gameStructRef game)
 {
     game->currentPlayer = "negras";
-    game->boardsize = 8;
+    game->boardsize = 0;
     game->currentWindow = 0;
+    game->gameType = 2;
 }
 
 void drawMain(gameStructRef game)
@@ -36,7 +37,15 @@ void drawMain(gameStructRef game)
     int state_boardSize_12 = 0;
     bool action_boardSize_12 = false;
 
-    Rectangle button_boardSize_start = {470, 500, 320, 50};
+    Rectangle button_boardSize_1vs1 = {470, 220, 155, 50};
+    int state_boardSize_1vs1 = 0;
+    bool action_boardSize_1vs1 = false;
+
+    Rectangle button_boardSize_1vsCPU = {635, 220, 155, 50};
+    int state_boardSize_1vsCPU = 0;
+    bool action_boardSize_1vsCPU = false;
+
+    Rectangle button_boardSize_start = {470, 280, 320, 50};
     int state_boardSize_start = 0;
     bool action_boardSize_start = false;
 
@@ -52,6 +61,8 @@ void drawMain(gameStructRef game)
         action_boardSize_8 = false;
         action_boardSize_10 = false;
         action_boardSize_12 = false;
+        action_boardSize_1vs1 = false;
+        action_boardSize_1vsCPU = false;
         // Check button state
         if (CheckCollisionPointRec(mousePoint, button_boardSize_8))
         {
@@ -69,7 +80,6 @@ void drawMain(gameStructRef game)
             DrawRectangle(580, 100, 100, 50, WHITE);
             DrawRectangle(690, 100, 100, 50, WHITE);
         }
-
 
         if (CheckCollisionPointRec(mousePoint, button_boardSize_10))
         {
@@ -105,7 +115,39 @@ void drawMain(gameStructRef game)
             DrawRectangle(690, 100, 100, 50, LIME);
         }
 
-        if (CheckCollisionPointRec(mousePoint, button_boardSize_start))
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_1vs1))
+        {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_1vs1 = 2;
+            else state_boardSize_1vs1 = 1;
+
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) action_boardSize_1vs1 = true;
+        }
+        else state_boardSize_1vs1 = 0;
+
+        if (action_boardSize_1vs1)
+        {
+            game->gameType = 1;
+            DrawRectangle(470, 220, 155, 50, LIME);
+            DrawRectangle(635, 220, 155, 50, WHITE);
+        }
+
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_1vsCPU))
+        {
+            if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_1vsCPU = 2;
+            else state_boardSize_1vsCPU = 1;
+
+            if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON)) action_boardSize_1vsCPU = true;
+        }
+        else state_boardSize_1vsCPU = 0;
+
+        if (action_boardSize_1vsCPU)
+        {
+            game->gameType = 1;
+            DrawRectangle(470, 220, 155, 50, WHITE);
+            DrawRectangle(635, 220, 155, 50, LIME);
+        }
+
+        if (CheckCollisionPointRec(mousePoint, button_boardSize_start) && game->boardsize != 0 && game->gameType != 2)
         {
             if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) state_boardSize_start = 2;
             else state_boardSize_start = 1;
@@ -119,14 +161,19 @@ void drawMain(gameStructRef game)
             CloseWindow();
             createWindow(game);
         }
+
+        if(game->boardsize != 0 && game->gameType != 2){
+            DrawRectangleLines(470, 280, 320, 50, BLACK);
+            DrawText("Empezar juego", 550, 298, 20, BLACK); 
+        }
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-        DrawRectangleLines(470, 40, 320, 50, BLACK);
-        DrawText("Escoge el tamaño del tablero", 480, 55, 20, BLACK);    
+        DrawRectangle(470, 40, 320, 50, BLACK);
+        DrawText("Escoge el tamaño del tablero", 480, 55, 20, WHITE);    
 
         DrawRectangleLines(470, 100, 100, 50, BLACK);
         DrawText("8x8", 505, 115, 20, BLACK);    
@@ -135,10 +182,16 @@ void drawMain(gameStructRef game)
         DrawText("10x10", 610, 115, 20, BLACK);    
 
         DrawRectangleLines(690, 100, 100, 50, BLACK);
-        DrawText("12x12", 720, 115, 20, BLACK);    
+        DrawText("12x12", 720, 115, 20, BLACK);
 
-        DrawRectangleLines(470, 500, 320, 50, BLACK);
-        DrawText("Empezar juego", 550, 518, 20, BLACK);   
+        DrawRectangle(470, 160, 320, 50, BLACK);    
+        DrawText("Escoge el tipo de juego", 500, 175, 20, WHITE);
+
+        DrawRectangleLines(470, 220, 155, 50, BLACK);
+        DrawText("   1 vs 1", 505, 235, 20, BLACK);     
+
+        DrawRectangleLines(635, 220, 155, 50, BLACK);
+        DrawText("   1 vs CPU", 650, 235, 20, BLACK);       
 
         EndDrawing();
         //----------------------------------------------------------------------------------
