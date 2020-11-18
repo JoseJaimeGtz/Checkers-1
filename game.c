@@ -9,6 +9,13 @@ pieceStructRef newPiece(gameStructRef game, int color, int type, int player)
     new->color = color;
     new->type = type;
     new->playerHolder = player;
+    new->size = 30;
+    new->position.x = 0;
+    new->position.y = 0;
+    new->collision.x = 0;
+    new->collision.y = 0;
+    new->collision.height = 80;
+    new->collision.width = 80;
     return new;
 }
 
@@ -201,10 +208,12 @@ void drawMain(gameStructRef game)
 
 void drawBoard(gameStructRef game)
 {
+    // Tamaño del tablero
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
     if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
-    if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);           
+    if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
 
+    // Creación del tablero
     for(int i = 0; i < game->boardsize; i++){
         if (i%2 != 0){
             DrawRectangle(300, 40+(i*80), 80, 80, BROWN);
@@ -222,43 +231,26 @@ void drawBoard(gameStructRef game)
             if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
         }
     }
-    /*for(int i = 0; i < game->boardsize; i++){
-        for(int j = 0; i < game->boardsize; i++){
-            game->board[i][j]->rectangle = {580, 100, 100, 50};
-        }
-    }*/
-    for(int i = 0; i < game->boardsize; i++){
-        if(i <= ((game->boardsize)/2)-2) {
-            if(i%2 != 0) {
-                DrawCircle(340, 80+(i*80), 30, WHITE);
-                DrawCircle(500, 80+(i*80), 30, WHITE);
-                DrawCircle(660, 80+(i*80), 30, WHITE);
-                DrawCircle(820, 80+(i*80), 30, WHITE);
-                if(game->boardsize >= 10) DrawCircle(980, 80+(i*80), 30, WHITE);
-                if(game->boardsize == 12) DrawCircle(1140, 80+(i*80), 30, WHITE);
-            } else {
-                DrawCircle(420, 80+(i*80), 30, WHITE);
-                DrawCircle(580, 80+(i*80), 30, WHITE);
-                DrawCircle(740, 80+(i*80), 30, WHITE);
-                DrawCircle(900, 80+(i*80), 30, WHITE);
-                if(game->boardsize >= 10) DrawCircle(1060, 80+(i*80), 30, WHITE);
-                if(game->boardsize == 12) DrawCircle(1220, 80+(i*80), 30, WHITE);
-            }
-        } else if(i >= ((game->boardsize)/2)+1) {
-            if(i%2 == 0) {
-                DrawCircle(420, 80+(i*80), 30, BLACK);
-                DrawCircle(580, 80+(i*80), 30, BLACK);
-                DrawCircle(740, 80+(i*80), 30, BLACK);
-                DrawCircle(900, 80+(i*80), 30, BLACK);
-                if(game->boardsize >= 10) DrawCircle(1060, 80+(i*80), 30, BLACK);
-                if(game->boardsize == 12) DrawCircle(1220, 80+(i*80), 30, BLACK);
-            } else {
-                DrawCircle(340, 80+(i*80), 30, BLACK);
-                DrawCircle(500, 80+(i*80), 30, BLACK);
-                DrawCircle(660, 80+(i*80), 30, BLACK);
-                DrawCircle(820, 80+(i*80), 30, BLACK);
-                if(game->boardsize >= 10) DrawCircle(980, 80+(i*80), 30, BLACK);
-                if(game->boardsize == 12) DrawCircle(1140, 80+(i*80), 30, BLACK);
+
+    // Creación de las fichas del tablero
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if (x <= game->boardsize/2 && y <= game->boardsize/2-1){ // blancas
+                if (y%2==0){
+                    DrawCircle(340+(160*(x-1)), 80+(80*(y-1)), 30, WHITE);
+                    // guardar las posiciones en un vector
+                    
+                    //game->board[x][y]->position.x = 340+(160*(x-1));
+                    //game->board[x][y]->position.y = 80+(80*(y-1));
+                } else {
+                    DrawCircle(420+(160*(x-1)), 80+(80*(y-1)), 30, WHITE);
+                }
+            } else if (y>=game->boardsize/2+2 && x <= game->boardsize/2){ // Negras
+                if (y%2==0){
+                    DrawCircle(340+(160*(x-1)), 80+(80*(y-1)), 30, BLACK);
+                } else {
+                    DrawCircle(420+(160*(x-1)), 80+(80*(y-1)), 30, BLACK);
+                }
             }
         }
     }
@@ -268,21 +260,21 @@ void createBoard(gameStructRef game)
 {
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if (y<=game->boardsize/2-1){
+            if (y<=game->boardsize/2-1){ // Fichas blancas
                 pieceStructRef new = newPiece(game, 1, 1, 1);
                 if(y%2!=0 && x%2==0){
                     game->board[x][y] = new;
                 } else if (y%2==0 && x%2!=0) {
                     game->board[x][y] = new;
                 }
-            } else if (y>=game->boardsize/2+2){
+            } else if (y>=game->boardsize/2+2){ // Fichas Negras
                 pieceStructRef new = newPiece(game, 0, 1, 2);
                 if(y%2!=0 && x%2==0){
                     game->board[x][y] = new;
                 } else if (y%2==0 && x%2!=0) {
                     game->board[x][y] = new;
                 }
-            } else {
+            } else { // posiciones vacias
                 pieceStructRef new = newPiece(game, 0, 0, 0);
                 game->board[x][y] = new;
             }
