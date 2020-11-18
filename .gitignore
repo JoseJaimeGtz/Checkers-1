@@ -2,6 +2,7 @@
 /cmake-build-debug
 /.idea
 /build
+/.vscode
 
 # Files Ignored
 main.exe
