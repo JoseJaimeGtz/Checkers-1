@@ -217,16 +217,12 @@ void createBoard(gameStructRef game)
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){
                 pieceStructRef new = newPiece(game, 1, 1, 1);
-                if(y%2!=0 && x%2==0){
-                    game->board[x][y] = new;
-                } else if (y%2==0 && x%2!=0) {
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     game->board[x][y] = new;
                 }
             } else if (y>=game->boardsize/2+2){
                 pieceStructRef new = newPiece(game, 0, 1, 2);
-                if(y%2!=0 && x%2==0){
-                    game->board[x][y] = new;
-                } else if (y%2==0 && x%2!=0) {
+                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                     game->board[x][y] = new;
                 }
             } else {
