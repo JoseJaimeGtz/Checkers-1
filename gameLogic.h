@@ -2,5 +2,7 @@
 #include <stdlib.h>
 #include "game.h"
 
-int isPossible(gameStructRef game, int currentX, int currentY);
-void movePiece(gameStructRef game, int currentX, int currentY, int newX, int newY);
+void movePiece(gameStructRef, int, int, int, int);
+int pieceDown(gameStructRef, int, int, int);
+int pieceUp(gameStructRef, int, int, int);
+int isPossible(gameStructRef, int, int);
