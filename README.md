@@ -15,8 +15,9 @@ Open the project folder and click on "Build" icon, to compile the project and cl
 
 **VS Code**
 
-Open the project folder, click on "Terminal->New Terminal" in Global Menu, navigate to ``build`` folder 
-with ``cd build`` in that folder enter ``make`` to compile the project and enter ``./Checkers`` to run the project.
+``mkdir build # Create a build directory
+cd build && cmake .. # Build from that directory so the build files are in one place
+cmake --build . # Build the project``
 
 ## Game information
 #### How to play
