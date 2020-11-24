@@ -13,6 +13,7 @@ struct mainButtons{
 
 typedef struct mainButtons* mainButtonsStruct;
 
-void drawMain(gameStructRef game, mainButtonsStruct board);
+void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
-void checkMainButton(mainButtonsStruct board);
+void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);

@@ -18,11 +18,11 @@ int main() {
         switch(*screen)
         {
             case MAIN:
-                drawMain(&game, &board);
+                drawMain(&game, &board, screen);
                 break;
 
             case GAME:
-
+                drawGame(&game, &board, screen);
                 break;
 
             case SAVE:
