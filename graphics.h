@@ -17,3 +17,4 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);

@@ -5,6 +5,7 @@ int main() {
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
+    
     InitWindow(1240, 760, "Checkers");
     SetTargetFPS(60);
     while (!WindowShouldClose())

@@ -1,6 +1,8 @@
 #include "graphics.h"
+#include "gameLogic.h"
 
 /*
+    
 */
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
@@ -38,28 +40,22 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     } else if(click == true && CheckCollisionPointRec(mouse, board->board10x10))
     {
         game->boardsize = 10;
+        game->screenWidth += 160;
+        game->screenHeight += 120;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, board->board12x12))
     {
         game->boardsize = 12;
+        game->screenWidth += 320;
+        game->screenHeight += 280;
         *screen = GAME;
     }
-        
 }
 
 void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    
+    createBoard(game);
     ClearBackground(WHITE);
-
-    if(game->boardsize == 10){
-        game->screenWidth += 160;
-        game->screenHeight += 120;
-    } else if(game->boardsize == 12) {
-        game->screenWidth += 320;
-        game->screenHeight += 280;
-    }
-
     SetWindowSize(game->screenWidth, game->screenHeight);
 
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
@@ -82,6 +78,48 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
             DrawRectangle(860, 40+(i*80), 80, 80, BROWN);
             if(game->boardsize >= 10) DrawRectangle(1020, 40+(i*80), 80, 80, BROWN);
             if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
+        }
+    }
+
+    // Creación de las fichas del tablero
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if (y<=game->boardsize/2-1){ // Fichas blancas
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITE);
+                    game->board[x][y]->circle = (Rectangle) {
+                        (340+(80*(x-1))),
+                        80+(80*(y-1)),
+                        30,
+                        30
+                    };
+                }
+            } else if (y>=game->boardsize/2+2){ // Fichas Negras
+                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
+                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACK);
+                    game->board[x][y]->circle = (Rectangle) {
+                        (340+(80*(x-1))),
+                        (80+(80*(y-1))),
+                        30,
+                        30
+                    };
+                }
+            }
+        }
+    }
+}
+
+void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if(click == true && CheckCollisionPointRec(mouse, game->board[x][y]->circle)){
+                if(game->board[x][y]->type == 1){
+                    
+                }
+            }           
         }
     }
 }
