@@ -28,5 +28,5 @@ if (NOT raylib_FOUND) # If there's none, fetch and build raylib
 
 endif()
 
-add_executable(Checkers gameLogic.c game.c main.c)
+add_executable(Checkers graphics.c gameLogic.c game.c main.c)
 target_link_libraries(Checkers raylib)
