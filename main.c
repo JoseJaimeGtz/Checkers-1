@@ -1,5 +1,4 @@
 #include "graphics.h"
-#include "gameLogic.h"
 
 int main() {
     struct gameStruct game;

@@ -1,6 +1,4 @@
 #include "graphics.h"
-#include "gameLogic.h"
-
 /*
     
 */
@@ -90,8 +88,8 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                     game->board[x][y]->circle = (Rectangle) {
                         (340+(80*(x-1))),
                         80+(80*(y-1)),
-                        30,
-                        30
+                        50,
+                        50
                     };
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
@@ -100,26 +98,37 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                     game->board[x][y]->circle = (Rectangle) {
                         (340+(80*(x-1))),
                         (80+(80*(y-1))),
-                        30,
-                        30
+                        50,
+                        50
                     };
                 }
             }
         }
     }
+
+    checkGameButton(game, board, screen);
+
 }
 
-void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if(click == true && CheckCollisionPointRec(mouse, game->board[x][y]->circle)){
-                if(game->board[x][y]->type == 1){
-                    
+            if (y<=game->boardsize/2-1){ // Fichas blancas
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                        fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                    }
                 }
-            }           
+            } else if (y>=game->boardsize/2+2){ // Fichas Negras
+                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
+                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                        fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                    }
+                }
+            }
         }
     }
 }

@@ -16,14 +16,12 @@ void createBoard(gameStructRef game)
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
-                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    fprintf(stderr, "\033[0;35m[%d][%d] creado!\n", x, y);
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){         
                     pieceStructRef new = newPiece(game, 1, 1, 1);
                     game->board[x][y] = new;
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    fprintf(stderr, "\033[0;35m[%d][%d] creado!\n", x, y);
                     pieceStructRef new = newPiece(game, 0, 1, 2);
                     game->board[x][y] = new;
                 }
