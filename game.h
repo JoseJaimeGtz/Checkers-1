@@ -13,7 +13,7 @@ struct pieceStruct{
 typedef struct pieceStruct* pieceStructRef;
 
 struct gameStruct{
-    int boardsize, screenWidth, screenHeight, currentWindow;
+    int boardsize, screenWidth, screenHeight, currentWindow, boardCreated;
     char* currentPlayer;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 };

@@ -13,6 +13,7 @@ pieceStructRef newPiece(gameStructRef game, int color, int type, int player)
 
 void createBoard(gameStructRef game)
 {
+    game->boardCreated++;
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
@@ -25,7 +26,12 @@ void createBoard(gameStructRef game)
                     pieceStructRef new = newPiece(game, 0, 1, 2);
                     game->board[x][y] = new;
                 }
-            } else { // posiciones vacias if( game->board/2 && game->board/2+1)
+            } else if (y == game->boardsize/2 && (y%2==0 && x%2!=0)){
+                fprintf(stderr, "posición vacia [%d][%d]\n", x, y);
+                pieceStructRef new = newPiece(game, 0, 0, 0);
+                game->board[x][y] = new;
+            } else if (y == game->boardsize/2+1 && (y%2!=0 && x%2==0)){
+                fprintf(stderr, "posición vacia [%d][%d]\n", x, y);
                 pieceStructRef new = newPiece(game, 0, 0, 0);
                 game->board[x][y] = new;
             }

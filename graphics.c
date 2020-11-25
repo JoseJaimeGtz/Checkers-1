@@ -6,6 +6,7 @@ void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     game->screenWidth = 1240;
     game->screenHeight = 760;
+    game->boardCreated = 0;
     ClearBackground(WHITE);
     board->board8x8 = (Rectangle) {470, 100, 100, 50};
     board->board10x10 = (Rectangle) {580, 100, 100, 50};
@@ -52,7 +53,8 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    createBoard(game);
+    if(!game->boardCreated)
+        createBoard(game);
     ClearBackground(WHITE);
     SetWindowSize(game->screenWidth, game->screenHeight);
 
@@ -86,22 +88,26 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITE);
                     game->board[x][y]->circle = (Rectangle) {
-                        (340+(80*(x-1))),
-                        80+(80*(y-1)),
-                        50,
-                        50
+                        300+(160*(x-1)),
+                        40+((y-1)*80),
+                        60,
+                        60
                     };
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                     DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACK);
                     game->board[x][y]->circle = (Rectangle) {
-                        (340+(80*(x-1))),
-                        (80+(80*(y-1))),
-                        50,
-                        50
+                        380+(160*(x-1)),
+                        40+((y-1)*80),
+                        60,
+                        60
                     };
                 }
+            } else if (y == game->boardsize/2 && (y%2==0 && x%2!=0)){
+                game->board[x][y]->circle = (Rectangle) {0, 0, 0, 0};
+            } else if (y == game->boardsize/2+1 && (y%2!=0 && x%2==0)){
+                game->board[x][y]->circle = (Rectangle) {0, 0, 0, 0};
             }
         }
     }
@@ -114,20 +120,13 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
+    Rectangle empty = {0, 0, 0, 0};
     for(int y = 1; y <= game->boardsize; y++){
+        //fprintf(stderr, "date de baja\n");
         for(int x = 1; x <= game->boardsize; x++){
-            if (y<=game->boardsize/2-1){ // Fichas blancas
-                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
-                    }
-                }
-            } else if (y>=game->boardsize/2+2){ // Fichas Negras
-                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
-                    }
-                }
+            //fprintf(stderr, "  date de baja\n");
+            if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                fprintf(stderr, "    date de baja\n");
             }
         }
     }
