@@ -1,8 +1,8 @@
 # Checkers
 ## Project information
 #### Authors
-This game was created by Rodrigo Zamora Dávalos @github/rodrigo-zamora and 
-José Jaime Gutierrez Martinez @github/JoseJaimeGtz
+This game was created by Rodrigo Zamora Dávalos and 
+José Jaime Gutierrez Martinez
 #### Libraries
 The library used to show the game is [RayLib](https://www.raylib.com/)
 #### Required dependencies
@@ -15,9 +15,9 @@ Open the project folder and click on "Build" icon, to compile the project and cl
 
 **VS Code**
 
-``mkdir build # Create a build directory
+```mkdir build # Create a build directory
 cd build && cmake .. # Build from that directory so the build files are in one place
-cmake --build . # Build the project``
+cmake --build . # Build the project```
 
 ## Game information
 #### How to play

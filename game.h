@@ -2,7 +2,7 @@
 
 struct pieceStruct{
     int color; // 0 = nothing; 1 = black ; 2 = white
-    int type; // 0 = nothing ; 1 = normal ; 2 = king
+    int type; // 0 = nothing ; 1 = normal ; 2 = king ; 3 = colored
     Rectangle circle;
 };
 
@@ -10,7 +10,7 @@ typedef struct pieceStruct* pieceStructRef;
 
 struct gameStruct{
     int boardsize, screenWidth, screenHeight, currentWindow, boardCreated;
-    char* currentPlayer;
+    int currentPlayer;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 };
 

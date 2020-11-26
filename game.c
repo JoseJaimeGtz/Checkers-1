@@ -12,16 +12,17 @@ pieceStructRef newPiece(gameStructRef game, int color, int type)
 void createBoard(gameStructRef game)
 {
     game->boardCreated++;
+    game->currentPlayer = 0;
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){         
-                    pieceStructRef new = newPiece(game, 1, 1);
+                    pieceStructRef new = newPiece(game, 2, 1);
                     game->board[x][y] = new;
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    pieceStructRef new = newPiece(game, 0, 1);
+                    pieceStructRef new = newPiece(game, 1, 1);
                     game->board[x][y] = new;
                 }
             } else if (y == game->boardsize/2 && (y%2==0 && x%2!=0)){

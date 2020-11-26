@@ -53,7 +53,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     if(!game->boardCreated)
         createBoard(game);
-    ClearBackground(WHITE);
     SetWindowSize(game->screenWidth, game->screenHeight);
 
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
@@ -125,9 +124,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
             }
         }
     }
-
-    checkGameButton(game, board, screen);
-
 }
 
 void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
@@ -137,21 +133,49 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y); // posicion en en tablero
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if (y<=game->boardsize/2-1){ // Fichas blancas
-                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        //fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
-                        turnPieces(game, x, y);
+            if(game->currentPlayer == 1){
+                if (y<=game->boardsize/2-1){ // Fichas blancas
+                    if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                        if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                            fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                            turnPieces(game, x, y);
+                            fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                        }
                     }
                 }
             }
-            if (y>=game->boardsize/2+2){ // Fichas Negras
-                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        //fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
+            if(game->currentPlayer == 0){
+                if (y>=game->boardsize/2+2){ // Fichas Negras
+                    if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
+                        if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                            fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
+                            turnPieces(game, x, y);
+                            //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                        }
                     }
                 }
             }
+        }
+    }
+}
+
+void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    for(int i = 0; i < game->boardsize; i++){
+        if (i%2 != 0){
+            DrawRectangle(300, 40+(i*80), 80, 80, BROWN);
+            DrawRectangle(460, 40+(i*80), 80, 80, BROWN);
+            DrawRectangle(620, 40+(i*80), 80, 80, BROWN);
+            DrawRectangle(780, 40+(i*80), 80, 80, BROWN);
+            if(game->boardsize >= 10) DrawRectangle(940, 40+(i*80), 80, 80, BROWN);
+            if(game->boardsize == 12) DrawRectangle(1100, 40+(i*80), 80, 80, BROWN);
+        } else {
+            DrawRectangle(380, 40+(i*80), 80, 80, BROWN);
+            DrawRectangle(540, 40+(i*80), 80, 80, BROWN);
+            DrawRectangle(700, 40+(i*80), 80, 80, BROWN);
+            DrawRectangle(860, 40+(i*80), 80, 80, BROWN);
+            if(game->boardsize >= 10) DrawRectangle(1020, 40+(i*80), 80, 80, BROWN);
+            if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
         }
     }
 }

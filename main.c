@@ -1,6 +1,7 @@
 #include "checkersLibrary.h"
 
 int main() {
+    int gameDrawn = 0;
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
@@ -13,16 +14,21 @@ int main() {
         Vector2 mouse = GetMousePosition();
 
         BeginDrawing();
-        ClearBackground(WHITE);
 
         switch(*screen)
         {
             case MAIN:
+                ClearBackground(WHITE);
                 drawMain(&game, &board, screen);
                 break;
 
             case GAME:
-                drawGame(&game, &board, screen);
+                if(gameDrawn == 0){
+                    ClearBackground(WHITE);
+                    drawGame(&game, &board, screen);
+                    gameDrawn = 1;
+                }
+                checkGameButton(&game, &board, screen);   
                 break;
 
             case SAVE:
