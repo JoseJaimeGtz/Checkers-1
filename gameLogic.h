@@ -1,8 +1,6 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "game.h"
 
-void movePiece(gameStructRef, int, int, int, int);
-int pieceDown(gameStructRef, int, int, int);
-int pieceUp(gameStructRef, int, int, int);
-int isPossible(gameStructRef, int, int);
+void movePiece(gameStructRef game, int currentX, int currentY, int newX, int newY);
+int pieceDown(gameStructRef game, int currentX, int currentY, int op_piese);
+int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese);
+int isPossible(gameStructRef game, int currentX, int currentY);

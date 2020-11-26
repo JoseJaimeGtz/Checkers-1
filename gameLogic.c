@@ -1,7 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
 #include "gameLogic.h"
-
 
 // considerando que el movimiento si es válido
 void movePiece(gameStructRef game, int currentX, int currentY, int newX, int newY)

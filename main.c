@@ -1,20 +1,42 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "raylib.h"
-#include "game.h"
+#include "graphics.h"
 
-/* Una letra 'a' por cada vez que quise dar de baja la materia de programación (rodri)
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-*/
-/* Una letra 'a' por cada vez que quise dar de baja la materia de programación (jaime)
-aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
-*/
-
-int main()
-{   
+int main() {
     struct gameStruct game;
-    initGame(&game);
-    createBoard(&game);
-    drawMain(&game);
-    return 0;
-} 
+    struct mainButtons board;
+    ScreenFlag *screen = malloc(sizeof(ScreenFlag));
+    
+    InitWindow(1240, 760, "Checkers");
+    SetTargetFPS(60);
+    while (!WindowShouldClose())
+    {
+
+        Vector2 mouse = GetMousePosition();
+
+        BeginDrawing();
+        ClearBackground(WHITE);
+
+        switch(*screen)
+        {
+            case MAIN:
+                drawMain(&game, &board, screen);
+                break;
+
+            case GAME:
+                drawGame(&game, &board, screen);
+                break;
+
+            case SAVE:
+
+                break;
+
+            case LOAD:
+
+                break;
+
+        }
+
+        EndDrawing();
+
+    }
+    CloseWindow();
+}
