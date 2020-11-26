@@ -77,6 +77,13 @@ int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
                 if(game->board[currentX+2][currentY-2]->color == 0){
                     // se ilumina 2 a la izquierda y se come a la ficha negra
                     // aqui puede volver a llamarse esta funcion
+                    int posx = game->board[currentX][currentY]->circle.x+160;
+                    int posy = game->board[currentX][currentY]->circle.y-160;
+                    int w = game->board[currentX][currentY]->circle.width;
+                    int h = game->board[currentX][currentY]->circle.height;
+                    game->board[currentX+2][currentY-2]->type = 3;
+                    //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+                    DrawRectangle(posx, posy, w, h, YELLOW);
                     move = 1;
                 }
             }
@@ -88,12 +95,26 @@ int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
     if(currentX-1 >= 1){
         if (game->board[currentX-1][currentY-1]->color == 0){
             // se ilumina la derecha disponible
+            int posx = game->board[currentX][currentY]->circle.x-80;
+            int posy = game->board[currentX][currentY]->circle.y-80;
+            int w = game->board[currentX][currentY]->circle.width;
+            int h = game->board[currentX][currentY]->circle.height;
+            game->board[currentX-1][currentY-1]->type = 3;
+            //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+            DrawRectangle(posx, posy, w, h, YELLOW);
             move = 1;
         }  else if (game->board[currentX-1][currentY+1]->color == op_piese) { // si hay una ficha negra
             if(currentY-2 >= 1 && currentX-2 >= 1){// si en 2 espacios es valido
                 if (game->board[currentX-2][currentY-2]->color == 0){
                     // se ilumina 2 a la derecha y se come la ficha blanca
                     // aqui puede volver a llamarse esta funcion
+                    int posx = game->board[currentX][currentY]->circle.x-160;
+                    int posy = game->board[currentX][currentY]->circle.y-160;
+                    int w = game->board[currentX][currentY]->circle.width;
+                    int h = game->board[currentX][currentY]->circle.height;
+                    game->board[currentX-2][currentY-2]->type = 3;
+                    fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+                    DrawRectangle(posx, posy, w, h, YELLOW);
                     move = 1;
                 }
             }
