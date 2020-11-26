@@ -1,12 +1,8 @@
-#include <stdlib.h>
-#include <stdio.h>
-#include "raylib.h"
+
 
 struct pieceStruct{
     int color; // 0 = nothing; 1 = black ; 2 = white
     int type; // 0 = nothing ; 1 = normal ; 2 = king
-    int playerHolder; // 0 = nothing; 1 = black; 2 = white
-    int size;
     Rectangle circle;
 };
 
@@ -26,4 +22,4 @@ typedef struct gameStruct* gameStructRef;
 
 void createBoard(gameStructRef game);
 
-pieceStructRef newPiece(gameStructRef game, int color, int type, int player);
+pieceStructRef newPiece(gameStructRef game, int color, int type);

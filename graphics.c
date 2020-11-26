@@ -1,7 +1,5 @@
-#include "graphics.h"
-/*
-    
-*/
+#include "checkersLibrary.h"
+
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     game->screenWidth = 1240;
@@ -143,6 +141,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
                         //fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                        turnPieces(game, x, y);
                     }
                 }
             }

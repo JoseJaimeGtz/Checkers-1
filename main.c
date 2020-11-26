@@ -1,4 +1,4 @@
-#include "graphics.h"
+#include "checkersLibrary.h"
 
 int main() {
     struct gameStruct game;
