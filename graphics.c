@@ -139,7 +139,9 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
                             fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
                             turnPieces(game, x, y);
-                            fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                            game->currentPiecex = x;
+                            game->currentPiecey = y;
+                            //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
                         }
                     }
                 }
@@ -148,8 +150,15 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 if (y>=game->boardsize/2+2){ // Fichas Negras
                     if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                         if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                            if(game->currentPiecex != 0){
+                                deleteSelected(game, board, screen);
+                                fprintf(stderr, "delete Selected done\n");
+                            }
                             fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
                             turnPieces(game, x, y);
+                            fprintf(stderr, "\033[0;35mturnPieces done\n");
+                            game->currentPiecex = x;
+                            game->currentPiecey = y;
                             //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
                         }
                     }
@@ -161,21 +170,19 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    for(int i = 0; i < game->boardsize; i++){
-        if (i%2 != 0){
-            DrawRectangle(300, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(460, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(620, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(780, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize >= 10) DrawRectangle(940, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize == 12) DrawRectangle(1100, 40+(i*80), 80, 80, BROWN);
+    if(game->currentPlayer){ // blanco
+        if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
+            // nada por ahora, paga la versión completa para desbloquear esta función
+            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
         } else {
-            DrawRectangle(380, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(540, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(700, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(860, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize >= 10) DrawRectangle(1020, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
+            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
+        }
+    } else { // negro
+        if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
+            // nada por ahora, paga la versión completa para desbloquear esta función
+            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
+        } else {
+            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
         }
     }
 }

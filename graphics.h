@@ -1,5 +1,3 @@
-
-
 typedef enum {
     MAIN,
     GAME,

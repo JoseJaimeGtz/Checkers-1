@@ -15,7 +15,7 @@ void movePiece(gameStructRef game, int currentX, int currentY, int newX, int new
 // Verifica si existe un posible movimiento hacia abajo del tablero
 // tanto como en diagonal izquierda como la derecha
 // y tambien verifica si se puede comer una ficha
-int pieceDown(gameStructRef game, int currentX, int currentY, int op_piese){
+int pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int draw){
     int move = 0;
     // verifica si la izquierda es valida
     if(currentX+1 <= game->boardsize){
@@ -55,10 +55,12 @@ int pieceDown(gameStructRef game, int currentX, int currentY, int op_piese){
 // Verifica si existe un posible movimiento hacia arriba del tablero
 // tanto como en diagonal izquierda como la derecha
 // y tambien verifica si se puede comer una ficha
-int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
+int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int draw) {
     int move = 0;
     fprintf(stderr,"\n\033[1;32m (%d <= %d) ??? \n", currentX+1, game->boardsize);
+    fprintf(stderr,"Verifica la derecha\n");
     if(currentX+1 <= game->boardsize){ // verifica si la derecha es valida
+        fprintf(stderr,"primer if\n");
         if (game->board[currentX+1][currentY-1]->color == 0){
             fprintf(stderr,"\n\033[0;35m Pos actual (%d,%d)\n", currentX, currentY);
             fprintf(stderr,"\033[0;36m Pos siguiente (%d,%d)\n", currentX+1, currentY-1);
@@ -69,7 +71,11 @@ int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
             int h = game->board[currentX][currentY]->circle.height;
             game->board[currentX+1][currentY-1]->type = 3;
             fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
-            DrawRectangle(posx, posy, w, h, YELLOW);
+            if(draw){
+                DrawRectangle(posx, posy, w, h, YELLOW);
+            } else {
+                DrawRectangle(posx, posy, w, h, BROWN);
+            }
             move = 1;
         } else if (game->board[currentX+1][currentY-1]->color == op_piese){ // si hay una ficha negra en la sig posicion
             // si en 2 espacios es valido
@@ -83,10 +89,17 @@ int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
                     int h = game->board[currentX][currentY]->circle.height;
                     game->board[currentX+2][currentY-2]->type = 3;
                     //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
-                    DrawRectangle(posx, posy, w, h, YELLOW);
+                    if(draw){
+                        DrawRectangle(posx, posy, w, h, YELLOW);
+                    } else {
+                        DrawRectangle(posx, posy, w, h, BROWN);
+                    }
                     move = 1;
                 }
             }
+        } else { // hay una ficha de tu color adelante de ti
+            // fprintf racista
+            fprintf(stderr,"hay una ficha de tu mismo color adelante de ti!(derecha)\n");
         }
     }
     fprintf(stderr,"Verifica la izquierda\n");
@@ -101,9 +114,13 @@ int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
             int h = game->board[currentX][currentY]->circle.height;
             game->board[currentX-1][currentY-1]->type = 3;
             //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
-            DrawRectangle(posx, posy, w, h, YELLOW);
+            if(draw){
+                DrawRectangle(posx, posy, w, h, YELLOW);
+            } else {
+                DrawRectangle(posx, posy, w, h, BROWN);
+            }
             move = 1;
-        }  else if (game->board[currentX-1][currentY+1]->color == op_piese) { // si hay una ficha negra
+        }  else if (game->board[currentX-1][currentY-1]->color == op_piese) { // si hay una ficha negra
             if(currentY-2 >= 1 && currentX-2 >= 1){// si en 2 espacios es valido
                 if (game->board[currentX-2][currentY-2]->color == 0){
                     // se ilumina 2 a la derecha y se come la ficha blanca
@@ -114,10 +131,17 @@ int pieceUp(gameStructRef game, int currentX, int currentY, int op_piese) {
                     int h = game->board[currentX][currentY]->circle.height;
                     game->board[currentX-2][currentY-2]->type = 3;
                     fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
-                    DrawRectangle(posx, posy, w, h, YELLOW);
+                    if(draw){
+                        DrawRectangle(posx, posy, w, h, YELLOW);
+                    } else {
+                        DrawRectangle(posx, posy, w, h, BROWN);
+                    }
                     move = 1;
                 }
             }
+        } else { // hay una ficha de tu color adelante de ti
+            // fprintf racista
+            fprintf(stderr,"hay una ficha de tu mismo color adelante de ti!(izquierda)\n");
         }
     }
     return move;
@@ -131,25 +155,25 @@ int isPossible(gameStructRef game, int currentX, int currentY)
     if(game->currentPlayer){ // blancas
         if(currentY+1 <= game->boardsize){ // verifica si se puede mover hacia adelante
             fprintf(stderr, "\033[0;31m   pieceDown\n");
-            pieceDown(game, currentX, currentY, 1);
+            pieceDown(game, currentX, currentY, 1, 1);
         } else {
             // Significa que es king
             game->board[currentX][currentY]->type = 2;
             if(currentY-1 >= 1){ // verifica si se puede mover hacia adelante
                 fprintf(stderr, "\033[0;31m   pieceUp\n");
-                pieceUp(game, currentX, currentY, 1);
+                pieceUp(game, currentX, currentY, 1, 1); // le pasamos el negro
             }
         }
     } else { // negras
-        if(currentY-1 >= 1){
-            pieceUp(game, currentX, currentY, 2);
+        if(currentY-1 >= 1){ // si no es el limite superior
+            pieceUp(game, currentX, currentY, 2, 1);
             fprintf(stderr, "\033[0;31m   pieceUp\n");
             fprintf(stderr, "\033[0;31m   isPossible->pieceUp\n");
         } else {
-            // Significa que es king
+            // Significa que mi barrio me respalda
             game->board[currentX][currentY]->type = 2;
             if(currentY+1 <= game->boardsize){ // verifica si se puede mover hacia adelante
-                pieceUp(game, currentX, currentY, 2);
+                pieceUp(game, currentX, currentY, 2, 1); // le pasamos el blanco
                 fprintf(stderr, "\033[0;31m   pieceUp\n");
             }
         }

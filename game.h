@@ -1,5 +1,3 @@
-
-
 struct pieceStruct{
     int color; // 0 = nothing; 1 = black ; 2 = white
     int type; // 0 = nothing ; 1 = normal ; 2 = king ; 3 = colored
@@ -15,8 +13,8 @@ typedef struct pieceStruct* pieceStructRef;
 // pasar toda la informacion de la ficha actual (seleccionada) a la nueva posicion (a la estructura vacia seleccionada)
 struct gameStruct{
     int boardsize, screenWidth, screenHeight, currentWindow, boardCreated;
-    int currentPlayer;
-    Vector2 currentPiece;
+    int currentPlayer; // Turno 1 blanco, 0 negro
+    int currentPiecex, currentPiecey;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 }; 
  
