@@ -14,7 +14,7 @@ void createBoard(gameStructRef game)
     game->currentPiecex = 0;
     game->currentPiecey = 0;
     game->boardCreated++;
-    game->currentPlayer = 1;
+    game->currentPlayer = 0;
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas

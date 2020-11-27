@@ -17,17 +17,43 @@ void movePiece(gameStructRef game, int currentX, int currentY, int newX, int new
 // y tambien verifica si se puede comer una ficha
 int pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int draw){
     int move = 0;
-    // verifica si la izquierda es valida
+    // verifica si la derecha es valida
     if(currentX+1 <= game->boardsize){
         if (game->board[currentX+1][currentY+1]->color == 0){ // si esta libre en la posicion siguiente
-            // se ilumina la izquierda disponible
+            // se ilumina la derecha disponible
+            fprintf(stderr,"\n\033[0;35m Pos actual (%d,%d)\n", currentX, currentY);
+            fprintf(stderr,"\033[0;36m Pos siguiente (%d,%d)\n", currentX+1, currentY-1);
+            fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[currentX][currentY]->color, game->board[currentX+1][currentY-1]->color);
+            int posx = game->board[currentX][currentY]->circle.x+80;
+            int posy = game->board[currentX][currentY]->circle.y+80;
+            int w = game->board[currentX][currentY]->circle.width;
+            int h = game->board[currentX][currentY]->circle.height;
+            game->board[currentX+1][currentY-1]->type = 3;
+            fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+            if(draw){
+                DrawRectangle(posx, posy, w, h, YELLOW);
+            } else {
+                DrawRectangle(posx, posy, w, h, BROWN);
+            }
             move = 1;
+            fprintf(stderr,"Posicion a la izquierda iluminada\n");
         } else if (game->board[currentX+1][currentY+1]->color == op_piese){ // si hay una negra en la siguiente posicion
             // si en 2 espacios es valido
             if(currentY+2 <= game->boardsize && currentX+2 <= game->boardsize) { // si sigue dentro del tablero
                 if(game->board[currentX+2][currentY+2]->color == 0){ // si en 2 posiciones esta libre
                     // se ilumina 2 a la izquierda y se come a la ficha negra
                     // aqui puede volver a llamarse esta funcion
+                    int posx = game->board[currentX][currentY]->circle.x+160;
+                    int posy = game->board[currentX][currentY]->circle.y+160;
+                    int w = game->board[currentX][currentY]->circle.width;
+                    int h = game->board[currentX][currentY]->circle.height;
+                    game->board[currentX+2][currentY-2]->type = 3;
+                    //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+                    if(draw){
+                        DrawRectangle(posx, posy, w, h, YELLOW);
+                    } else {
+                        DrawRectangle(posx, posy, w, h, BROWN);
+                    }
                     move = 1;
                 }
             }
@@ -37,13 +63,36 @@ int pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int 
     if(currentX-1 >= 1){
         if (game->board[currentX-1][currentY+1]->color == 0){
             // se ilumina la derecha disponible
+            int posx = game->board[currentX][currentY]->circle.x-80;
+            int posy = game->board[currentX][currentY]->circle.y+80;
+            int w = game->board[currentX][currentY]->circle.width;
+            int h = game->board[currentX][currentY]->circle.height;
+            game->board[currentX-1][currentY-1]->type = 3;
+            //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+            if(draw){
+                DrawRectangle(posx, posy, w, h, YELLOW);
+            } else {
+                DrawRectangle(posx, posy, w, h, BROWN);
+            }
             move = 1;
+            fprintf(stderr,"Posicion a la derecha iluminada\n");
         }  else if (game->board[currentX-1][currentY+1]->color == op_piese) { // si hay una negra
             // si en 2 espacios es valido
             if(currentY+2 <= game->boardsize && currentX-2 >= 1){
                 if (game->board[currentX-2][currentY+2]->color == 0){
                     // se ilumina 2 a la derecha y se come la ficha blanca
                     // aqui puede volver a llamarse esta funcion
+                    int posx = game->board[currentX][currentY]->circle.x-160;
+                    int posy = game->board[currentX][currentY]->circle.y+160;
+                    int w = game->board[currentX][currentY]->circle.width;
+                    int h = game->board[currentX][currentY]->circle.height;
+                    game->board[currentX-2][currentY-2]->type = 3;
+                    fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
+                    if(draw){
+                        DrawRectangle(posx, posy, w, h, YELLOW);
+                    } else {
+                        DrawRectangle(posx, posy, w, h, BROWN);
+                    }
                     move = 1;
                 }
             }
