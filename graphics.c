@@ -1,7 +1,5 @@
-#include "graphics.h"
-/*
-    
-*/
+#include "checkersLibrary.h"
+
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     game->screenWidth = 1240;
@@ -55,7 +53,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     if(!game->boardCreated)
         createBoard(game);
-    ClearBackground(WHITE);
     SetWindowSize(game->screenWidth, game->screenHeight);
 
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
@@ -127,9 +124,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
             }
         }
     }
-
-    checkGameButton(game, board, screen);
-
 }
 
 void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
@@ -139,20 +133,60 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y); // posicion en en tablero
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if (y<=game->boardsize/2-1){ // Fichas blancas
-                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        //fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+            if(game->currentPlayer == 1){
+                if (y<=game->boardsize/2-1){ // Fichas blancas
+                    if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                        if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                            if(game->currentPiecex != 0){
+                                deleteSelected(game, board, screen);
+                                fprintf(stderr, "delete Selected done\n");
+                            }
+                            fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                            turnPieces(game, x, y);
+                            game->currentPiecex = x;
+                            game->currentPiecey = y;
+                            //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                        }
                     }
                 }
             }
-            if (y>=game->boardsize/2+2){ // Fichas Negras
-                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        //fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
+            if(game->currentPlayer == 0){
+                if (y>=game->boardsize/2+2){ // Fichas Negras
+                    if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
+                        if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                            if(game->currentPiecex != 0){
+                                deleteSelected(game, board, screen);
+                                fprintf(stderr, "delete Selected done\n");
+                            }
+                            fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
+                            turnPieces(game, x, y);
+                            fprintf(stderr, "\033[0;35mturnPieces done\n");
+                            game->currentPiecex = x;
+                            game->currentPiecey = y;
+                            //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                        }
                     }
                 }
             }
+        }
+    }
+}
+
+void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    if(game->currentPlayer){ // blanco
+        if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
+            // nada por ahora, paga la versión completa para desbloquear esta función
+            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
+        } else {
+            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
+        }
+    } else { // negro
+        if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
+            // nada por ahora, paga la versión completa para desbloquear esta función
+            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
+        } else {
+            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
         }
     }
 }

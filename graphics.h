@@ -1,5 +1,3 @@
-#include "game.h"
-
 typedef enum {
     MAIN,
     GAME,
@@ -18,3 +16,5 @@ void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+
+void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
