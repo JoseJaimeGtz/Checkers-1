@@ -58,21 +58,11 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
     
     // Creación del tablero
-    for(int i = 0; i < game->boardsize; i++){
-        if (i%2 != 0){
-            DrawRectangle(300, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(460, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(620, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(780, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize >= 10) DrawRectangle(940, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize == 12) DrawRectangle(1100, 40+(i*80), 80, 80, BROWN);
-        } else {
-            DrawRectangle(380, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(540, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(700, 40+(i*80), 80, 80, BROWN);
-            DrawRectangle(860, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize >= 10) DrawRectangle(1020, 40+(i*80), 80, 80, BROWN);
-            if(game->boardsize == 12) DrawRectangle(1180, 40+(i*80), 80, 80, BROWN);
+    for(int y = 0; y < game->boardsize; y++){
+        for (int x = 0; x < game->boardsize; x++) {
+            if ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0)){
+                DrawRectangle(300+(80*(x)), 40+(y*80), 80, 80, BROWN);
+            }
         }
     }
 

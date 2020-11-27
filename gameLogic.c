@@ -237,12 +237,12 @@ void turnPieces(gameStructRef game, int x, int y){
     fprintf(stderr, "\033[0;32mit works? [%d]\n", game->currentPlayer);
     if(game->currentPlayer){
         fprintf(stderr, "\033[0;34m turno blancas\n");
-        if(game->board[x][y]->color = 2){
+        if(game->board[x][y]->color == 2){
             isPossible(game, x, y);
         }
     } else {
         fprintf(stderr, "\033[0;34m turno negras\n");
-        if(game->board[x][y]->color = 1){
+        if(game->board[x][y]->color == 1){
             isPossible(game, x, y);
         }
     }
