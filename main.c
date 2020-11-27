@@ -2,6 +2,7 @@
 
 int main() {
     int gameDrawn = 0;
+    int mainDrawn = 0;
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
@@ -18,8 +19,12 @@ int main() {
         switch(*screen)
         {
             case MAIN:
-                ClearBackground(WHITE);
-                drawMain(&game, &board, screen);
+                if(mainDrawn == 0){
+                    ClearBackground(WHITE);
+                    drawMain(&game, &board, screen);
+                    mainDrawn = 1;
+                }
+                checkMainButton(&game, &board, screen);
                 break;
 
             case GAME:

@@ -12,7 +12,7 @@ typedef struct pieceStruct* pieceStructRef;
 // si se hace click en una posicion amarilla y que no tenga tipo (type == 0) que se dibuje la ficha en la posicion de la amarilla
 // pasar toda la informacion de la ficha actual (seleccionada) a la nueva posicion (a la estructura vacia seleccionada)
 struct gameStruct{
-    int boardsize, screenWidth, screenHeight, currentWindow, boardCreated;
+    int boardsize, screenWidth, screenHeight, currentWindow, boardCreated, mainCreated;
     int currentPlayer; // Turno 1 blanco, 0 negro
     int currentPiecex, currentPiecey;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12

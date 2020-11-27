@@ -22,8 +22,6 @@ void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     DrawRectangleRec(board->board12x12, GRAY);
     DrawText("12x12", 720, 115, 20, BLACK);
 
-    checkMainButton(game, board, screen);
-
 }
 
 void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
