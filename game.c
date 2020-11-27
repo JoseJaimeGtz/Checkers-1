@@ -27,11 +27,7 @@ void createBoard(gameStructRef game)
                     pieceStructRef new = newPiece(game, 1, 1);
                     game->board[x][y] = new;
                 }
-            } else if (y == game->boardsize/2 && (y%2==0 && x%2!=0)){
-                fprintf(stderr, "posición vacia [%d][%d]\n", x, y);
-                pieceStructRef new = newPiece(game, 0, 0);
-                game->board[x][y] = new;
-            } else if (y == game->boardsize/2+1 && (y%2!=0 && x%2==0)){
+            } else if ((y == game->boardsize/2 && (y%2==0 && x%2!=0)) || (y == game->boardsize/2+1 && (y%2!=0 && x%2==0))){
                 fprintf(stderr, "posición vacia [%d][%d]\n", x, y);
                 pieceStructRef new = newPiece(game, 0, 0);
                 game->board[x][y] = new;

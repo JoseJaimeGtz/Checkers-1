@@ -70,44 +70,26 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
-                if(y%2!=0 && x%2==0){
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITE); // par en x impar en y
                     game->board[x][y]->circle = (Rectangle) {
-                        390+(80*(x-2)),
+                        310+(80*(x-1)),
                         50+(80*(y-1)),
-                        60,
-                        60
-                    };
-                } else if(y%2==0 && x%2!=0){
-                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITE); // impar en x, par en y
-                    game->board[x][y]->circle = (Rectangle) {
-                        310+(80*(x-1)), // si funciona
-                        130+(80*(y-2)), 
                         60,
                         60
                     };
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
-                if(y%2!=0 && x%2==0){
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACK); // par en x, impar en y
                     game->board[x][y]->circle = (Rectangle) {
-                        390+(80*(x-2)),
-                        50+(80*(y-1)),
-                        60,
-                        60
-                    };
-                } else if(y%2==0 && x%2!=0){
-                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACK); // impar en x, par en y
-                    game->board[x][y]->circle = (Rectangle) {
-                        390+(80*(x-2)),
+                        310+(80*(x-1)),
                         50+(80*(y-1)),
                         60,
                         60
                     };
                 }
-            } else if (y == game->boardsize/2 && (y%2==0 && x%2!=0)){
-                game->board[x][y]->circle = (Rectangle) {0, 0, 0, 0};
-            } else if (y == game->boardsize/2+1 && (y%2!=0 && x%2==0)){
+            } else if ((y == game->boardsize/2 && (y%2==0 && x%2!=0)) || (y == game->boardsize/2+1 && (y%2!=0 && x%2==0))){
                 game->board[x][y]->circle = (Rectangle) {0, 0, 0, 0};
             }
         }
@@ -121,6 +103,8 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
+            //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+            //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
             if(game->currentPlayer){ // blanca
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
