@@ -10,6 +10,7 @@ void movePiece(gameStructRef game, int currentX, int currentY, int newX, int new
     // poner la ficha antigua vacia
     game->board[currentX][currentY]->color = 0;
     game->board[currentX][currentY]->type = 0;
+
 }
 
 // Verifica si existe un posible movimiento hacia abajo del tablero

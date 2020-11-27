@@ -130,19 +130,68 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
-    //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y); // posicion en en tablero
+
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if(game->currentPlayer){ // blanca
+                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        if(game->currentPiecex != 0){
+                            deleteSelected(game, board, screen);
+                            fprintf(stderr, "delete Selected done\n");
+                        }
+                        fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                        turnPieces(game, x, y);
+                        if(game->board[x][y]->type == 3 && (y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
+                        }
+                        game->currentPiecex = x;
+                        game->currentPiecey = y;
+                        //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                    }
+                }
+            } else { // negra
+                if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
+                    if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        if(game->currentPiecex != 0){
+                            deleteSelected(game, board, screen);
+                            fprintf(stderr, "delete Selected done\n");
+                        }
+                        fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
+                        turnPieces(game, x, y);
+                        fprintf(stderr, "\033[0;35mturnPieces done\n");
+                        if(game->board[x][y]->type == 3){
+                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
+                        }
+                        game->currentPiecex = x;
+                        game->currentPiecey = y;
+                        //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
+                    }
+                }
+            }
+        }
+    }
+
+
+    /*
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if(game->currentPlayer == 1){
-                if (y<=game->boardsize/2-1){ // Fichas blancas
+                if (y<=game->boardsize/2){ // Fichas blancas
                     if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                         if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                            printf("Posicion seleccionada\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
                             if(game->currentPiecex != 0){
                                 deleteSelected(game, board, screen);
                                 fprintf(stderr, "delete Selected done\n");
                             }
                             fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
                             turnPieces(game, x, y);
+                            if(game->board[x][y]->type == 3 && (y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                                movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
+                            }
                             game->currentPiecex = x;
                             game->currentPiecey = y;
                             //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
@@ -151,7 +200,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 }
             }
             if(game->currentPlayer == 0){
-                if (y>=game->boardsize/2+2){ // Fichas Negras
+                if (y>=game->boardsize/2+1){ // Fichas Negras
                     if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                         if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
                             if(game->currentPiecex != 0){
@@ -161,6 +210,9 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                             fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
                             turnPieces(game, x, y);
                             fprintf(stderr, "\033[0;35mturnPieces done\n");
+                            if(game->board[x][y]->type == 3){
+                                movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
+                            }
                             game->currentPiecex = x;
                             game->currentPiecey = y;
                             //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
@@ -169,7 +221,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 }
             }
         }
-    }
+    }*/
 }
 
 void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
@@ -178,6 +230,7 @@ void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *scr
         if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
             // nada por ahora, paga la versión completa para desbloquear esta función
             pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
+            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
         } else {
             pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
         }
@@ -185,6 +238,7 @@ void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *scr
         if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
             // nada por ahora, paga la versión completa para desbloquear esta función
             pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
+            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
         } else {
             pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
         }

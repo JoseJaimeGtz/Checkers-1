@@ -15,7 +15,8 @@ Open the project folder and click on "Build" icon, to compile the project and cl
 
 **VS Code**
 
-```mkdir build # Create a build directory
+```
+mkdir build # Create a build directory
 cd build && cmake .. # Build from that directory so the build files are in one place
 cmake --build . # Build the project
 ```
