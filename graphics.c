@@ -103,6 +103,19 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 
 void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
+    // Update drawing
+    if(game->currentPlayer == 1) {
+        DrawRectangle((game->screenWidth)-250, 40, 200, 120, RAYWHITE);
+        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
+        DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);   
+    } else {
+        DrawRectangle((game->screenWidth)-250, 40, 200, 120, BLACK);
+        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
+        DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
+    }
+
+    // Click detection
+
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
 
