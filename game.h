@@ -15,6 +15,9 @@ struct gameStruct{
     int boardsize, screenWidth, screenHeight, currentWindow, boardCreated, mainCreated;
     int currentPlayer; // Turno 1 blanco, 0 negro
     int currentPiecex, currentPiecey;
+    int currentColor;
+    int totalWhitePieces;
+    int totalBlackPieces;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
 }; 
  

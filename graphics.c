@@ -11,7 +11,7 @@ void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     board->board12x12 = (Rectangle) {690, 100, 100, 50};
     
     DrawRectangle(470, 40, 320, 50, BLACK);
-    DrawText("Escoge el tamaño del tablero", 480, 55, 20, WHITE);    
+    DrawText("Escoge el tamaño del tablero", 480, 55, 20, WHITE);
 
     DrawRectangleRec(board->board8x8, GRAY);
     DrawText("8x8", 505, 115, 20, BLACK);    
@@ -61,7 +61,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     for(int y = 0; y < game->boardsize; y++){
         for (int x = 0; x < game->boardsize; x++) {
             if ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0)){
-                DrawRectangle(300+(80*(x)), 40+(y*80), 80, 80, BROWN);
+                DrawRectangle(300+(80*(x)), 40+(y*80), 80, 80, BOARD);
             }
         }
     }
@@ -71,7 +71,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITE); // par en x impar en y
+                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITEPIECES); // par en x impar en y
                     game->board[x][y]->circle = (Rectangle) {
                         310+(80*(x-1)),
                         50+(80*(y-1)),
@@ -81,7 +81,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACK); // par en x, impar en y
+                    DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACKPIECES); // par en x, impar en y
                     game->board[x][y]->circle = (Rectangle) {
                         310+(80*(x-1)),
                         50+(80*(y-1)),
@@ -90,7 +90,12 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                     };
                 }
             } else if ((y == game->boardsize/2 && (y%2==0 && x%2!=0)) || (y == game->boardsize/2+1 && (y%2!=0 && x%2==0))){
-                game->board[x][y]->circle = (Rectangle) {0, 0, 0, 0};
+                game->board[x][y]->circle = (Rectangle) {
+                    310+(80*(x-1)),
+                    50+(80*(y-1)),
+                    60,
+                    60
+                };
             }
         }
     }
@@ -108,16 +113,18 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
             if(game->currentPlayer){ // blanca
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        if(game->board[x][y]->type == 3 && game->currentColor == 2){
+                            deleteSelected(game, board, screen);
+                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
+                        }
                         if(game->currentPiecex != 0){
                             deleteSelected(game, board, screen);
-                            fprintf(stderr, "delete Selected done\n");
+                            //fprintf(stderr, "delete Selected done\n");
                         }
-                        fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
-                        turnPieces(game, x, y);
-                        if(game->board[x][y]->type == 3 && (y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
-                        }
+                        //fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
+                        turnPieces(game, x, y); // regresa los colores de las casillas iluminadas
+                        game->currentColor = game->board[x][y]->color;
                         game->currentPiecex = x;
                         game->currentPiecey = y;
                         //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
@@ -126,17 +133,20 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
             } else { // negra
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        if(game->board[x][y]->type == 3 && game->currentColor == 1){
+                            //fprintf(stderr, "\033[0;35mTYPE==3\n");
+                            deleteSelected(game, board, screen);
+                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
+                        }
                         if(game->currentPiecex != 0){
                             deleteSelected(game, board, screen);
-                            fprintf(stderr, "delete Selected done\n");
+                            //fprintf(stderr, "delete Selected done\n");
                         }
-                        fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
+                        //fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
                         turnPieces(game, x, y);
-                        fprintf(stderr, "\033[0;35mturnPieces done\n");
-                        if(game->board[x][y]->type == 3){
-                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
-                        }
+                        //fprintf(stderr, "\033[0;35mturnPieces done\n");
+                        game->currentColor = game->board[x][y]->color;
                         game->currentPiecex = x;
                         game->currentPiecey = y;
                         //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
@@ -145,55 +155,6 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
             }
         }
     }
-
-
-    /*
-    for(int y = 1; y <= game->boardsize; y++){
-        for(int x = 1; x <= game->boardsize; x++){
-            if(game->currentPlayer == 1){
-                if (y<=game->boardsize/2){ // Fichas blancas
-                    if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                        if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                            printf("Posicion seleccionada\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
-                            if(game->currentPiecex != 0){
-                                deleteSelected(game, board, screen);
-                                fprintf(stderr, "delete Selected done\n");
-                            }
-                            fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
-                            turnPieces(game, x, y);
-                            if(game->board[x][y]->type == 3 && (y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                                movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
-                            }
-                            game->currentPiecex = x;
-                            game->currentPiecey = y;
-                            //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
-                        }
-                    }
-                }
-            }
-            if(game->currentPlayer == 0){
-                if (y>=game->boardsize/2+1){ // Fichas Negras
-                    if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                        if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                            if(game->currentPiecex != 0){
-                                deleteSelected(game, board, screen);
-                                fprintf(stderr, "delete Selected done\n");
-                            }
-                            fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
-                            turnPieces(game, x, y);
-                            fprintf(stderr, "\033[0;35mturnPieces done\n");
-                            if(game->board[x][y]->type == 3){
-                                movePiece(game, x,y,game->currentPiecex, game->currentPiecey);                                
-                            }
-                            game->currentPiecex = x;
-                            game->currentPiecey = y;
-                            //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
-                        }
-                    }
-                }
-            }
-        }
-    }*/
 }
 
 void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
