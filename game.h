@@ -67,7 +67,7 @@ void queueDestroy(queueRef q);
 */
 
 // Guardar el juego
-void saveGame(gameStructRef game);
+void saveGame(gameStructRef game, int slot);
 
 // Cargar el juego
 void loadGame(gameStructRef game);

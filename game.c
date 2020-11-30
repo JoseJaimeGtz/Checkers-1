@@ -16,6 +16,8 @@ void createBoard(gameStructRef game)
     game->currentPiecey = 0;
     game->boardCreated++;
     game->currentPlayer = 0;
+    game->totalBlackPieces = 0;
+    game->totalWhitePieces = 0;
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
@@ -37,25 +39,34 @@ void createBoard(gameStructRef game)
     }
 }
 
-void saveGame(gameStructRef game)
+void saveGame(gameStructRef game, int slot)
 {
     FILE* gameData;
-    gameData = fopen("../gameData.txt", "w+");
     printf("\033[1;31m          [GUARDANDO JUEGO]\033[0m\n");
+    printf("\033[0;33mSlot elegido: %d\033[0m\n", slot);
+    switch(slot){
+        case 1:
+            gameData = fopen("../slot1.txt", "w+");
+            break;
 
-    // GUARDAR LA ESTRUCTURA GAME EN EL ARCHIVO
-    // boardSize, width, height, currentPlayer, currentPx, currentPy
-    // currentColor, totalWhite, totalBlack
-    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->currentColor, game->totalWhitePieces, game->totalBlackPieces);
+        case 2:
+            gameData = fopen("../slot2.txt", "w+");
+            break;
+
+        case 3:
+            gameData = fopen("../slot3.txt", "w+");
+            break;
+    }
+
+    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d\n", game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->totalWhitePieces, game->totalBlackPieces);
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){            
-                //[x:y][color,type]
+            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){       
+                printf("\033[0;33mPosición guardada: [%d:%d]\033[0m\n", x, y);
                 fprintf(gameData, "[%d:%d][%d,%d]\n", x, y, game->board[x][y]->color, game->board[x][y]->type);
             }
         }
     }
-
     printf("\033[1;32m          [JUEGO GUARDADO]\033[0m\n");
     fclose(gameData);
 }

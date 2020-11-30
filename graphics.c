@@ -4,6 +4,39 @@ void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     DrawRectangle(50, 50, 150, 50, GRAY);
     DrawText("   Regresar", 50, 65, 20, BLACK);
+
+    DrawRectangle(200, 170, 250, 30, BLACK);
+    DrawRectangle(200, 200, 250, 400, GRAY);
+    DrawText("           Slot 1", 200, 175, 20, WHITE);
+    if(access("../slot1.txt", F_OK ) != -1 ) {
+        DrawRectangle(200, 600, 250, 30, RED);
+        DrawText("        Sobreescribir", 200, 605, 20, WHITE);
+    } else {
+        DrawRectangle(200, 600, 250, 30, LIME);
+        DrawText("         Disponible", 200, 605, 20, WHITE);
+    }
+
+    DrawRectangle(500, 170, 250, 30, BLACK);
+    DrawRectangle(500, 200, 250, 400, GRAY);
+    DrawText("           Slot 2", 500, 175, 20, WHITE);
+    if(access("../slot2.txt", F_OK ) != -1 ) {
+        DrawRectangle(500, 600, 250, 30, RED);
+        DrawText("        Sobreescribir", 500, 605, 20, WHITE);
+    } else {
+        DrawRectangle(500, 600, 250, 30, LIME);
+        DrawText("         Disponible", 500, 605, 20, WHITE);
+    }
+
+    DrawRectangle(800, 170, 250, 30, BLACK);
+    DrawRectangle(800, 200, 250, 400, GRAY);
+    DrawText("           Slot 3", 800, 175, 20, WHITE);
+    if(access("../slot3.txt", F_OK ) != -1 ) {
+        DrawRectangle(800, 600, 250, 30, RED);
+        DrawText("        Sobreescribir", 800, 605, 20, WHITE);
+    } else {
+        DrawRectangle(800, 600, 250, 30, LIME);
+        DrawText("         Disponible", 800, 605, 20, WHITE);
+    }
 }
 
 void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
@@ -11,9 +44,45 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
     Rectangle returnRect = {50, 50, 150, 50};
+    Rectangle slot1 = {200, 200, 250, 400};
+    Rectangle slot2 = {500, 200, 250, 400};
+    Rectangle slot3 = {800, 200, 250, 400};
 
     if(click == true && CheckCollisionPointRec(mouse, returnRect)){
         *screen = GAME;
+    }
+
+    if(CheckCollisionPointRec(mouse, slot1)){
+        DrawRectangle(200, 200, 250, 400, SKYBLUE);
+        DrawRectangle(500, 200, 250, 400, GRAY);
+        DrawRectangle(800, 200, 250, 400, GRAY);
+        if(click == true){
+            saveGame(game, 1);
+            DrawRectangle(200, 600, 250, 30, RED);
+            DrawText("        Sobreescribir", 200, 605, 20, WHITE);
+        }
+    } else if(CheckCollisionPointRec(mouse, slot2)){
+        DrawRectangle(200, 200, 250, 400, GRAY);
+        DrawRectangle(500, 200, 250, 400, SKYBLUE);
+        DrawRectangle(800, 200, 250, 400, GRAY);
+        if(click == true){
+            saveGame(game, 2);
+            DrawRectangle(500, 600, 250, 30, RED);
+            DrawText("        Sobreescribir", 500, 605, 20, WHITE);
+        }
+    } else if(CheckCollisionPointRec(mouse, slot3)){
+        DrawRectangle(200, 200, 250, 400, GRAY);
+        DrawRectangle(500, 200, 250, 400, GRAY);
+        DrawRectangle(800, 200, 250, 400, SKYBLUE);
+        if(click == true){
+            saveGame(game, 3);
+            DrawRectangle(800, 600, 250, 30, RED);
+            DrawText("        Sobreescribir", 800, 605, 20, WHITE);
+        }
+    } else {
+        DrawRectangle(200, 200, 250, 400, GRAY);
+        DrawRectangle(500, 200, 250, 400, GRAY);
+        DrawRectangle(800, 200, 250, 400, GRAY);
     }
 }
 
@@ -66,7 +135,7 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void updateBoard(gameStructRef game)
 {
-
+    ClearBackground(WHITE);
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
     if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
     if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
