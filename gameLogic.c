@@ -45,6 +45,7 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);  
         fprintf(stderr, "\033[0;35m Turno Blancas\n");
     }
+    updateBoard(game);
 }
 
 // Verifica si existe un posible movimiento hacia abajo del tablero
