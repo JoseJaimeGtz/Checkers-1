@@ -68,9 +68,11 @@ void pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int
             if(draw){
                 fprintf(stderr,"DownPossible 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, POSSIBLE);
+                game->board[currentX+1][currentY+1]->type = 3;
             } else {
                 fprintf(stderr,"DownErase 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, BOARD);
+                game->board[currentX+1][currentY+1]->type = 0;
             }
             //fprintf(stderr,"Posicion a la izquierda iluminada\n");
         } else if (game->board[currentX+1][currentY+1]->color == op_piese){ // si hay una negra en la siguiente posicion
@@ -83,14 +85,15 @@ void pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int
                     int posy = game->board[currentX][currentY]->circle.y+160;
                     int w = game->board[currentX][currentY]->circle.width;
                     int h = game->board[currentX][currentY]->circle.height;
-                    game->board[currentX+2][currentY+2]->type = 3;
                     ////fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
                     if(draw){
                         fprintf(stderr,"DownPossible 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, POSSIBLE);
+                        game->board[currentX+2][currentY+2]->type = 3;
                     } else {
                         fprintf(stderr,"DownErase 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, BOARD);
+                        game->board[currentX+2][currentY+2]->type = 0;
                     }
                 }
             }
@@ -104,14 +107,15 @@ void pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int
             int posy = game->board[currentX][currentY]->circle.y+80;
             int w = game->board[currentX][currentY]->circle.width;
             int h = game->board[currentX][currentY]->circle.height;
-            game->board[currentX-1][currentY+1]->type = 3;
             ////fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
             if(draw){
                 fprintf(stderr,"DownPossible 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, POSSIBLE);
+                game->board[currentX-1][currentY+1]->type = 3;
             } else {
                 fprintf(stderr,"DownErase 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, BOARD);
+                game->board[currentX-1][currentY+1]->type = 0;
             }
             //fprintf(stderr,"Posicion a la derecha iluminada\n");
         }  else if (game->board[currentX-1][currentY+1]->color == op_piese) { // si hay una negra
@@ -124,14 +128,15 @@ void pieceDown(gameStructRef game, int currentX, int currentY, int op_piese, int
                     int posy = game->board[currentX][currentY]->circle.y+160;
                     int w = game->board[currentX][currentY]->circle.width;
                     int h = game->board[currentX][currentY]->circle.height;
-                    game->board[currentX-2][currentY+2]->type = 3;
                     //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
                     if(draw){
                         fprintf(stderr,"DownPossible 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, POSSIBLE);
+                        game->board[currentX-2][currentY+2]->type = 3;
                     } else {
                         fprintf(stderr,"DownErase 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, BOARD);
+                        game->board[currentX-2][currentY+2]->type = 0;
                     }
                 }
             }
@@ -155,14 +160,15 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
             int posy = game->board[currentX][currentY]->circle.y-80;
             int w = game->board[currentX][currentY]->circle.width;
             int h = game->board[currentX][currentY]->circle.height;
-            game->board[currentX+1][currentY-1]->type = 3;
             //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
             if(draw){
                 fprintf(stderr,"UpPossible 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, POSSIBLE);
+                game->board[currentX+1][currentY-1]->type = 3;
             } else {
                 fprintf(stderr,"UpErase 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, BOARD);
+                game->board[currentX+1][currentY-1]->type = 0;
             }
         } else if (game->board[currentX+1][currentY-1]->color == op_piese){ // si hay una ficha negra en la sig posicion
             // si en 2 espacios es valido
@@ -174,14 +180,15 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
                     int posy = game->board[currentX][currentY]->circle.y-160;
                     int w = game->board[currentX][currentY]->circle.width;
                     int h = game->board[currentX][currentY]->circle.height;
-                    game->board[currentX+2][currentY-2]->type = 3;
                     ////fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
                     if(draw){
                         fprintf(stderr,"UpPossible 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, POSSIBLE);
+                        game->board[currentX+2][currentY-2]->type = 3;
                     } else {
                         fprintf(stderr,"UpErase 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, BOARD);
+                        game->board[currentX+2][currentY-2]->type = 0;
                     }
                 }
             }
@@ -200,14 +207,15 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
             int posy = game->board[currentX][currentY]->circle.y-80;
             int w = game->board[currentX][currentY]->circle.width;
             int h = game->board[currentX][currentY]->circle.height;
-            game->board[currentX-1][currentY-1]->type = 3;
             ////fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
             if(draw){
                 fprintf(stderr,"UpPossible 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, POSSIBLE);
+                game->board[currentX-1][currentY-1]->type = 3;
             } else {
                 fprintf(stderr,"UpErase 1: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, BOARD);
+                game->board[currentX-1][currentY-1]->type = 0;
             }
         }  else if (game->board[currentX-1][currentY-1]->color == op_piese) { // si hay una ficha negra
             if(currentY-2 >= 1 && currentX-2 >= 1){// si en 2 espacios es valido
@@ -218,14 +226,15 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
                     int posy = game->board[currentX][currentY]->circle.y-160;
                     int w = game->board[currentX][currentY]->circle.width;
                     int h = game->board[currentX][currentY]->circle.height;
-                    game->board[currentX-2][currentY-2]->type = 3;
                     //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
                     if(draw){
                         fprintf(stderr,"UpPossible 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, POSSIBLE);
+                        game->board[currentX-2][currentY-2]->type = 3;
                     } else {
                         fprintf(stderr,"UpErase 2: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, BOARD);
+                        game->board[currentX-2][currentY-2]->type = 0;
                     }
                 }
             }
