@@ -67,6 +67,25 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void updateBoard(gameStructRef game)
 {
+
+    if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
+    if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
+    if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
+
+    if(game->currentPlayer == 1) {
+        DrawRectangle((game->screenWidth)-250, 40, 200, 120, RAYWHITE);
+        DrawRectangleLines((game->screenWidth)-250, 40, 200, 120, BLACK);
+        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
+        DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);   
+    } else {
+        DrawRectangle((game->screenWidth)-250, 40, 200, 120, BLACK);
+        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
+        DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
+    }
+
+    DrawRectangle((game->screenWidth)-250, 240, 200, 60, BLACK);
+    DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);   
+
     for(int y = 0; y < game->boardsize; y++){
         for (int x = 0; x < game->boardsize; x++) {
             if ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0)){
@@ -102,13 +121,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     if(!game->boardCreated)
         createBoard(game);
     SetWindowSize(game->screenWidth, game->screenHeight);
-
-    if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
-    if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
-    if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
-
-    DrawRectangle((game->screenWidth)-250, 240, 200, 60, BLACK);
-    DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);   
 
     // Creación de las fichas del tablero
     for(int y = 1; y <= game->boardsize; y++){
@@ -148,20 +160,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 
 void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    // Update drawing
-    if(game->currentPlayer == 1) {
-        DrawRectangle((game->screenWidth)-250, 40, 200, 120, RAYWHITE);
-        DrawRectangleLines((game->screenWidth)-250, 40, 200, 120, BLACK);
-        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
-        DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);   
-    } else {
-        DrawRectangle((game->screenWidth)-250, 40, 200, 120, BLACK);
-        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
-        DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
-    }
-
-    // Click detection
-
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
     Rectangle saveRect = {(game->screenWidth)-250, 240, 200, 60};
