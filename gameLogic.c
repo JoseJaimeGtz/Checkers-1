@@ -1,5 +1,18 @@
 #include "checkersLibrary.h"
 
+void deleteAll(gameStructRef game)
+{
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                if(game->board[x][y]->type == 3){
+                    game->board[x][y]->type = 0;
+                }
+            }
+        }
+    }
+}
+
 // considerando que el movimiento si es válido
 void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY)
 {
@@ -284,6 +297,7 @@ void isPossible(gameStructRef game, int currentX, int currentY)
 // en este momento la función cada vez que se llama esta en la posición inicial del tablero
 void turnPieces(gameStructRef game, int x, int y){
     //fprintf(stderr, "\033[0;32mit works? [%d]\n", game->currentPlayer);
+    deleteAll(game);
     if(game->currentPlayer){
         //fprintf(stderr, "\033[0;34m turno blancas\n");
         if(game->board[x][y]->color == 2){

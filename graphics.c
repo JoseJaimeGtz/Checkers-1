@@ -178,6 +178,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
                         }
+                        turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
                         game->currentPiecex = x;
                         game->currentPiecey = y;
