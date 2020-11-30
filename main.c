@@ -33,6 +33,7 @@ int main() {
                     ClearBackground(WHITE);
                     drawGame(&game, &board, screen);
                     gameDrawn = 1;
+                    saveDrawn = 0;
                 }
                 checkGameButton(&game, &board, screen);   
                 break;
@@ -42,6 +43,7 @@ int main() {
                     ClearBackground(WHITE);
                     drawSave(&game, &board, screen);
                     saveDrawn = 1;
+                    gameDrawn = 0;
                 }
                 checkSaveButton(&game, &board, screen);   
                 break;

@@ -10,11 +10,10 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
-    fprintf(stderr, "[%.2f,%.2f]\n", mouse.x, mouse.y);
     Rectangle returnRect = {50, 50, 150, 50};
 
     if(click == true && CheckCollisionPointRec(mouse, returnRect)){
-        saveGame(game);
+        *screen = GAME;
     }
 }
 
@@ -164,7 +163,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     Rectangle saveRect = {(game->screenWidth)-250, 240, 200, 60};
 
     if(click == true && CheckCollisionPointRec(mouse, saveRect)){
-        saveGame(game);
+        *screen = SAVE;
     }
 
     for(int y = 1; y <= game->boardsize; y++){
