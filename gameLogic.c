@@ -270,6 +270,7 @@ void isPossible(gameStructRef game, int currentX, int currentY)
         } else {
             // Significa que es king
             game->board[currentX][currentY]->type = 2;
+            fprintf(stderr, "\033[0;31m IM KING\n");
             if(currentY-1 >= 1){ // verifica si se puede mover hacia adelante
                 //fprintf(stderr, "\033[0;31m   pieceUp\n");
                 pieceUp(game, currentX, currentY, 1, 1); // le pasamos el negro
@@ -284,6 +285,7 @@ void isPossible(gameStructRef game, int currentX, int currentY)
         } else {
             // Significa que mi barrio me respalda
             game->board[currentX][currentY]->type = 2;
+            fprintf(stderr, "\033[0;31m IM KING\n");
             if(currentY+1 <= game->boardsize){ // verifica si se puede mover hacia adelante
                 pieceUp(game, currentX, currentY, 2, 1); // le pasamos el blanco
                 pieceDown(game, currentX, currentY, 2, 1);
