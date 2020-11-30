@@ -264,31 +264,35 @@ void isPossible(gameStructRef game, int currentX, int currentY)
 {
     // nivel de abstracción superior
     if(game->currentPlayer){ // blancas
-        if(currentY+1 <= game->boardsize){ // verifica si se puede mover hacia adelante
+        if(currentY+1 <= game->boardsize && game->board[currentX][currentY]->type == 1){ // verifica si se puede mover hacia adelante
             //fprintf(stderr, "\033[0;31m   pieceDown\n");
             pieceDown(game, currentX, currentY, 1, 1);
         } else {
             // Significa que es king
             game->board[currentX][currentY]->type = 2;
-            fprintf(stderr, "\033[0;31m IM KING\n");
-            if(currentY-1 >= 1){ // verifica si se puede mover hacia adelante
+            if(currentY-1 >= 1 && currentY+1 <= game->boardsize && game->board[currentX][currentY]->type == 2){ // verifica si se puede mover hacia adelante
+                fprintf(stderr, "\033[0;31m IM KING (WHITE)\n");
                 //fprintf(stderr, "\033[0;31m   pieceUp\n");
                 pieceUp(game, currentX, currentY, 1, 1); // le pasamos el negro
+                fprintf(stderr, "\033[0;31m PIECE UP WHITE\n");
                 pieceDown(game, currentX, currentY, 1, 1);
+                fprintf(stderr, "\033[0;31m PIECE DOWN WHITE\n");
             }
         }
     } else { // negras
-        if(currentY-1 >= 1){ // si no es el limite superior
+        if(currentY-1 >= 1 && game->board[currentX][currentY]->type == 1){ // si no es el limite superior
             pieceUp(game, currentX, currentY, 2, 1);
             //fprintf(stderr, "\033[0;31m   pieceUp\n");
             //fprintf(stderr, "\033[0;31m   isPossible->pieceUp\n");
         } else {
             // Significa que mi barrio me respalda
             game->board[currentX][currentY]->type = 2;
-            fprintf(stderr, "\033[0;31m IM KING\n");
-            if(currentY+1 <= game->boardsize){ // verifica si se puede mover hacia adelante
+            if(currentY+1 <= game->boardsize && currentY-1 >= 1 && game->board[currentX][currentY]->type == 2){ // verifica si se puede mover hacia adelante
+                fprintf(stderr, "\033[0;31m IM KING (BLACK)\n");
                 pieceUp(game, currentX, currentY, 2, 1); // le pasamos el blanco
+                fprintf(stderr, "\033[0;31m PIECE UP BLACK\n");
                 pieceDown(game, currentX, currentY, 2, 1);
+                fprintf(stderr, "\033[0;31m PIECE DOWN BLACK\n");
                 //fprintf(stderr, "\033[0;31m   pieceUp\n");
             }
         }

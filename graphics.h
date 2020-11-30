@@ -13,12 +13,13 @@ void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 //#define BLACKPIECES (Color){4, 31, 30, 255}
+//#define BLACKPIECES (Color){37, 50, 55, 255}
 
 // COLORS
 #define BOARD (Color){ 166, 98, 0, 255 }
-//#define BLACKPIECES (Color){37, 50, 55, 255}
 #define BLACKPIECES (Color){26, 26, 28, 255}
 #define WHITEPIECES (Color){239, 241, 243, 195}
-#define BLACKPIECESKING (Color){1, 1, 1, 255}
+//#define BLACKPIECESKING (Color){1, 1, 1, 255}
+#define BLACKPIECESKING (Color){84, 13, 110, 255}
 #define WHITEPIECESKING (Color){255, 255, 255, 255}
 #define POSSIBLE (Color) {240, 246, 0, 255}
