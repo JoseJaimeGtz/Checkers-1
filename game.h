@@ -70,7 +70,7 @@ void queueDestroy(queueRef q);
 void saveGame(gameStructRef game, int slot);
 
 // Cargar el juego
-void loadGame(gameStructRef game);
+void loadGame(gameStructRef game, int slot);
 
 // Ir al siguiente movimiento (si es posible)
 void nextMovement();

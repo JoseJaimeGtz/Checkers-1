@@ -1,5 +1,90 @@
 #include "checkersLibrary.h"
 
+void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    DrawRectangle(50, 50, 150, 50, GRAY);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
+
+    DrawRectangle(200, 170, 250, 30, BLACK);
+    DrawRectangle(200, 200, 250, 400, GRAY);
+    DrawText("           Slot 1", 200, 175, 20, WHITE);
+    if(access("../slot1.txt", F_OK ) != -1 ) {
+        DrawRectangle(200, 600, 250, 30, LIME);
+        DrawText("          Cargar", 200, 605, 20, WHITE);
+    } else {
+        DrawRectangle(200, 600, 250, 30, RED);
+        DrawText("        No disponible", 200, 605, 20, WHITE);
+    }
+
+    DrawRectangle(500, 170, 250, 30, BLACK);
+    DrawRectangle(500, 200, 250, 400, GRAY);
+    DrawText("           Slot 2", 500, 175, 20, WHITE);
+    if(access("../slot2.txt", F_OK ) != -1 ) {
+        DrawRectangle(500, 600, 250, 30, LIME);
+        DrawText("          Cargar", 500, 605, 20, WHITE);
+    } else {
+        DrawRectangle(500, 600, 250, 30, RED);
+        DrawText("        No disponible", 500, 605, 20, WHITE);
+    }
+
+    DrawRectangle(800, 170, 250, 30, BLACK);
+    DrawRectangle(800, 200, 250, 400, GRAY);
+    DrawText("           Slot 3", 800, 175, 20, WHITE);
+    if(access("../slot3.txt", F_OK ) != -1 ) {
+        DrawRectangle(800, 600, 250, 30, LIME);
+        DrawText("          Cargar", 800, 605, 20, WHITE);
+    } else {
+        DrawRectangle(800, 600, 250, 30, RED);
+        DrawText("        No disponible", 800, 605, 20, WHITE);
+    }
+}
+
+void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = MAIN;
+    }
+
+    Rectangle slot1 = {200, 200, 250, 400};
+    Rectangle slot2 = {500, 200, 250, 400};
+    Rectangle slot3 = {800, 200, 250, 400};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = GAME;
+    }
+
+    if(CheckCollisionPointRec(mouse, slot1)){
+        DrawRectangle(200, 200, 250, 400, SKYBLUE);
+        DrawRectangle(500, 200, 250, 400, GRAY);
+        DrawRectangle(800, 200, 250, 400, GRAY);
+        if(click == true){
+            loadGame(game, 1);
+        }
+    } else if(CheckCollisionPointRec(mouse, slot2)){
+        DrawRectangle(200, 200, 250, 400, GRAY);
+        DrawRectangle(500, 200, 250, 400, SKYBLUE);
+        DrawRectangle(800, 200, 250, 400, GRAY);
+        if(click == true){
+            loadGame(game, 2);
+        }
+    } else if(CheckCollisionPointRec(mouse, slot3)){
+        DrawRectangle(200, 200, 250, 400, GRAY);
+        DrawRectangle(500, 200, 250, 400, GRAY);
+        DrawRectangle(800, 200, 250, 400, SKYBLUE);
+        if(click == true){
+            loadGame(game, 3);
+        }
+    } else {
+        DrawRectangle(200, 200, 250, 400, GRAY);
+        DrawRectangle(500, 200, 250, 400, GRAY);
+        DrawRectangle(800, 200, 250, 400, GRAY);
+    }
+}
+
 void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     DrawRectangle(50, 50, 150, 50, GRAY);
@@ -108,7 +193,8 @@ void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     DrawRectangleRec(board->board12x12, GRAY);
     DrawText("12x12", 720, 115, 20, BLACK);
 
-    DrawRectangle(470, 150, 500, 50, GRAY);
+    DrawRectangle(470, 165, 320, 50, GRAY);
+    DrawText("            Cargar juego", 470, 177, 20, BLACK);
 
 }
 
@@ -116,6 +202,8 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
+    Rectangle loadGameRect = {470, 165, 320, 50};
+
     if(click == true && CheckCollisionPointRec(mouse, board->board8x8))
     {
         game->boardsize = 8;
@@ -132,12 +220,16 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         game->screenWidth += 320;
         game->screenHeight += 280;
         *screen = GAME;
+    } else if(click == true && CheckCollisionPointRec(mouse, loadGameRect)){
+        *screen = LOAD;
     }
 }
 
 void updateBoard(gameStructRef game)
 {
     ClearBackground(WHITE);
+    DrawRectangle(50, 50, 150, 50, RED);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
     if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
     if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
@@ -235,6 +327,12 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
     if(click == true && CheckCollisionPointRec(mouse, saveRect)){
         *screen = SAVE;
+    }
+
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = MAIN;
     }
 
     for(int y = 1; y <= game->boardsize; y++){

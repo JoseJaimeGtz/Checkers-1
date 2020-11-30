@@ -71,13 +71,24 @@ void saveGame(gameStructRef game, int slot)
     fclose(gameData);
 }
 
-void loadGame(gameStructRef game)
+void loadGame(gameStructRef game, int slot)
 {
     FILE* gameData;
-    gameData = fopen("gameData.txt", "r");
     printf("\033[1;31m          [CARGANDO JUEGO]\033[0m;\n");
 
-    // LEER EL ARCHIVO Y APLICAR LOS CAMBIOS
+    switch(slot){
+        case 1:
+            gameData = fopen("../slot1.txt", "r");
+            break;
+
+        case 2:
+            gameData = fopen("../slot2.txt", "r");
+            break;
+
+        case 3:
+            gameData = fopen("../slot3.txt", "r");
+            break;
+    }
 
     printf("\033[1;32m          [JUEGO CARGADO]\033[0m;\n");
     fclose(gameData);

@@ -21,6 +21,9 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
+void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+
 void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 //#define BLACKPIECES (Color){4, 31, 30, 255}

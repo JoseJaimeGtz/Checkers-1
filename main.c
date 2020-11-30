@@ -4,6 +4,7 @@ int main() {
     int gameDrawn = 0;
     int mainDrawn = 0;
     int saveDrawn = 0;
+    int loadDrawn = 0;
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
@@ -25,6 +26,9 @@ int main() {
                     ClearBackground(WHITE);
                     drawMain(&game, &board, screen);
                     mainDrawn = 1;
+                    loadDrawn = 0;
+                    gameDrawn = 0;
+                    saveDrawn = 0;
                 }
                 checkMainButton(&game, &board, screen);
                 break;
@@ -34,6 +38,8 @@ int main() {
                     drawGame(&game, &board, screen);
                     gameDrawn = 1;
                     saveDrawn = 0;
+                    mainDrawn = 0;
+                    loadDrawn = 0;
                 }
                 checkGameButton(&game, &board, screen);   
                 break;
@@ -44,12 +50,22 @@ int main() {
                     drawSave(&game, &board, screen);
                     saveDrawn = 1;
                     gameDrawn = 0;
+                    mainDrawn = 0;
+                    loadDrawn = 0;
                 }
                 checkSaveButton(&game, &board, screen);   
                 break;
 
             case LOAD:
-
+                if(loadDrawn == 0){
+                    ClearBackground(WHITE);
+                    drawLoad(&game, &board, screen);
+                    loadDrawn = 1;
+                    mainDrawn = 0;
+                    gameDrawn = 0;
+                    saveDrawn = 0;
+                }
+                checkLoadButton(&game, &board, screen);   
                 break;
 
         }
