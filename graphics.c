@@ -93,6 +93,7 @@ void updateBoard(gameStructRef game)
             }
         }
     }
+    
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
@@ -108,8 +109,6 @@ void updateBoard(gameStructRef game)
                     } else if(game->board[x][y]->type == 2){
                         DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACKPIECESKING);
                     }
-                } else if(game->board[x][y]->type == 3){
-                    game->board[x][y]->type == 0;
                 }
             }
         }
@@ -176,61 +175,28 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
                         updateBoard(game);
-                        //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
-                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
+                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
                         }
-                        if(game->currentPiecex != 0){
-                            //fprintf(stderr, "delete Selected done\n");
-                        }
-                        //fprintf(stderr, "\033[0;33misPossible [%d][%d]\n", x, y);
-                        turnPieces(game, x, y); // regresa los colores de las casillas iluminadas
                         game->currentColor = game->board[x][y]->color;
                         game->currentPiecex = x;
                         game->currentPiecey = y;
-                        //fprintf(stderr,"\033[0;37m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
                     }
                 }
             } else { // negra
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
                         updateBoard(game);
-                        //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
-                            //fprintf(stderr, "\033[0;35mTYPE==3\n");
                             movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
                         }
-                        //fprintf(stderr, "\033[0;33misPossible   [%d][%d]\n", x, y);
                         turnPieces(game, x, y);
-                        //fprintf(stderr, "\033[0;35mturnPieces done\n");
                         game->currentColor = game->board[x][y]->color;
                         game->currentPiecex = x;
                         game->currentPiecey = y;
-                        //fprintf(stderr,"\033[0;32m color actual:[%d], color siguiente:[%d]\n", game->board[x][y]->color, game->board[x+1][y-1]->color);
                     }
                 }
             }
-        }
-    }
-}
-
-void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
-{
-    if(game->currentPlayer){ // blanco
-        if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
-            // nada por ahora, paga la versión completa para desbloquear esta función
-            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
-            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
-        } else {
-            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
-        }
-    } else { // negro
-        if(game->board[game->currentPiecex][game->currentPiecey]->type == 2){ // si es king
-            // nada por ahora, paga la versión completa para desbloquear esta función
-            pieceDown(game, game->currentPiecex, game->currentPiecey, 1, 0);
-            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
-        } else {
-            pieceUp(game, game->currentPiecex, game->currentPiecey, 1, 0);
         }
     }
 }
