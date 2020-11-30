@@ -1,5 +1,25 @@
 #include "checkersLibrary.h"
 
+void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    DrawRectangle(50, 50, 150, 50, GRAY);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
+}
+
+void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    fprintf(stderr, "[%.2f,%.2f]\n", mouse.x, mouse.y);
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        saveGame(game);
+    }
+    
+    
+}
+
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     game->screenWidth = 1240;
@@ -56,7 +76,10 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     if(game->boardsize == 8) DrawRectangleLines(300, 40, 640, 640, BLACK);
     if(game->boardsize == 10) DrawRectangleLines(300, 40, 800, 800, BLACK);
     if(game->boardsize == 12) DrawRectangleLines(300, 40, 960, 960, BLACK);
-    
+
+    DrawRectangle((game->screenWidth)-250, 240, 200, 60, BLACK);
+    DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);   
+
     // Creación del tablero
     for(int y = 0; y < game->boardsize; y++){
         for (int x = 0; x < game->boardsize; x++) {
@@ -106,6 +129,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     // Update drawing
     if(game->currentPlayer == 1) {
         DrawRectangle((game->screenWidth)-250, 40, 200, 120, RAYWHITE);
+        DrawRectangleLines((game->screenWidth)-250, 40, 200, 120, BLACK);
         DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
         DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);   
     } else {
@@ -118,6 +142,11 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
+    Rectangle saveRect = {(game->screenWidth)-250, 240, 200, 60};
+
+    if(click == true && CheckCollisionPointRec(mouse, saveRect)){
+        saveGame(game);
+    }
 
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){

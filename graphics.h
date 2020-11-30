@@ -12,11 +12,13 @@ struct mainButtons{
 
 typedef struct mainButtons* mainButtonsStruct;
 void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
-void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 

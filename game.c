@@ -11,6 +11,7 @@ pieceStructRef newPiece(gameStructRef game, int color, int type)
 
 void createBoard(gameStructRef game)
 {
+    ClearBackground(WHITE);
     game->currentPiecex = 0;
     game->currentPiecey = 0;
     game->boardCreated++;
@@ -34,4 +35,50 @@ void createBoard(gameStructRef game)
             }
         }
     }
+}
+
+void saveGame(gameStructRef game)
+{
+    FILE* gameData;
+    gameData = fopen("../gameData.txt", "w+");
+    printf("\033[1;31m          [GUARDANDO JUEGO]\033[0m\n");
+
+    // GUARDAR LA ESTRUCTURA GAME EN EL ARCHIVO
+    // boardSize, width, height, currentPlayer, currentPx, currentPy
+    // currentColor, totalWhite, totalBlack
+    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->currentColor, game->totalWhitePieces, game->totalBlackPieces);
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){            
+                //[x:y][color,type]
+                fprintf(gameData, "[%d:%d][%d,%d]\n", x, y, game->board[x][y]->color, game->board[x][y]->type);
+            }
+        }
+    }
+
+    printf("\033[1;32m          [JUEGO GUARDADO]\033[0m\n");
+    fclose(gameData);
+}
+
+void loadGame(gameStructRef game)
+{
+    FILE* gameData;
+    gameData = fopen("gameData.txt", "r");
+    printf("\033[1;31m          [CARGANDO JUEGO]\033[0m;\n");
+
+    // LEER EL ARCHIVO Y APLICAR LOS CAMBIOS
+
+    printf("\033[1;32m          [JUEGO CARGADO]\033[0m;\n");
+    fclose(gameData);
+}
+
+queueRef queueCreate(gameStructRef game)
+{
+    queueRef queue = malloc(sizeof(game->queue));
+
+    queue->count = 0;
+    queue->First = NULL;
+    queue->Last = NULL;
+
+    return queue;
 }

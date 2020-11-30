@@ -3,9 +3,11 @@
 int main() {
     int gameDrawn = 0;
     int mainDrawn = 0;
+    int saveDrawn = 0;
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
+    queueRef queue = queueCreate(&game);
     
     InitWindow(1240, 760, "Checkers");
     SetTargetFPS(60);
@@ -26,7 +28,6 @@ int main() {
                 }
                 checkMainButton(&game, &board, screen);
                 break;
-
             case GAME:
                 if(gameDrawn == 0){
                     ClearBackground(WHITE);
@@ -37,7 +38,12 @@ int main() {
                 break;
 
             case SAVE:
-
+                if(saveDrawn == 0){
+                    ClearBackground(WHITE);
+                    drawSave(&game, &board, screen);
+                    saveDrawn = 1;
+                }
+                checkSaveButton(&game, &board, screen);   
                 break;
 
             case LOAD:

@@ -22,6 +22,9 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         };*/
         DrawCircle(340+(80*(currentX-1)), 80+(80*(currentY-1)), 30, BOARD);
         game->currentPlayer = 0;
+        DrawRectangle((game->screenWidth)-250, 40, 200, 120, BLACK);
+        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
+        DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
         fprintf(stderr, "\033[0;35m Turno negras\n");
     } else {
         // asignar al nuevo lugar la ficha
@@ -36,6 +39,10 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         game->board[currentX][currentY]->type = 0;
         DrawCircle(340+(80*(currentX-1)), 80+(80*(currentY-1)), 30, BOARD);
         game->currentPlayer = 1;
+        DrawRectangle((game->screenWidth)-250, 40, 200, 120, RAYWHITE);
+        DrawRectangleLines((game->screenWidth)-250, 40, 200, 120, BLACK);
+        DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
+        DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);  
         fprintf(stderr, "\033[0;35m Turno Blancas\n");
     }
 }
