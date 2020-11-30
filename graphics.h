@@ -1,16 +1,4 @@
 
-typedef enum {
-    MAIN,
-    GAME,
-    SAVE,
-    LOAD
-} ScreenFlag;
-
-struct mainButtons{
-    Rectangle board8x8, board10x10, board12x12, startButton;
-};
-
-typedef struct mainButtons* mainButtonsStruct;
 void updateBoard(gameStructRef game);
 void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
@@ -23,8 +11,6 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
-
-void deleteSelected(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 //#define BLACKPIECES (Color){4, 31, 30, 255}
 

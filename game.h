@@ -1,3 +1,16 @@
+typedef enum {
+    MAIN,
+    GAME,
+    SAVE,
+    LOAD
+} ScreenFlag;
+
+
+struct mainButtons{
+    Rectangle board8x8, board10x10, board12x12, startButton;
+};
+typedef struct mainButtons* mainButtonsStruct;
+
 struct pieceStruct{
     int color; // 0 = nothing; 1 = black ; 2 = white
     int type; // 0 = nothing ; 1 = normal ; 2 = king ; 3 = colored
@@ -70,7 +83,7 @@ void queueDestroy(queueRef q);
 void saveGame(gameStructRef game, int slot);
 
 // Cargar el juego
-void loadGame(gameStructRef game, int slot);
+void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen);
 
 // Ir al siguiente movimiento (si es posible)
 void nextMovement();

@@ -53,30 +53,26 @@ void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     Rectangle slot2 = {500, 200, 250, 400};
     Rectangle slot3 = {800, 200, 250, 400};
 
-    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
-        *screen = GAME;
-    }
-
     if(CheckCollisionPointRec(mouse, slot1)){
         DrawRectangle(200, 200, 250, 400, SKYBLUE);
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            loadGame(game, 1);
+            loadGame(game, 1, board, screen);
         }
     } else if(CheckCollisionPointRec(mouse, slot2)){
         DrawRectangle(200, 200, 250, 400, GRAY);
         DrawRectangle(500, 200, 250, 400, SKYBLUE);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            loadGame(game, 2);
+            loadGame(game, 2, board, screen);
         }
     } else if(CheckCollisionPointRec(mouse, slot3)){
         DrawRectangle(200, 200, 250, 400, GRAY);
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, SKYBLUE);
         if(click == true){
-            loadGame(game, 3);
+            loadGame(game, 3, board, screen);
         }
     } else {
         DrawRectangle(200, 200, 250, 400, GRAY);
