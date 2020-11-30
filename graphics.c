@@ -108,6 +108,8 @@ void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     DrawRectangleRec(board->board12x12, GRAY);
     DrawText("12x12", 720, 115, 20, BLACK);
 
+    DrawRectangle(470, 150, 500, 50, GRAY);
+
 }
 
 void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
