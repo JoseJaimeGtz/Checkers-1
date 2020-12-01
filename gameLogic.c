@@ -16,7 +16,7 @@ void deleteAll(gameStructRef game)
 // considerando que el movimiento si es válido
 void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY)
 {
-    if(game->currentPlayer){
+    if(game->currentPlayer){ // blanca
         // asignar al nuevo lugar la ficha
         //fprintf(stderr,"\033[0;35m newX:%d, newY:%d\n",newX, newY);
         //fprintf(stderr,"\033[0;35m CurrentX:%d, CurrentY:%d\n",currentX, currentY);
@@ -39,7 +39,7 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
         DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
         fprintf(stderr, "\033[0;35m Turno negras\n");
-    } else {
+    } else { // negra
         // asignar al nuevo lugar la ficha
         //fprintf(stderr,"\033[0;35m newX:%d, newY:%d\n",newX, newY);
         //fprintf(stderr,"\033[0;35m CurrentX:%d, CurrentY:%d\n",currentX, currentY);
@@ -270,14 +270,17 @@ void isPossible(gameStructRef game, int currentX, int currentY)
         } else {
             // Significa que es king
             game->board[currentX][currentY]->type = 2;
-            if(currentY-1 >= 1 && currentY+1 <= game->boardsize && game->board[currentX][currentY]->type == 2){ // verifica si se puede mover hacia adelante
+            if(currentY+1 <= game->boardsize){ // verifica si se puede mover hacia adelante
                 fprintf(stderr, "\033[0;31m IM KING (WHITE)\n");
                 //fprintf(stderr, "\033[0;31m   pieceUp\n");
-                pieceUp(game, currentX, currentY, 1, 1); // le pasamos el negro
-                fprintf(stderr, "\033[0;31m PIECE UP WHITE\n");
                 pieceDown(game, currentX, currentY, 1, 1);
                 fprintf(stderr, "\033[0;31m PIECE DOWN WHITE\n");
             }
+            if(currentY-1 >= 1){
+                pieceUp(game, currentX, currentY, 1, 1); // le pasamos el negro
+                fprintf(stderr, "\033[0;31m PIECE UP WHITE\n");
+            }
+
         }
     } else { // negras
         if(currentY-1 >= 1 && game->board[currentX][currentY]->type == 1){ // si no es el limite superior
@@ -287,13 +290,15 @@ void isPossible(gameStructRef game, int currentX, int currentY)
         } else {
             // Significa que mi barrio me respalda
             game->board[currentX][currentY]->type = 2;
-            if(currentY+1 <= game->boardsize && currentY-1 >= 1 && game->board[currentX][currentY]->type == 2){ // verifica si se puede mover hacia adelante
+            if(currentY-1 >= 1){ // verifica si se puede mover hacia adelante
                 fprintf(stderr, "\033[0;31m IM KING (BLACK)\n");
                 pieceUp(game, currentX, currentY, 2, 1); // le pasamos el blanco
                 fprintf(stderr, "\033[0;31m PIECE UP BLACK\n");
+                //fprintf(stderr, "\033[0;31m   pieceUp\n");
+            }
+            if(currentY+1 <= game->boardsize){
                 pieceDown(game, currentX, currentY, 2, 1);
                 fprintf(stderr, "\033[0;31m PIECE DOWN BLACK\n");
-                //fprintf(stderr, "\033[0;31m   pieceUp\n");
             }
         }
     }
