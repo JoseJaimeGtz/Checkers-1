@@ -13,6 +13,50 @@ void deleteAll(gameStructRef game)
     }
 }
 
+void winner(gameStructRef game){
+    fprintf(stderr, "Piezas negras restantes: [%d]\n", game->totalBlackPieces);
+    fprintf(stderr, "Piezas blantas restantes: [%d]\n", game->totalWhitePieces);
+    if(game->totalWhitePieces == 0){
+        fprintf(stderr, "Ganaron las Negras!!!!\n");
+    }
+    if(game->totalBlackPieces == 0){
+        fprintf(stderr, "Ganaron las Blancas!!!!\n");
+    }
+}
+
+void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int op_piese){
+    int eatPiece = 0;
+    if(currentY - newY == 2 || currentY - newY == -2){
+        if(currentY - newY == 2){ // up
+            if(currentX - newX == 2){ // left
+                game->board[currentX-1][currentY-1]->color = 0;
+                game->board[currentX-1][currentY-1]->type = 0;
+                eatPiece = 1;
+            } else { // right
+                game->board[currentX+1][currentY-1]->color = 0;
+                game->board[currentX+1][currentY-1]->type = 0;
+                eatPiece = 1;
+            }
+        } else { // down
+            if(currentX - newX == 2){ // left
+                game->board[currentX-1][currentY+1]->color = 0;
+                game->board[currentX-1][currentY+1]->type = 0;
+                eatPiece = 1;
+            } else { // right
+                game->board[currentX+1][currentY+1]->color = 0;
+                game->board[currentX+1][currentY+1]->type = 0;
+                eatPiece = 1;
+            }
+        }
+    }
+    if(op_piese == 0 && eatPiece == 1){ // blanca
+        game->totalBlackPieces--;
+    } else if(op_piese == 1 && eatPiece == 1) { // negra
+        game->totalWhitePieces--;
+    }
+    winner(game);
+}
+
 // considerando que el movimiento si es válido
 void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY)
 {
@@ -27,18 +71,15 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         // poner la ficha antigua vacia
         game->board[currentX][currentY]->color = 0;
         game->board[currentX][currentY]->type = 0;
-        /*game->board[currentX][currentY]->circle = (Rectangle) {
-                310+(80*(currentX-1)),
-                50+(80*(currentY-1)),
-                0,
-                0
-        };*/
         DrawCircle(340+(80*(currentX-1)), 80+(80*(currentY-1)), 30, BOARD);
         game->currentPlayer = 0;
         DrawRectangle((game->screenWidth)-250, 40, 200, 120, BLACK);
         DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, WHITE);    
         DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
         fprintf(stderr, "\033[0;35m Turno negras\n");
+
+        eatPiece(game, newX, newY, currentX, currentY, 0);
+
     } else { // negra
         // asignar al nuevo lugar la ficha
         //fprintf(stderr,"\033[0;35m newX:%d, newY:%d\n",newX, newY);
@@ -57,6 +98,9 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         DrawText("Turno de:", ((game->screenWidth)-200), 60, 20, BLACK);    
         DrawText("blancas", ((game->screenWidth)-200), 100, 20, BLACK);  
         fprintf(stderr, "\033[0;35m Turno Blancas\n");
+
+        eatPiece(game, newX, newY, currentX, currentY, 1);
+
     }
     updateBoard(game);
 }

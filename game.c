@@ -16,8 +16,10 @@ void createBoard(gameStructRef game)
     game->currentPiecey = 0;
     game->boardCreated++;
     game->currentPlayer = 0;
-    game->totalBlackPieces = 0;
-    game->totalWhitePieces = 0;
+    game->totalBlackPieces = game->boardsize + game->boardsize/2;
+    game->totalWhitePieces = game->boardsize + game->boardsize/2;
+    fprintf(stderr, "Total piezas blancas: [%d]\n", game->totalWhitePieces);
+    fprintf(stderr, "Total piezas negras: [%d]\n", game->totalBlackPieces);
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
