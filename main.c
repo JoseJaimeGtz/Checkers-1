@@ -10,7 +10,7 @@ int main() {
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
     queueRef queue = queueCreate(&game);
     
-    InitWindow(1560, 1040, "Checkers");
+    InitWindow(1240, 760, "Checkers");
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
@@ -23,7 +23,9 @@ int main() {
         {
             case MAIN:
                 if(mainDrawn == 0){
+                    SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
+                    SetWindowSize(1240, 760);
                     drawMain(&game, &board, screen);
                     mainDrawn = 1;
                     loadDrawn = 0;
@@ -46,7 +48,9 @@ int main() {
 
             case SAVE:
                 if(saveDrawn == 0){
+                    SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
+                    SetWindowSize(1240, 760);
                     drawSave(&game, &board, screen);
                     saveDrawn = 1;
                     gameDrawn = 0;
@@ -58,7 +62,9 @@ int main() {
 
             case LOAD:
                 if(loadDrawn == 0){
+                    SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
+                    SetWindowSize(1240, 760);
                     drawLoad(&game, &board, screen);
                     loadDrawn = 1;
                     mainDrawn = 0;

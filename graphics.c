@@ -169,10 +169,10 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    game->screenWidth = 1560;
-    game->screenHeight = 1040;
-    //game->screenWidth = 1240;
-    //game->screenHeight = 760;
+    //game->screenWidth = 1560;
+    //game->screenHeight = 1040;
+    game->screenWidth = 1240;
+    game->screenHeight = 760;
     game->boardCreated = 0;
     ClearBackground(WHITE);
     board->board8x8 = (Rectangle) {470, 100, 100, 50};
@@ -209,14 +209,14 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     } else if(click == true && CheckCollisionPointRec(mouse, board->board10x10))
     {
         game->boardsize = 10;
-        //game->screenWidth += 160;
-        //game->screenHeight += 120;
+        game->screenWidth += 160;
+        game->screenHeight += 120;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, board->board12x12))
     {
         game->boardsize = 12;
-        //game->screenWidth += 320;
-        //game->screenHeight += 280;
+        game->screenWidth += 320;
+        game->screenHeight += 280;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, loadGameRect)){
         *screen = LOAD;
@@ -225,6 +225,7 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void updateBoard(gameStructRef game)
 {
+    SetWindowSize(game->screenWidth, game->screenHeight);
     ClearBackground(WHITE);
     DrawRectangle(50, 50, 150, 50, RED);
     DrawText("   Regresar", 50, 65, 20, BLACK);
