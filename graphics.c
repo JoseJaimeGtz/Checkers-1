@@ -169,8 +169,10 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    game->screenWidth = 1240;
-    game->screenHeight = 760;
+    game->screenWidth = 1560;
+    game->screenHeight = 1040;
+    //game->screenWidth = 1240;
+    //game->screenHeight = 760;
     game->boardCreated = 0;
     ClearBackground(WHITE);
     board->board8x8 = (Rectangle) {470, 100, 100, 50};
@@ -207,14 +209,14 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     } else if(click == true && CheckCollisionPointRec(mouse, board->board10x10))
     {
         game->boardsize = 10;
-        game->screenWidth += 160;
-        game->screenHeight += 120;
+        //game->screenWidth += 160;
+        //game->screenHeight += 120;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, board->board12x12))
     {
         game->boardsize = 12;
-        game->screenWidth += 320;
-        game->screenHeight += 280;
+        //game->screenWidth += 320;
+        //game->screenHeight += 280;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, loadGameRect)){
         *screen = LOAD;
@@ -244,6 +246,7 @@ void updateBoard(gameStructRef game)
     DrawRectangle((game->screenWidth)-250, 240, 200, 60, BLACK);
     DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);   
 
+    // Creacion del tablero
     for(int y = 0; y < game->boardsize; y++){
         for (int x = 0; x < game->boardsize; x++) {
             if ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0)){
@@ -251,7 +254,8 @@ void updateBoard(gameStructRef game)
             }
         }
     }
-    
+
+    // Creación de las fichas del tablero
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
@@ -302,7 +306,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                         60
                     };
                 }
-            } else if ((y == game->boardsize/2 && (y%2==0 && x%2!=0)) || (y == game->boardsize/2+1 && (y%2!=0 && x%2==0))){
+            } else if ((y == game->boardsize/2 && ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0))) || (y == game->boardsize/2+1 && ((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)))){
                 game->board[x][y]->circle = (Rectangle) {
                     310+(80*(x-1)),
                     50+(80*(y-1)),
@@ -336,6 +340,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
             if(game->currentPlayer){ // blanca
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
@@ -348,7 +353,9 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 }
             } else { // negra
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
+                    //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
+                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
                             movePiece(game, x,y,game->currentPiecex, game->currentPiecey);

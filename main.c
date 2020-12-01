@@ -10,7 +10,7 @@ int main() {
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
     queueRef queue = queueCreate(&game);
     
-    InitWindow(1240, 760, "Checkers");
+    InitWindow(1560, 1040, "Checkers");
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
