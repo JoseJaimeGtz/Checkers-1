@@ -306,7 +306,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                         60
                     };
                 }
-            } else if ((y == game->boardsize/2 && (y%2==0 && x%2!=0)) || (y == game->boardsize/2+1 && (y%2!=0 && x%2==0))){
+            } else if ((y == game->boardsize/2 && ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0))) || (y == game->boardsize/2+1 && ((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)))){
                 game->board[x][y]->circle = (Rectangle) {
                     310+(80*(x-1)),
                     50+(80*(y-1)),
@@ -340,7 +340,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
             if(game->currentPlayer){ // blanca
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
@@ -355,7 +355,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                     //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        //fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
+                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
                             movePiece(game, x,y,game->currentPiecex, game->currentPiecey);

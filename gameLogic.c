@@ -219,11 +219,11 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
             int h = game->board[currentX][currentY]->circle.height;
             //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
             if(draw){
-                fprintf(stderr,"UpPossible 1: %d\n", draw);
+                fprintf(stderr,"UpPossible 1 right: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, POSSIBLE);
                 game->board[currentX+1][currentY-1]->type = 3;
             } else {
-                fprintf(stderr,"UpErase 1: %d\n", draw);
+                fprintf(stderr,"UpErase 1 right: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, BOARD);
                 game->board[currentX+1][currentY-1]->type = 0;
             }
@@ -239,11 +239,11 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
                     int h = game->board[currentX][currentY]->circle.height;
                     ////fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
                     if(draw){
-                        fprintf(stderr,"UpPossible 2: %d\n", draw);
+                        fprintf(stderr,"UpPossible 2 right: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, POSSIBLE);
                         game->board[currentX+2][currentY-2]->type = 3;
                     } else {
-                        fprintf(stderr,"UpErase 2: %d\n", draw);
+                        fprintf(stderr,"UpErase 2 right: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, BOARD);
                         game->board[currentX+2][currentY-2]->type = 0;
                     }
@@ -266,11 +266,11 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
             int h = game->board[currentX][currentY]->circle.height;
             ////fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
             if(draw){
-                fprintf(stderr,"UpPossible 1: %d\n", draw);
+                fprintf(stderr,"UpPossible 1 left: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, POSSIBLE);
                 game->board[currentX-1][currentY-1]->type = 3;
             } else {
-                fprintf(stderr,"UpErase 1: %d\n", draw);
+                fprintf(stderr,"UpErase 1 left: %d\n", draw);
                 DrawRectangle(posx, posy, w, h, BOARD);
                 game->board[currentX-1][currentY-1]->type = 0;
             }
@@ -285,11 +285,11 @@ void pieceUp(gameStructRef game, int currentX, int currentY, int op_piese, int d
                     int h = game->board[currentX][currentY]->circle.height;
                     //fprintf(stderr, "\033[0;32m   draw a rectangle [%d %d %d %d]\n", posx, posy, w, h);
                     if(draw){
-                        fprintf(stderr,"UpPossible 2: %d\n", draw);
+                        fprintf(stderr,"UpPossible 2 left: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, POSSIBLE);
                         game->board[currentX-2][currentY-2]->type = 3;
                     } else {
-                        fprintf(stderr,"UpErase 2: %d\n", draw);
+                        fprintf(stderr,"UpErase 2 left: %d\n", draw);
                         DrawRectangle(posx, posy, w, h, BOARD);
                         game->board[currentX-2][currentY-2]->type = 0;
                     }
