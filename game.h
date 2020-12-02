@@ -30,7 +30,7 @@ typedef struct Node_struct* nodeRef;
 typedef struct {
     nodeRef First;
     nodeRef Last;
-    int count;
+    int count, currentMove;
 } Queue ;
 
 struct gameStruct{
@@ -86,7 +86,7 @@ void saveGame(gameStructRef game, int slot, Queue* queue);
 void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 // Ir al siguiente movimiento (si es posible)
-void nextMovement();
+void nextMovement(gameStructRef game, Queue* queue);
 
 // Regresar el movimiento
-void previousMovement();
+void previousMovement(gameStructRef game, Queue* queue);

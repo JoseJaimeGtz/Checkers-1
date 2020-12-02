@@ -140,6 +140,7 @@ Queue* queueCreate()
     Queue* queue = malloc(sizeof(Queue));
 
     queue->count = 0;
+    queue->currentMove = 0;
     queue->First = NULL;
     queue->Last = NULL;
 
@@ -154,6 +155,7 @@ nodeRef queuePoll(Queue* queue)
         nodeRef dataToRemove = toRemove;
         queue->First = toRemove->next;
         queue->count--;
+        queue->currentMove--;
         return dataToRemove;
     }
     return 0;
@@ -188,6 +190,7 @@ void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, in
         queue->Last = toAdd;
     }
     queue->count++;
+    queue->currentMove++;
 }
 
 void queueDestroy(Queue* queue)
@@ -195,4 +198,19 @@ void queueDestroy(Queue* queue)
     while(queue->count > 0)
         queuePoll(queue);
     free(queue);
+}
+
+void nextMovement(gameStructRef game, Queue* queue)
+{
+
+}
+
+void previousMovement(gameStructRef game, Queue* queue)
+{
+    if(queue->count > 0 && queue->currentMove > 0){
+        Queue* newQueue = queue;
+        nodeRef prevMovement = queuePoll(newQueue);
+        queue->currentMove--;
+        movePiece(game, prevMovement->currentX, prevMovement->currentY, prevMovement->newX, prevMovement->newY, prevMovement->currentPlayer);        
+    }
 }
