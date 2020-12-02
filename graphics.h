@@ -1,16 +1,16 @@
 
 void updateBoard(gameStructRef game);
 void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
-void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 
 void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
-void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
-void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 // COLORS
 #define BOARD (Color){ 166, 98, 0, 255 }

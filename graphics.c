@@ -39,7 +39,7 @@ void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     }
 }
 
-void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -58,21 +58,21 @@ void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            loadGame(game, 1, board, screen);
+            loadGame(game, 1, board, screen, queue);
         }
     } else if(CheckCollisionPointRec(mouse, slot2)){
         DrawRectangle(200, 200, 250, 400, GRAY);
         DrawRectangle(500, 200, 250, 400, SKYBLUE);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            loadGame(game, 2, board, screen);
+            loadGame(game, 2, board, screen, queue);
         }
     } else if(CheckCollisionPointRec(mouse, slot3)){
         DrawRectangle(200, 200, 250, 400, GRAY);
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, SKYBLUE);
         if(click == true){
-            loadGame(game, 3, board, screen);
+            loadGame(game, 3, board, screen, queue);
         }
     } else {
         DrawRectangle(200, 200, 250, 400, GRAY);
@@ -120,7 +120,7 @@ void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     }
 }
 
-void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -138,7 +138,7 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            saveGame(game, 1);
+            saveGame(game, 1, queue);
             DrawRectangle(200, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 200, 605, 20, WHITE);
         }
@@ -147,7 +147,7 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, SKYBLUE);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            saveGame(game, 2);
+            saveGame(game, 2, queue);
             DrawRectangle(500, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 500, 605, 20, WHITE);
         }
@@ -156,7 +156,7 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, SKYBLUE);
         if(click == true){
-            saveGame(game, 3);
+            saveGame(game, 3, queue);
             DrawRectangle(800, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 800, 605, 20, WHITE);
         }
@@ -169,10 +169,10 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    game->screenWidth = 1560;
-    game->screenHeight = 1040;
-    //game->screenWidth = 1240;
-    //game->screenHeight = 760;
+    //game->screenWidth = 1560;
+    //game->screenHeight = 1040;
+    game->screenWidth = 1240;
+    game->screenHeight = 760;
     game->boardCreated = 0;
     ClearBackground(WHITE);
     board->board8x8 = (Rectangle) {470, 100, 100, 50};
@@ -209,14 +209,14 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     } else if(click == true && CheckCollisionPointRec(mouse, board->board10x10))
     {
         game->boardsize = 10;
-        //game->screenWidth += 160;
-        //game->screenHeight += 120;
+        game->screenWidth += 160;
+        game->screenHeight += 120;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, board->board12x12))
     {
         game->boardsize = 12;
-        //game->screenWidth += 320;
-        //game->screenHeight += 280;
+        game->screenWidth += 320;
+        game->screenHeight += 280;
         *screen = GAME;
     } else if(click == true && CheckCollisionPointRec(mouse, loadGameRect)){
         *screen = LOAD;
@@ -225,6 +225,7 @@ void checkMainButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void updateBoard(gameStructRef game)
 {
+    SetWindowSize(game->screenWidth, game->screenHeight);
     ClearBackground(WHITE);
     DrawRectangle(50, 50, 150, 50, RED);
     DrawText("   Regresar", 50, 65, 20, BLACK);
@@ -319,7 +320,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     updateBoard(game);
 }
 
-void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -343,7 +344,10 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
-                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
+                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 1);
+                            printf("\033[0;33mAgregando a la queue [WHITE] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
+                            queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 1);
+                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
@@ -358,7 +362,10 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
-                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
+                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 0);
+                            printf("\033[0;33mAgregando a la queue [BLACK] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
+                            queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 0);
+                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
