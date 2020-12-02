@@ -23,7 +23,7 @@ typedef struct pieceStruct* pieceStructRef;
 struct Node_struct {
     int newX, newY, currentX, currentY, currentPlayer; // dato
     struct Node_struct* next; // apuntador al siquiente
-};
+} Node ;
 typedef struct Node_struct* nodeRef;
 
 // Estructura de la queue
@@ -71,7 +71,9 @@ void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, in
 nodeRef queuePoll(Queue* queue);
 
 // Eliminar la queue
-//void queueDestroy(queueRef q);
+void queueDestroy(Queue* queue);
+
+nodeRef newNode(int newX, int newY, int currentX, int currentY, int currentPlayer);
 
 /*
     Funciones para el manejo de archivos
@@ -81,7 +83,7 @@ nodeRef queuePoll(Queue* queue);
 void saveGame(gameStructRef game, int slot, Queue* queue);
 
 // Cargar el juego
-void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen);
+void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 // Ir al siguiente movimiento (si es posible)
 void nextMovement();

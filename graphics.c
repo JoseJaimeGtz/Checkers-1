@@ -39,7 +39,7 @@ void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     }
 }
 
-void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -58,21 +58,21 @@ void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            loadGame(game, 1, board, screen);
+            loadGame(game, 1, board, screen, queue);
         }
     } else if(CheckCollisionPointRec(mouse, slot2)){
         DrawRectangle(200, 200, 250, 400, GRAY);
         DrawRectangle(500, 200, 250, 400, SKYBLUE);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            loadGame(game, 2, board, screen);
+            loadGame(game, 2, board, screen, queue);
         }
     } else if(CheckCollisionPointRec(mouse, slot3)){
         DrawRectangle(200, 200, 250, 400, GRAY);
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, SKYBLUE);
         if(click == true){
-            loadGame(game, 3, board, screen);
+            loadGame(game, 3, board, screen, queue);
         }
     } else {
         DrawRectangle(200, 200, 250, 400, GRAY);
@@ -344,9 +344,10 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
-                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
-                            printf("\034[0;33mAgregando a la queue [WHITE]\033[0m\n");
+                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 1);
+                            printf("\033[0;33mAgregando a la queue [WHITE] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
                             queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 1);
+                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
@@ -361,9 +362,10 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
-                            movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
-                            printf("\034[0;33mAgregando a la queue [BLACK]\033[0m\n");
+                            movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 0);
+                            printf("\033[0;33mAgregando a la queue [BLACK] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
                             queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 0);
+                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;

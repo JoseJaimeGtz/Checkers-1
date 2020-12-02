@@ -10,7 +10,7 @@ void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
-void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 // COLORS
 #define BOARD (Color){ 166, 98, 0, 255 }

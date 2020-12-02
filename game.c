@@ -63,21 +63,22 @@ void saveGame(gameStructRef game, int slot, Queue* queue)
             break;
     }
 
-    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d\n", game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->totalWhitePieces, game->totalBlackPieces);
+    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", queue->count, game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->totalWhitePieces, game->totalBlackPieces);
 
     nodeRef focusNode = queue->First;
-    Queue* focusQueue = queue;
-    while(focusNode->next != NULL){
-        nodeRef toSave = queuePoll(focusQueue);
-        fprintf(gameData, "%d,%d,%d,%d,%d\n", toSave->newX, toSave->newY, toSave->currentX, toSave->currentY, toSave->currentPlayer);
-        focusNode = focusNode->next;
+    printf("\033[0;33m queueCount = %d\033[0m\n", queue->count);
+    int final = queue->count;
+    for(int i = 0; i < final; i++){
+        nodeRef toSave = queuePoll(queue);
+        printf("\033[0;33mGuardando queue [%d,%d,%d,%d,%d]\033[0m\n", toSave->currentX, toSave->currentY, toSave->newX, toSave->newY, toSave->currentPlayer);
+        fprintf(gameData, "%d,%d,%d,%d,%d\n", toSave->currentX, toSave->currentY, toSave->newX, toSave->newY, toSave->currentPlayer);
     }
 
     printf("\033[1;32m          [JUEGO GUARDADO]\033[0m\n");
     fclose(gameData);
 }
 
-void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen)
+void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     FILE* gameData;
     bool fileExist = false;
@@ -114,15 +115,18 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
     if(fileExist == true){
         int ignore = 0;
         printf("\033[0;33mLos archivos necesarios existen\033[0m\n");
-        fscanf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d\n", &game->boardsize, &game->screenWidth, &game->screenHeight, &game->currentPlayer, &game->currentPiecex, &game->currentPiecey, &game->totalWhitePieces, &game->totalBlackPieces);
+        fscanf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", &queue->count, &game->boardsize, &game->screenWidth, &game->screenHeight, &game->currentPlayer, &game->currentPiecex, &game->currentPiecey, &game->totalWhitePieces, &game->totalBlackPieces);
         createBoard(game);
-        for(int y = 1; y <= game->boardsize; y++){
-            for(int x = 1; x <= game->boardsize; x++){
-                if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){  
-                    printf("\033[0;33mReading [%d:%d][%d,%d]\033[0m\n", x, y, game->board[x][y]->color, game->board[x][y]->type);
-                    fscanf(gameData, "[%d:%d][%d,%d]\n", &ignore, &ignore, &game->board[x][y]->color, &game->board[x][y]->type);
-                }
-            }
+        int final = queue->count, newX, newY, currentX, currentY, currentPlayer;
+        queue->count = 0;
+        printf("\033[0;33mInicio de for\033[0m\n");
+        for(int i = 0; i < final; i++){
+            printf("\033[0;33mFor: %d\033[0m\n", i);
+            fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
+            printf("\033[0;33mLeído correctamente\033[0m\n");
+            queueOffer(queue, currentX, currentY, newX, newY, currentPlayer);
+            printf("\033[0;33mNodo agregado correctamente\033[0m\n");
+            movePiece(game, newX, newY, currentX, currentY, currentPlayer);
         }
         *screen = GAME;
         updateBoard(game);
@@ -155,23 +159,40 @@ nodeRef queuePoll(Queue* queue)
     return 0;
 }
 
+nodeRef newNode(int newX, int newY, int currentX, int currentY, int currentPlayer)
+{
+    nodeRef node = malloc(sizeof(Node));
+    node->newX = newX;
+    node->newY = newY;
+    node->currentX = currentX;
+    node->currentY = currentY;
+    node->currentPlayer = currentPlayer;
+    node->next = NULL;
+}
+
 void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, int currentPlayer)
 {
-    nodeRef toAdd;
-    toAdd->newX = newX;
-    toAdd->newY = newY;
-    toAdd->currentX = currentX;
-    toAdd->currentY = currentY;
-    toAdd->currentPlayer = currentPlayer;
-    toAdd->next = NULL;
 
+    nodeRef toAdd = newNode(newX, newY, currentX, currentY, currentPlayer);
+    printf("\033[0;33mNodo creado\033[0m\n");
     if(queue->count == 0)
-    {
+    {      
+        printf("\033[0;33m  queueCount = 0\033[0m\n");
         queue->First = toAdd;
+        printf("\033[0;33m    first worked\033[0m\n");
         queue->Last = toAdd;
+        printf("\033[0;33m    second worked\033[0m\n");
     } else {
+        printf("\033[0;33m  queueCount != 0\033[0m\n");
         queue->Last->next = toAdd;
         queue->Last = toAdd;
     }
     queue->count++;
+}
+
+void queueDestroy(Queue* queue)
+{
+    while(queue->count > 0)
+        queuePoll(queue);
+    free(queue);
 }

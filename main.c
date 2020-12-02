@@ -71,7 +71,7 @@ int main() {
                     gameDrawn = 0;
                     saveDrawn = 0;
                 }
-                checkLoadButton(&game, &board, screen);   
+                checkLoadButton(&game, &board, screen, queue);   
                 break;
 
         }
@@ -80,4 +80,5 @@ int main() {
 
     }
     CloseWindow();
+    queueDestroy(queue);
 }

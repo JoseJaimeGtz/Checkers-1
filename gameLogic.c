@@ -58,9 +58,9 @@ void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY
 }
 
 // considerando que el movimiento si es válido
-void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY)
+void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int currentPlayer)
 {
-    if(game->currentPlayer){ // blanca
+    if(game->currentPlayer == 1 || currentPlayer == 1){ // blanca
         // asignar al nuevo lugar la ficha
         //fprintf(stderr,"\033[0;35m newX:%d, newY:%d\n",newX, newY);
         //fprintf(stderr,"\033[0;35m CurrentX:%d, CurrentY:%d\n",currentX, currentY);
@@ -80,7 +80,7 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
 
         eatPiece(game, newX, newY, currentX, currentY, 0);
 
-    } else { // negra
+    } else if(game->currentPlayer == 0 || currentPlayer == 0){ // negra
         // asignar al nuevo lugar la ficha
         //fprintf(stderr,"\033[0;35m newX:%d, newY:%d\n",newX, newY);
         //fprintf(stderr,"\033[0;35m CurrentX:%d, CurrentY:%d\n",currentX, currentY);
