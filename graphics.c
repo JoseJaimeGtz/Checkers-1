@@ -120,7 +120,7 @@ void drawSave(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     }
 }
 
-void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -138,7 +138,7 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            saveGame(game, 1);
+            saveGame(game, 1, queue);
             DrawRectangle(200, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 200, 605, 20, WHITE);
         }
@@ -147,7 +147,7 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, SKYBLUE);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            saveGame(game, 2);
+            saveGame(game, 2, queue);
             DrawRectangle(500, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 500, 605, 20, WHITE);
         }
@@ -156,7 +156,7 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, SKYBLUE);
         if(click == true){
-            saveGame(game, 3);
+            saveGame(game, 3, queue);
             DrawRectangle(800, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 800, 605, 20, WHITE);
         }
@@ -320,7 +320,7 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     updateBoard(game);
 }
 
-void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -345,6 +345,8 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey);
+                            printf("\034[0;33mAgregando a la queue [WHITE]\033[0m\n");
+                            queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 1);
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
@@ -360,6 +362,8 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
                             movePiece(game, x,y,game->currentPiecex, game->currentPiecey);
+                            printf("\034[0;33mAgregando a la queue [BLACK]\033[0m\n");
+                            queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 0);
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;

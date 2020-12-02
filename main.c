@@ -8,7 +8,7 @@ int main() {
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
-    queueRef queue = queueCreate(&game);
+    Queue* queue = queueCreate();
     
     InitWindow(1240, 760, "Checkers");
     SetTargetFPS(60);
@@ -43,7 +43,7 @@ int main() {
                     mainDrawn = 0;
                     loadDrawn = 0;
                 }
-                checkGameButton(&game, &board, screen);   
+                checkGameButton(&game, &board, screen, queue);   
                 break;
 
             case SAVE:
@@ -57,7 +57,7 @@ int main() {
                     mainDrawn = 0;
                     loadDrawn = 0;
                 }
-                checkSaveButton(&game, &board, screen);   
+                checkSaveButton(&game, &board, screen, queue);   
                 break;
 
             case LOAD:

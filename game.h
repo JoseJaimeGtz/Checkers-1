@@ -21,18 +21,17 @@ typedef struct pieceStruct* pieceStructRef;
 
 // Nodos para el queue
 struct Node_struct {
-    struct pieceStruct* data; // dato
+    int newX, newY, currentX, currentY, currentPlayer; // dato
     struct Node_struct* next; // apuntador al siquiente
 };
 typedef struct Node_struct* nodeRef;
 
 // Estructura de la queue
-struct Queue {
+typedef struct {
     nodeRef First;
     nodeRef Last;
     int count;
-};
-typedef struct Queue* queueRef;
+} Queue ;
 
 struct gameStruct{
     int boardsize, screenWidth, screenHeight, currentWindow, boardCreated, mainCreated;
@@ -42,7 +41,6 @@ struct gameStruct{
     int totalWhitePieces;
     int totalBlackPieces;
     pieceStructRef board[13][13]; // 8x8 10x10 12x12
-    queueRef queue;
 }; 
  
 typedef struct gameStruct* gameStructRef;
@@ -64,23 +62,23 @@ pieceStructRef newPiece(gameStructRef game, int color, int type);
 */
 
 // Crear la estructura de queue
-queueRef queueCreate(gameStructRef game);
+Queue* queueCreate();
 
 // Agregar un nodo pieceStruct a la queue
-void queueOffer(gameStructRef gam);
+void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, int currentPlayer);
 
 // Remover un nodo pieceStruct de la queue
-pieceStructRef queuePoll(queueRef q);
+nodeRef queuePoll(Queue* queue);
 
 // Eliminar la queue
-void queueDestroy(queueRef q);
+//void queueDestroy(queueRef q);
 
 /*
     Funciones para el manejo de archivos
 */
 
 // Guardar el juego
-void saveGame(gameStructRef game, int slot);
+void saveGame(gameStructRef game, int slot, Queue* queue);
 
 // Cargar el juego
 void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen);

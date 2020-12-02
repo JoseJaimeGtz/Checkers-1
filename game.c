@@ -44,7 +44,7 @@ void createBoard(gameStructRef game)
     fprintf(stderr, "Tablero creado\n");
 }
 
-void saveGame(gameStructRef game, int slot)
+void saveGame(gameStructRef game, int slot, Queue* queue)
 {
     FILE* gameData;
     printf("\033[1;31m          [GUARDANDO JUEGO]\033[0m\n");
@@ -64,14 +64,15 @@ void saveGame(gameStructRef game, int slot)
     }
 
     fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d\n", game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->totalWhitePieces, game->totalBlackPieces);
-    for(int y = 1; y <= game->boardsize; y++){
-        for(int x = 1; x <= game->boardsize; x++){
-            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){       
-                printf("\033[0;33mPosición guardada: [%d:%d]\033[0m\n", x, y);
-                fprintf(gameData, "[%d:%d][%d,%d]\n", x, y, game->board[x][y]->color, game->board[x][y]->type);
-            }
-        }
+
+    nodeRef focusNode = queue->First;
+    Queue* focusQueue = queue;
+    while(focusNode->next != NULL){
+        nodeRef toSave = queuePoll(focusQueue);
+        fprintf(gameData, "%d,%d,%d,%d,%d\n", toSave->newX, toSave->newY, toSave->currentX, toSave->currentY, toSave->currentPlayer);
+        focusNode = focusNode->next;
     }
+
     printf("\033[1;32m          [JUEGO GUARDADO]\033[0m\n");
     fclose(gameData);
 }
@@ -130,13 +131,47 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
     printf("\033[1;32m          [JUEGO CARGADO]\033[0m\n");
 }
 
-queueRef queueCreate(gameStructRef game)
+Queue* queueCreate()
 {
-    queueRef queue = malloc(sizeof(game->queue));
+    Queue* queue = malloc(sizeof(Queue));
 
     queue->count = 0;
     queue->First = NULL;
     queue->Last = NULL;
 
     return queue;
+}
+
+nodeRef queuePoll(Queue* queue)
+{
+    nodeRef toRemove = queue->First;
+
+    if(toRemove != NULL){
+        nodeRef dataToRemove = toRemove;
+        queue->First = toRemove->next;
+        queue->count--;
+        return dataToRemove;
+    }
+    return 0;
+}
+
+void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, int currentPlayer)
+{
+    nodeRef toAdd;
+    toAdd->newX = newX;
+    toAdd->newY = newY;
+    toAdd->currentX = currentX;
+    toAdd->currentY = currentY;
+    toAdd->currentPlayer = currentPlayer;
+    toAdd->next = NULL;
+
+    if(queue->count == 0)
+    {
+        queue->First = toAdd;
+        queue->Last = toAdd;
+    } else {
+        queue->Last->next = toAdd;
+        queue->Last = toAdd;
+    }
+    queue->count++;
 }
