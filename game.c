@@ -56,13 +56,9 @@ void saveGame(gameStructRef game, int slot, Queue* queue)
             gameData = fopen("../slot3.txt", "w+");
             break;
     }
-
-    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", queue->count, game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->totalWhitePieces, game->totalBlackPieces);
-
     nodeRef focusNode = queue->First;
     printf("\033[0;33m queueCount = %d\033[0m\n", queue->count);
     while(focusNode != NULL){
-        printf("\033[0;33mGuardando queue [%d,%d,%d,%d,%d]\033[0m\n", focusNode->currentX, focusNode->currentY, focusNode->newX, focusNode->newY, focusNode->currentPlayer);
         fprintf(gameData, "%d,%d,%d,%d,%d\n", focusNode->currentX, focusNode->currentY, focusNode->newX, focusNode->newY, focusNode->currentPlayer);
         focusNode = focusNode->next;
     }
@@ -107,20 +103,16 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
     }
     if(fileExist == true){
         int ignore = 0;
-        printf("\033[0;33mLos archivos necesarios existen\033[0m\n");
         fscanf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", &queue->count, &game->boardsize, &game->screenWidth, &game->screenHeight, &game->currentPlayer, &game->currentPiecex, &game->currentPiecey, &game->totalWhitePieces, &game->totalBlackPieces);
         createBoard(game);
         if(queue->count > 0){
             int final = queue->count, newX, newY, currentX, currentY, currentPlayer;
             queue->count = 0;
-            printf("\033[0;33mInicio de for\033[0m\n");
             for(int i = 0; i < final; i++){
                 fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
-                printf("\033[0;32mLeído correctamente %d,%d,%d,%d,%d\033[0m\n", currentX, currentY, newX, newY, currentPlayer);
                 queueOffer(queue, newX, newY, currentX, currentY, currentPlayer);
                 movePiece(game, newX, newY, currentX, currentY, currentPlayer);
             }
-            printf("\033[0;33mqueueCount = %d\033[0m\n", queue->count);
         }
         *screen = GAME;
         updateBoard(game);

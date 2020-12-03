@@ -207,8 +207,6 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
 void drawMain(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
-    //game->screenWidth = 1560;
-    //game->screenHeight = 1040;
     game->screenWidth = 1240;
     game->screenHeight = 760;
     game->boardCreated = 0;
@@ -288,7 +286,6 @@ void updateBoard(gameStructRef game)
     DrawRectangle((game->screenWidth)-250, 340, 200, 60, GRAY);
     DrawText("Anterior", ((game->screenWidth)-200), 360, 20, WHITE);   
 
-    // Creacion del tablero
     for(int y = 0; y < game->boardsize; y++){
         for (int x = 0; x < game->boardsize; x++) {
             if ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0)){
@@ -297,7 +294,6 @@ void updateBoard(gameStructRef game)
         }
     }
 
-    // Creación de las fichas del tablero
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
@@ -324,13 +320,10 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
     if(!game->boardCreated)
         createBoard(game);
     SetWindowSize(game->screenWidth, game->screenHeight);
-
-    // Creación de las fichas del tablero
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
             if (y<=game->boardsize/2-1){ // Fichas blancas
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    //DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, WHITEPIECES); // par en x impar en y
                     game->board[x][y]->circle = (Rectangle) {
                         310+(80*(x-1)),
                         50+(80*(y-1)),
@@ -340,7 +333,6 @@ void drawGame(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
                 }
             } else if (y>=game->boardsize/2+2){ // Fichas Negras
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    //DrawCircle(340+(80*(x-1)), 80+(80*(y-1)), 30, BLACKPIECES); // par en x, impar en y
                     game->board[x][y]->circle = (Rectangle) {
                         310+(80*(x-1)),
                         50+(80*(y-1)),
