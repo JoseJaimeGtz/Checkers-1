@@ -118,8 +118,8 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
         for(int i = 0; i < final; i++){
             fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
             printf("\033[0;32mLeído correctamente %d,%d,%d,%d,%d\033[0m\n", currentX, currentY, newX, newY, currentPlayer);
-            queueOffer(queue, currentX, currentY, newX, newY, currentPlayer);
-            movePiece(game, currentX, currentY, newX, newY, currentPlayer);
+            queueOffer(queue, newX, newY, currentX, currentY, currentPlayer);
+            movePiece(game, newX, newY, currentX, currentY, currentPlayer);
         }
         printf("\033[0;33mqueueCount = %d\033[0m\n", queue->count);
         //queue->count += old;

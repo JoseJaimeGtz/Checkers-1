@@ -72,7 +72,7 @@ void createBoard(gameStructRef game);
 Queue* queueCreate();
 
 // Agregar un nodo pieceStruct a la queue
-void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, int currentPlayer);
+void queueOffer(Queue* queue, int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 // Remover un nodo pieceStruct de la queue
 nodeRef queuePoll(Queue* queue);
@@ -80,7 +80,7 @@ nodeRef queuePoll(Queue* queue);
 // Eliminar la queue
 void queueDestroy(Queue* queue);
 
-nodeRef newNode(int newX, int newY, int currentX, int currentY, int currentPlayer);
+nodeRef newNode(int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 /*
     Funciones para el manejo de archivos
