@@ -12,6 +12,12 @@ void checkSaveButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
 void checkLoadButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
+void drawWinBlack(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkBlackButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
+
+void drawWinWhite(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen);
+void checkWhiteButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
+
 // COLORS
 #define BOARD (Color){ 166, 98, 0, 255 }
 #define BLACKPIECES (Color){60, 60, 60, 255}

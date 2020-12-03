@@ -1,10 +1,15 @@
+/*
+ * Structures
+ */
+
 typedef enum {
     MAIN,
     GAME,
     SAVE,
-    LOAD
+    LOAD,
+    WIN_BLACK,
+    WIN_WHITE
 } ScreenFlag;
-
 
 struct mainButtons{
     Rectangle board8x8, board10x10, board12x12, startButton;
@@ -12,81 +17,110 @@ struct mainButtons{
 typedef struct mainButtons* mainButtonsStruct;
 
 struct pieceStruct{
-    int color; // 0 = nothing; 1 = black ; 2 = white
-    int type; // 0 = nothing ; 1 = normal ; 2 = king ; 3 = colored
+    int color;
+    int type;
     Rectangle circle;
 };
-
 typedef struct pieceStruct* pieceStructRef;
 
-// Nodos para el queue
 struct Node_struct {
-    int newX, newY, currentX, currentY, currentPlayer; // dato
-    struct Node_struct* next; // apuntador al siquiente
+    int newX, newY, currentX, currentY, currentPlayer;
+    struct Node_struct* next;
 } Node ;
 typedef struct Node_struct* nodeRef;
 
-// Estructura de la queue
 typedef struct {
     nodeRef First;
     nodeRef Last;
-    int count;
+    int count, currentMove;
 } Queue ;
 
 struct gameStruct{
     int boardsize, screenWidth, screenHeight, currentWindow, boardCreated, mainCreated;
-    int currentPlayer; // Turno 1 blanco, 0 negro
+    int currentPlayer;
     int currentPiecex, currentPiecey;
     int currentColor;
     int totalWhitePieces;
     int totalBlackPieces;
-    pieceStructRef board[13][13]; // 8x8 10x10 12x12
-}; 
- 
+    pieceStructRef board[13][13];
+};
 typedef struct gameStruct* gameStructRef;
 
-//
-//  Funciones
-//
+/*
+ * Functions
+ */
 
+/*
+ * @param menu receives a Menu type structure
+ * @param color receives the color of the piece (0 = empty space; 1 = black piece; 2 = white piece;)
+ * @param type receives the type of the piece (0 = empty space; 1 = pawn; 2 = king; 3 = valid space;)
+ * This function creates all pieces and empty spaces.
+ */
+pieceStructRef newPiece(int color, int type);
+
+/*
+ * @param game receives gameStruct
+ * This function creates all the pieces and empty spaces when newPiece was called, also initialize
+ * the position of the pieces, total black and white pieces, and the first turn.
+ */
 void createBoard(gameStructRef game);
 
-pieceStructRef newPiece(gameStructRef game, int color, int type);
-
-//
-//  Queue & file management
-//
-
 /*
-    Funciones para el manejo de la queue
+* This function creates a queue
 */
-
-// Crear la estructura de queue
 Queue* queueCreate();
 
-// Agregar un nodo pieceStruct a la queue
-void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, int currentPlayer);
-
-// Remover un nodo pieceStruct de la queue
-nodeRef queuePoll(Queue* queue);
-
-// Eliminar la queue
-void queueDestroy(Queue* queue);
-
-nodeRef newNode(int newX, int newY, int currentX, int currentY, int currentPlayer);
+/*
+ * @param queue receives a pointer to a queue that already exists
+ * @param currentX
+ * @param currentY
+ * @param newX
+ * @param newY
+ * @param currentPlayer
+*/
+void queueOffer(Queue* queue, int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 /*
-    Funciones para el manejo de archivos
+ * This function removes a node from the queue, and returns a struct of the removed node
+ * @param queue receives a pointer to a queue that already exists
 */
+nodeRef queuePoll(Queue* queue);
 
-// Guardar el juego
+/*
+ * This function destroy the queue
+ * @param queue receives a pointer to a queue that already exists
+*/
+void queueDestroy(Queue* queue);
+
+/*
+ * This function creates a new node
+ * @param currentX
+ * @param currentY
+ * @param newX
+ * @param newY
+ * @param currentPlayer
+*/
+nodeRef newNode(int currentX, int currentY, int newX, int newY, int currentPlayer);
+
+/*
+ * This function saves the current game in a text file
+ * @param game receives gameStruct
+ * @param slot receives a number from 1 to 3
+ * @param queue receives a pointer to a queue that already exists
+*/
 void saveGame(gameStructRef game, int slot, Queue* queue);
 
-// Cargar el juego
+/*
+ * This function loads a saved game from a text file
+ * @param game receives gameStruct
+ * @param slot receives a number from 1 to 3
+ * @param board
+ * @param screen
+*/
 void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 // Ir al siguiente movimiento (si es posible)
-void nextMovement();
+void nextMovement(gameStructRef game, Queue* queue);
 
 // Regresar el movimiento
-void previousMovement();
+void previousMovement(gameStructRef game, Queue* queue);

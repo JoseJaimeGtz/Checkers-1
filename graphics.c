@@ -1,5 +1,43 @@
 #include "checkersLibrary.h"
 
+void drawWinBlack(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    DrawRectangle(50, 50, 150, 50, GRAY);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
+
+    DrawText("GANARON LAS NEGRAS", 400, 380, 30, WHITE);
+}
+
+void checkBlackButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = MAIN;
+    }
+}
+
+void drawWinWhite(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    DrawRectangle(50, 50, 150, 50, GRAY);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
+
+    DrawText("GANARON LAS BLANCAS", 400, 380, 30, BLACK);
+}
+
+void checkWhiteButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = MAIN;
+    }
+}
+
 void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     DrawRectangle(50, 50, 150, 50, GRAY);
@@ -338,16 +376,13 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if(game->currentPlayer){ // blanca
+            if(game->currentPlayer){
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 1);
-                            printf("\033[0;33mAgregando a la queue [WHITE] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
                             queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 1);
-                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
@@ -355,17 +390,13 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         game->currentPiecey = y;
                     }
                 }
-            } else { // negra
+            } else {
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 0);
-                            printf("\033[0;33mAgregando a la queue [BLACK] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
                             queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 0);
-                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;

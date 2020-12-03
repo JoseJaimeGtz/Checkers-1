@@ -5,6 +5,8 @@ int main() {
     int mainDrawn = 0;
     int saveDrawn = 0;
     int loadDrawn = 0;
+    int winWhite = 0;
+    int winBlack = 0;
     struct gameStruct game;
     struct mainButtons board;
     ScreenFlag *screen = malloc(sizeof(ScreenFlag));
@@ -31,6 +33,8 @@ int main() {
                     loadDrawn = 0;
                     gameDrawn = 0;
                     saveDrawn = 0;
+                    winWhite = 0;
+                    winBlack = 0;
                 }
                 checkMainButton(&game, &board, screen);
                 break;
@@ -42,8 +46,11 @@ int main() {
                     saveDrawn = 0;
                     mainDrawn = 0;
                     loadDrawn = 0;
+                    winWhite = 0;
+                    winBlack = 0;
                 }
-                checkGameButton(&game, &board, screen, queue);   
+                checkGameButton(&game, &board, screen, queue);
+                winner(&game, screen);   
                 break;
 
             case SAVE:
@@ -56,6 +63,8 @@ int main() {
                     gameDrawn = 0;
                     mainDrawn = 0;
                     loadDrawn = 0;
+                    winWhite = 0;
+                    winBlack = 0;
                 }
                 checkSaveButton(&game, &board, screen, queue);   
                 break;
@@ -70,10 +79,41 @@ int main() {
                     mainDrawn = 0;
                     gameDrawn = 0;
                     saveDrawn = 0;
+                    winWhite = 0;
+                    winBlack = 0;
                 }
                 checkLoadButton(&game, &board, screen, queue);   
                 break;
-
+            case WIN_BLACK:
+                if(winBlack == 0){
+                    SetWindowSize(1240, 760);
+                    ClearBackground(BLACK);
+                    SetWindowSize(1240, 760);
+                    drawWinBlack(&game, &board, screen);
+                    winBlack = 1;
+                    loadDrawn = 0;
+                    mainDrawn = 0;
+                    gameDrawn = 0;
+                    saveDrawn = 0;
+                    winWhite = 0;
+                }
+                checkBlackButton(&game, &board, screen, queue);
+                break;
+            case WIN_WHITE:
+                if(winWhite == 0){
+                    SetWindowSize(1240, 760);
+                    ClearBackground(WHITE);
+                    SetWindowSize(1240, 760);
+                    drawWinWhite(&game, &board, screen);
+                    winWhite = 1;
+                    loadDrawn = 0;
+                    mainDrawn = 0;
+                    gameDrawn = 0;
+                    saveDrawn = 0;
+                    winBlack = 0;
+                }
+                checkWhiteButton(&game, &board, screen, queue);
+                break;
         }
 
         EndDrawing();
