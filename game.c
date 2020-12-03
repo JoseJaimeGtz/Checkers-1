@@ -201,16 +201,12 @@ void queueDestroy(Queue* queue)
     free(queue);
 }
 
-void nextMovement(gameStructRef game, Queue* queue)
-{
-
-}
-
 void previousMovement(gameStructRef game, Queue* queue)
 {
     if(queue->count > 0){
         nodeRef prevMovement = queuePollInv(queue);
         movePiece(game, prevMovement->currentX, prevMovement->currentY, prevMovement->newX, prevMovement->newY, prevMovement->currentPlayer);        
+        
         game->currentPlayer = prevMovement->currentPlayer;
         updateBoard(game);
     }
