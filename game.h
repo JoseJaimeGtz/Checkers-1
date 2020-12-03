@@ -47,10 +47,6 @@ struct gameStruct{
 typedef struct gameStruct* gameStructRef;
 
 /*
- * Functions
- */
-
-/*
  * @param menu receives a Menu type structure
  * @param color receives the color of the piece (0 = empty space; 1 = black piece; 2 = white piece;)
  * @param type receives the type of the piece (0 = empty space; 1 = pawn; 2 = king; 3 = valid space;)
@@ -85,6 +81,8 @@ void queueOffer(Queue* queue, int currentX, int currentY, int newX, int newY, in
  * @param queue receives a pointer to a queue that already exists
 */
 nodeRef queuePoll(Queue* queue);
+
+nodeRef queuePollInv(Queue* queue);
 
 /*
  * This function destroy the queue

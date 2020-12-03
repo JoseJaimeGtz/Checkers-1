@@ -149,7 +149,19 @@ nodeRef queuePoll(Queue* queue)
         nodeRef dataToRemove = toRemove;
         queue->First = toRemove->next;
         queue->count--;
-        queue->currentMove--;
+        return dataToRemove;
+    }
+    return 0;
+}
+
+nodeRef queuePollInv(Queue* queue)
+{
+    nodeRef toRemove = queue->Last;
+
+    if(toRemove != NULL){
+        nodeRef dataToRemove = toRemove;
+        queue->Last = toRemove->next;
+        queue->count--;
         return dataToRemove;
     }
     return 0;
@@ -197,9 +209,8 @@ void nextMovement(gameStructRef game, Queue* queue)
 void previousMovement(gameStructRef game, Queue* queue)
 {
     if(queue->count > 0 && queue->currentMove > 0){
-        Queue* newQueue = queue;
-        nodeRef prevMovement = queuePoll(newQueue);
-        queue->currentMove--;
+        nodeRef prevMovement = queuePollInv(queue);
         movePiece(game, prevMovement->currentX, prevMovement->currentY, prevMovement->newX, prevMovement->newY, prevMovement->currentPlayer);        
+        updateBoard(game);
     }
 }

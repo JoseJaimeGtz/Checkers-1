@@ -283,7 +283,10 @@ void updateBoard(gameStructRef game)
     }
 
     DrawRectangle((game->screenWidth)-250, 240, 200, 60, BLACK);
-    DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);   
+    DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);  
+
+    DrawRectangle((game->screenWidth)-250, 340, 200, 60, BLACK);
+    DrawText("Anterior", ((game->screenWidth)-200), 360, 20, WHITE);   
 
     // Creacion del tablero
     for(int y = 0; y < game->boardsize; y++){
@@ -363,9 +366,14 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
     Rectangle saveRect = {(game->screenWidth)-250, 240, 200, 60};
+    Rectangle prevRect = {(game->screenWidth)-250, 340, 200, 60};
 
     if(click == true && CheckCollisionPointRec(mouse, saveRect)){
         *screen = SAVE;
+    }
+
+    if(click == true && CheckCollisionPointRec(mouse, prevRect)){
+        previousMovement(game, queue);
     }
 
     Rectangle returnRect = {50, 50, 150, 50};
