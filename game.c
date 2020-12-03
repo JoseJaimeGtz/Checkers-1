@@ -61,11 +61,10 @@ void saveGame(gameStructRef game, int slot, Queue* queue)
 
     nodeRef focusNode = queue->First;
     printf("\033[0;33m queueCount = %d\033[0m\n", queue->count);
-    int final = queue->count;
-    for(int i = 0; i < final; i++){
-        nodeRef toSave = queuePoll(queue);
-        printf("\033[0;33mGuardando queue [%d,%d,%d,%d,%d]\033[0m\n", toSave->currentX, toSave->currentY, toSave->newX, toSave->newY, toSave->currentPlayer);
-        fprintf(gameData, "%d,%d,%d,%d,%d\n", toSave->currentX, toSave->currentY, toSave->newX, toSave->newY, toSave->currentPlayer);
+    while(focusNode != NULL){
+        printf("\033[0;33mGuardando queue [%d,%d,%d,%d,%d]\033[0m\n", focusNode->currentX, focusNode->currentY, focusNode->newX, focusNode->newY, focusNode->currentPlayer);
+        fprintf(gameData, "%d,%d,%d,%d,%d\n", focusNode->currentX, focusNode->currentY, focusNode->newX, focusNode->newY, focusNode->currentPlayer);
+        focusNode = focusNode->next;
     }
 
     printf("\033[1;32m          [JUEGO GUARDADO]\033[0m\n");
