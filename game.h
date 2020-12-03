@@ -43,7 +43,7 @@ struct gameStruct{
     int currentColor;
     int totalWhitePieces;
     int totalBlackPieces;
-    pieceStructRef board[13][13];
+    pieceStructRef board[500][500];
 };
 typedef struct gameStruct* gameStructRef;
 
