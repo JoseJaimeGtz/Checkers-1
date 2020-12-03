@@ -111,17 +111,18 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
         printf("\033[0;33mLos archivos necesarios existen\033[0m\n");
         fscanf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", &queue->count, &game->boardsize, &game->screenWidth, &game->screenHeight, &game->currentPlayer, &game->currentPiecex, &game->currentPiecey, &game->totalWhitePieces, &game->totalBlackPieces);
         createBoard(game);
+        //int old = queue->count;
         int final = queue->count, newX, newY, currentX, currentY, currentPlayer;
         queue->count = 0;
         printf("\033[0;33mInicio de for\033[0m\n");
         for(int i = 0; i < final; i++){
-            printf("\033[0;33mFor: %d\033[0m\n", i);
             fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
-            printf("\033[0;33mLeído correctamente\033[0m\n");
+            printf("\033[0;32mLeído correctamente %d,%d,%d,%d,%d\033[0m\n", currentX, currentY, newX, newY, currentPlayer);
             queueOffer(queue, currentX, currentY, newX, newY, currentPlayer);
-            printf("\033[0;33mNodo agregado correctamente\033[0m\n");
-            movePiece(game, newX, newY, currentX, currentY, currentPlayer);
+            movePiece(game, currentX, currentY, newX, newY, currentPlayer);
         }
+        printf("\033[0;33mqueueCount = %d\033[0m\n", queue->count);
+        //queue->count += old;
         *screen = GAME;
         updateBoard(game);
         fclose(gameData);
@@ -170,16 +171,11 @@ void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, in
 {
 
     nodeRef toAdd = newNode(newX, newY, currentX, currentY, currentPlayer);
-    printf("\033[0;33mNodo creado\033[0m\n");
     if(queue->count == 0)
     {      
-        printf("\033[0;33m  queueCount = 0\033[0m\n");
         queue->First = toAdd;
-        printf("\033[0;33m    first worked\033[0m\n");
         queue->Last = toAdd;
-        printf("\033[0;33m    second worked\033[0m\n");
     } else {
-        printf("\033[0;33m  queueCount != 0\033[0m\n");
         queue->Last->next = toAdd;
         queue->Last = toAdd;
     }

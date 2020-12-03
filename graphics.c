@@ -341,13 +341,10 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
             if(game->currentPlayer){
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 2){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 1);
-                            printf("\033[0;33mAgregando a la queue [WHITE] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
                             queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 1);
-                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
@@ -357,15 +354,11 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                 }
             } else {
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
-                        fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
                         updateBoard(game);
                         if(game->board[x][y]->type == 3 && game->currentColor == 1){
                             movePiece(game, x, y, game->currentPiecex, game->currentPiecey, 0);
-                            printf("\033[0;33mAgregando a la queue [BLACK] %d, %d, %d, %d\033[0m\n", x, y, game->currentPiecex, game->currentPiecey);
                             queueOffer(queue, x, y, game->currentPiecex, game->currentPiecey, 0);
-                            fprintf(stderr, "\033[0;32m QUEUE DONE\n");
                         }
                         turnPieces(game, x, y);
                         game->currentColor = game->board[x][y]->color;
