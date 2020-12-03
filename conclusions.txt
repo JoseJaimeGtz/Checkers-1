@@ -1,0 +1,12 @@
+Rodrigo Zamora Dávalos
+
+Gracias al proyecto pude comprender la importancia de planificar un proyecto, ya que tuvimos que volver a hacer muchas funciones porque no teníamos bien planeado que queríamos hacer con cada una, tuvimos que ir agregando más argumentos a las funciones. Un ejemplo de esto es cuando agregamos la queue para guardar el juego, tuvimos que modificar la estructura de lo que ya teníamos para que funcionara con la queue. Tuvimos algunos retos en la integración de lo gráfico con el código, ya que cuando empezamos el juego, era algo que no tuvimos en cuenta, por lo que tardamos mucho tiempo intentando solucionarlo. Al final decidimos usar 2 for anidados y calcular la posición en X y en Y de cada ficha, pero en pixeles [310+(80*(x-1)), 50+(80*(y-1))]. Una vez que logramos esto, y al tener una referencia visual, pudimos programar de una manera más sencilla las funciones de gameLogic, que ahí es donde está toda la lógica del juego, ahí se decide si la ficha se puede mover a cierta posición, y también se encarga de mover las fichas (una vez evaluado que si es posible moverse a la posición). Gracias a que en la función de movePiece se sabe que el movimiento es válido, pudimos implementar el guardado y cargado de partidas usando queues, solo guardabamos los nodos en un archivo txt, y para cargar, los leíamos y llamabamos a la función movePiece con los datos que teníamos en nuestro nodo.
+
+fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
+queueOffer(queue, newX, newY, currentX, currentY, currentPlayer);
+movePiece(game, newX, newY, currentX, currentY, currentPlayer);
+
+También tuvimos ciertos problemas al incluir las mismas librerías en varios archivos, lo que lo compensamos creando el archivo checkersLibrary.h donde incluimos todas las librerías necesarias, y el órden en que deben ser agregadas
+
+
+Jaime
