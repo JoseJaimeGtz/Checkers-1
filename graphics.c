@@ -282,10 +282,10 @@ void updateBoard(gameStructRef game)
         DrawText("negras", ((game->screenWidth)-200), 100, 20, WHITE);  
     }
 
-    DrawRectangle((game->screenWidth)-250, 240, 200, 60, BLACK);
+    DrawRectangle((game->screenWidth)-250, 240, 200, 60, GRAY);
     DrawText("Guardar", ((game->screenWidth)-200), 260, 20, WHITE);  
 
-    DrawRectangle((game->screenWidth)-250, 340, 200, 60, BLACK);
+    DrawRectangle((game->screenWidth)-250, 340, 200, 60, GRAY);
     DrawText("Anterior", ((game->screenWidth)-200), 360, 20, WHITE);   
 
     // Creacion del tablero

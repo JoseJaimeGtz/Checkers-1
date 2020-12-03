@@ -26,13 +26,14 @@ typedef struct pieceStruct* pieceStructRef;
 struct Node_struct {
     int newX, newY, currentX, currentY, currentPlayer;
     struct Node_struct* next;
+    struct Node_struct* prev;
 } Node ;
 typedef struct Node_struct* nodeRef;
 
 typedef struct {
     nodeRef First;
     nodeRef Last;
-    int count, currentMove;
+    int count;
 } Queue ;
 
 struct gameStruct{

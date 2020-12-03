@@ -134,7 +134,6 @@ Queue* queueCreate()
     Queue* queue = malloc(sizeof(Queue));
 
     queue->count = 0;
-    queue->currentMove = 0;
     queue->First = NULL;
     queue->Last = NULL;
 
@@ -160,7 +159,7 @@ nodeRef queuePollInv(Queue* queue)
 
     if(toRemove != NULL){
         nodeRef dataToRemove = toRemove;
-        queue->Last = toRemove->next;
+        queue->Last = queue->Last->prev;
         queue->count--;
         return dataToRemove;
     }
@@ -176,6 +175,7 @@ nodeRef newNode(int newX, int newY, int currentX, int currentY, int currentPlaye
     node->currentY = currentY;
     node->currentPlayer = currentPlayer;
     node->next = NULL;
+    node->prev = NULL;
 }
 
 void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, int currentPlayer)
@@ -188,10 +188,10 @@ void queueOffer(Queue* queue, int newX, int newY, int currentX, int currentY, in
         queue->Last = toAdd;
     } else {
         queue->Last->next = toAdd;
-        queue->Last = toAdd;
+        toAdd->prev = queue->Last;
+        queue->Last = queue->Last->next;
     }
     queue->count++;
-    queue->currentMove++;
 }
 
 void queueDestroy(Queue* queue)
@@ -208,9 +208,10 @@ void nextMovement(gameStructRef game, Queue* queue)
 
 void previousMovement(gameStructRef game, Queue* queue)
 {
-    if(queue->count > 0 && queue->currentMove > 0){
+    if(queue->count > 0){
         nodeRef prevMovement = queuePollInv(queue);
         movePiece(game, prevMovement->currentX, prevMovement->currentY, prevMovement->newX, prevMovement->newY, prevMovement->currentPlayer);        
+        game->currentPlayer = prevMovement->currentPlayer;
         updateBoard(game);
     }
 }
