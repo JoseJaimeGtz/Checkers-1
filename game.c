@@ -38,7 +38,7 @@ void createBoard(gameStructRef game)
     }
 }
 
-void saveGame(int slot, Queue* queue)
+void saveGame(gameStructRef game, int slot, Queue* queue)
 {
     FILE* gameData;
     printf("\033[1;31m          [GUARDANDO JUEGO]\033[0m\n");
@@ -83,7 +83,7 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
                 gameData = fopen("../slot1.txt", "r");
                 fileExist = true;
             } else {
-                printf("\033[0;33mEL slot %d no existe\033[0m\n", slot);
+                printf("\033[0;33mEl slot %d no existe\033[0m\n", slot);
             }
             break;
 
@@ -92,7 +92,7 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
                 gameData = fopen("../slot2.txt", "r");
                 fileExist = true;
             } else {
-                printf("\033[0;33mEL slot %d no existe\033[0m\n", slot);
+                printf("\033[0;33mEl slot %d no existe\033[0m\n", slot);
             }
             break;
 
@@ -101,7 +101,7 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
                 gameData = fopen("../slot3.txt", "r");
                 fileExist = true;
             } else {
-                printf("\033[0;33mEL slot %d no existe\033[0m\n", slot);
+                printf("\033[0;33mEl slot %d no existe\033[0m\n", slot);
             }
             break;
     }
@@ -110,18 +110,18 @@ void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag 
         printf("\033[0;33mLos archivos necesarios existen\033[0m\n");
         fscanf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", &queue->count, &game->boardsize, &game->screenWidth, &game->screenHeight, &game->currentPlayer, &game->currentPiecex, &game->currentPiecey, &game->totalWhitePieces, &game->totalBlackPieces);
         createBoard(game);
-        //int old = queue->count;
-        int final = queue->count, newX, newY, currentX, currentY, currentPlayer;
-        queue->count = 0;
-        printf("\033[0;33mInicio de for\033[0m\n");
-        for(int i = 0; i < final; i++){
-            fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
-            printf("\033[0;32mLeído correctamente %d,%d,%d,%d,%d\033[0m\n", currentX, currentY, newX, newY, currentPlayer);
-            queueOffer(queue, newX, newY, currentX, currentY, currentPlayer);
-            movePiece(game, newX, newY, currentX, currentY, currentPlayer);
+        if(queue->count > 0){
+            int final = queue->count, newX, newY, currentX, currentY, currentPlayer;
+            queue->count = 0;
+            printf("\033[0;33mInicio de for\033[0m\n");
+            for(int i = 0; i < final; i++){
+                fscanf(gameData, "%d,%d,%d,%d,%d\n", &currentX, &currentY, &newX, &newY, &currentPlayer);
+                printf("\033[0;32mLeído correctamente %d,%d,%d,%d,%d\033[0m\n", currentX, currentY, newX, newY, currentPlayer);
+                queueOffer(queue, newX, newY, currentX, currentY, currentPlayer);
+                movePiece(game, newX, newY, currentX, currentY, currentPlayer);
+            }
+            printf("\033[0;33mqueueCount = %d\033[0m\n", queue->count);
         }
-        printf("\033[0;33mqueueCount = %d\033[0m\n", queue->count);
-        //queue->count += old;
         *screen = GAME;
         updateBoard(game);
         fclose(gameData);

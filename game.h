@@ -102,10 +102,11 @@ nodeRef newNode(int currentX, int currentY, int newX, int newY, int currentPlaye
 
 /*
  * This function saves the current game in a text file
+ * @param game receives gameStruct
  * @param slot receives a number from 1 to 3
  * @param queue receives a pointer to a queue that already exists
 */
-void saveGame(int slot, Queue* queue);
+void saveGame(gameStructRef game, int slot, Queue* queue);
 
 /*
  * This function loads a saved game from a text file
