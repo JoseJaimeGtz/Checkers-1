@@ -6,7 +6,9 @@ typedef enum {
     MAIN,
     GAME,
     SAVE,
-    LOAD
+    LOAD,
+    WIN_BLACK,
+    WIN_WHITE
 } ScreenFlag;
 
 struct mainButtons{

@@ -13,13 +13,9 @@ void deleteAll(gameStructRef game)
     }
 }
 
-void winner(gameStructRef game){
-    if(game->totalWhitePieces == 0){
-        fprintf(stderr, "Ganaron las Negras!!!!\n"); // Pantalla donde ganaron las negras
-    }
-    if(game->totalBlackPieces == 0){
-        fprintf(stderr, "Ganaron las Blancas!!!!\n"); // Pantalla donde ganaron las blancas
-    }
+void winner(gameStructRef game, ScreenFlag *screen){
+    if(game->totalWhitePieces == 0) *screen = WIN_WHITE;
+    if(game->totalBlackPieces == 0) *screen = WIN_BLACK;
 }
 
 void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int op_piece){
@@ -52,7 +48,6 @@ void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY
     } else if(op_piece == 1 && eatPiece == 1) {
         game->totalWhitePieces--;
     }
-    winner(game);
 }
 
 void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int currentPlayer)

@@ -81,4 +81,4 @@ void deleteAll(gameStructRef game);
  * This function compares if one player wins and shows a new window with the name of the winner player.
  * This function is called by eatPiece function.
  */
-void winner(gameStructRef game);
+void winner(gameStructRef game, ScreenFlag *screen);

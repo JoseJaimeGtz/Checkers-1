@@ -1,5 +1,43 @@
 #include "checkersLibrary.h"
 
+void drawWinBlack(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    DrawRectangle(50, 50, 150, 50, GRAY);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
+
+    DrawText("GANARON LAS NEGRAS", 400, 380, 30, WHITE);
+}
+
+void checkBlackButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = MAIN;
+    }
+}
+
+void drawWinWhite(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
+{
+    DrawRectangle(50, 50, 150, 50, GRAY);
+    DrawText("   Regresar", 50, 65, 20, BLACK);
+
+    DrawText("GANARON LAS BLANCAS", 400, 380, 30, BLACK);
+}
+
+void checkWhiteButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen, Queue* queue)
+{
+    bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
+    Vector2 mouse = GetMousePosition();
+    Rectangle returnRect = {50, 50, 150, 50};
+
+    if(click == true && CheckCollisionPointRec(mouse, returnRect)){
+        *screen = MAIN;
+    }
+}
+
 void drawLoad(gameStructRef game, mainButtonsStruct board, ScreenFlag *screen)
 {
     DrawRectangle(50, 50, 150, 50, GRAY);
