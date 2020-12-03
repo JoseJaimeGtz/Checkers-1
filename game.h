@@ -64,32 +64,56 @@ pieceStructRef newPiece(int color, int type);
 void createBoard(gameStructRef game);
 
 /*
- * Queue & file management
- */
-
-
-// Crear la estructura de queue
+* This function creates a queue
+*/
 Queue* queueCreate();
 
-// Agregar un nodo pieceStruct a la queue
+/*
+ * @param queue receives a pointer to a queue that already exists
+ * @param currentX
+ * @param currentY
+ * @param newX
+ * @param newY
+ * @param currentPlayer
+*/
 void queueOffer(Queue* queue, int currentX, int currentY, int newX, int newY, int currentPlayer);
 
-// Remover un nodo pieceStruct de la queue
+/*
+ * This function removes a node from the queue, and returns a struct of the removed node
+ * @param queue receives a pointer to a queue that already exists
+*/
 nodeRef queuePoll(Queue* queue);
 
-// Eliminar la queue
+/*
+ * This function destroy the queue
+ * @param queue receives a pointer to a queue that already exists
+*/
 void queueDestroy(Queue* queue);
 
+/*
+ * This function creates a new node
+ * @param currentX
+ * @param currentY
+ * @param newX
+ * @param newY
+ * @param currentPlayer
+*/
 nodeRef newNode(int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 /*
-    Funciones para el manejo de archivos
+ * This function saves the current game in a text file
+ * @param slot receives a number from 1 to 3
+ * @param queue receives a pointer to a queue that already exists
 */
+void saveGame(int slot, Queue* queue);
 
-// Guardar el juego
-void saveGame(gameStructRef game, int slot, Queue* queue);
-
-// Cargar el juego
+/*
+ * This function loads a saved game from a text file
+ * @param game receives gameStruct
+ * @param slot receives a number from 1 to 3
+ * @param board
+ * @param screen
+*/
 void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
 
 // Ir al siguiente movimiento (si es posible)

@@ -38,7 +38,7 @@ void createBoard(gameStructRef game)
     }
 }
 
-void saveGame(gameStructRef game, int slot, Queue* queue)
+void saveGame(int slot, Queue* queue)
 {
     FILE* gameData;
     printf("\033[1;31m          [GUARDANDO JUEGO]\033[0m\n");

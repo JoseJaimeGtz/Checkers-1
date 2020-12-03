@@ -71,7 +71,7 @@ void turnPieces(gameStructRef game, int x, int y);
 
 /*
  * @param game receives gameStruct
- * This function erase all possible positions of one piece selected.
+ * This function makes all positions change to their original type, 0.
  * This function is called by turnPieces function.
  */
 void deleteAll(gameStructRef game);
