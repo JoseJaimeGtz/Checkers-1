@@ -1,6 +1,6 @@
 #include "checkersLibrary.h"
 
-pieceStructRef newPiece(gameStructRef game, int color, int type)
+pieceStructRef newPiece(int color, int type)
 {
     pieceStructRef new = malloc(sizeof(struct pieceStruct));
     new->color = color;
@@ -18,30 +18,24 @@ void createBoard(gameStructRef game)
     game->currentPlayer = 0;
     game->totalBlackPieces = game->boardsize + game->boardsize/2;
     game->totalWhitePieces = game->boardsize + game->boardsize/2;
-    fprintf(stderr, "Total piezas blancas: [%d]\n", game->totalWhitePieces);
-    fprintf(stderr, "Total piezas negras: [%d]\n", game->totalBlackPieces);
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if (y<=game->boardsize/2-1){ // Fichas blancas
+            if (y<=game->boardsize/2-1){
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                    //fprintf(stderr, "Ficha blanca [%d][%d]\n", x, y);
-                    pieceStructRef new = newPiece(game, 2, 1);
+                    pieceStructRef new = newPiece(2, 1);
                     game->board[x][y] = new;
                 }
-            } else if (y>=game->boardsize/2+2){ // Fichas Negras
+            } else if (y>=game->boardsize/2+2){
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
-                    //fprintf(stderr, "Ficha negra [%d][%d]\n", x, y);
-                    pieceStructRef new = newPiece(game, 1, 1);
+                    pieceStructRef new = newPiece(1, 1);
                     game->board[x][y] = new;
                 }
             } else if ((y == game->boardsize/2 && ((y%2==0 && x%2!=0) || (y%2!=0 && x%2==0))) || (y == game->boardsize/2+1 && ((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)))){
-                //fprintf(stderr, "posición vacia [%d][%d]\n", x, y);
-                pieceStructRef new = newPiece(game, 0, 0);
+                pieceStructRef new = newPiece(0, 0);
                 game->board[x][y] = new;
             }
         }
     }
-    fprintf(stderr, "Tablero creado\n");
 }
 
 void saveGame(gameStructRef game, int slot, Queue* queue)

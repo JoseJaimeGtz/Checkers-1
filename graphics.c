@@ -338,7 +338,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
 
     for(int y = 1; y <= game->boardsize; y++){
         for(int x = 1; x <= game->boardsize; x++){
-            if(game->currentPlayer){ // blanca
+            if(game->currentPlayer){
                 if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
                         fprintf(stderr, "\033[0;33m SELECTED [%d][%d]\n", x, y);
@@ -355,7 +355,7 @@ void checkGameButton(gameStructRef game, mainButtonsStruct board, ScreenFlag *sc
                         game->currentPiecey = y;
                     }
                 }
-            } else { // negra
+            } else {
                 if((y%2!=0 && x%2==0) || y%2==0 && x%2!=0){
                     //printf("\033[0;34m[%f, %f]\n", mouse.x, mouse.y);
                     if(click == true && CheckCollisionPointRec(mouse, (game->board[x][y]->circle))){
