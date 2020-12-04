@@ -29,6 +29,54 @@ librerías necesarias, y el órden en que deben ser agregadas
 
 José Jaime Gutiérrez Martínez
 
+Al desarrollar este proyecto me tope con con muchos desafíos, principalmente en la estructura en general de como
+estaría diseñada, ya que esta influye de manera significativa en todos los algoritmos del proyecto, esto me presentó
+un gran conflicto ya que nuestras propuestas de estructuras eran totalmente diferentes y no nos podiamos poner de
+acuerdo en la estructura final del proyecto, ya que yo queria que fuera una estructura donde todas las fichas fueran
+nodos, donde se representaría (a mi parecer) una manera más abstracta, pero más entendible a mi parecer, donde el
+tablero sería de NxN, mientras que la estructura que propuso rodrigo fue de hacerlo en una matriz, en la cual se
+representaba abstractamente parecido a lo que tenía en mente, pero a la hora de representarlo en código se me dificultó
+el pensar en toda la lógica del proyecto, ya que fue en lo que más me enfoque, pero finalmente el proyecto se llevó a
+cabo con las estructuras que propuso rodrigo, ya que se le hacia trabajar con ellas de una manera más sencilla, pero
+en lo personal no fue lo mismo para mi. Una de las cosas que nos tomo tiempo fue la investigación de lo que
+necesitabamos para realizar el proyecto, una de ellas fue la librería que utilizaríamos, porque en los inicios del
+programa habíamos escogido la librería de allegro para la interfaz gráfica, pero al hacer el cambio de librería a la que
+tenemos actualmente (raylib) por lo que tuve que volver a investigar la utilización de la misma. Conforme iba avanzando
+el proyecto nos topamos con muchos problemas, porque decidimos hacer la lógica del proyecto casi a la par del toda la
+parte gráfica, de esta manera comprendí la utilización de las funciones que nos proporcionaba la librería ya que estas
+se utilizaron en todos lados del proyecto. Una de las cosas buenas en los algoritmos que realice fue que a la hora de
+cambiarlos a una estructura diferente la lógica de los algoritmos estaba realizada correctamente, solo se tuvieron que
+realizar los cambios necesarios para la nueva estructura. Estos algoritmos fueron cambiando con el tiempo, porque al ir
+implementando lo que se necesitaba, estos iban creciendo de una manera exponencial, por lo que procedí a particionarlos
+en funciones más pequeñas, incluso, algunas de ellas servian para diferentes funcionalidades las cuales se pasaban por
+medio de los parámetros que dependiendo de donde se llamara la función, estos cambian. Las funiones que cambiaron
+drasticamente en el proyecto fue la función de isPossible, porque en los inicios de la implementación de esta función lo
+que hacía era que verificaba las posiciones que eran validas tanto las fichas negras como las blancas y detectaba si
+en la siguiente posición se encuentra una ficha contraria y verifica si en dos posiciones más adelante es un espacio
+libre y lo que hacia era solamente dibujar los cuadros amarillos, pero note que iba a ser un problema para cuando las
+fichas se vuelven kings, ya que utilizarían el codigo tanto de las negras como el código de las blancas, por lo que
+decidí la creación de las funciones de pieceDown y pieceUp que son llamadas por isPossible y dependiendo del color y
+si la ficha seleccionada es un peon se llama a una de las dos funciones, en cambio si la ficha es un king se llaman a
+las dos funciones, ya que ellos se pueden mover tanto hacia la parte alta como la baja del tablero. Otras de las
+funciones que me presentaron un reto fueron las funciones de movePiece y eatPiece, a movePiece se le pasan los
+parámetros de la estructura del juego, el jugador actual, las posiciones de la ficha seleccionada tanto en X como en Y y
+las posiciones a las cuales se quiere mover la ficha, dependiendo del turno del jugador se dibuja la ficha en la
+posición seleccionada y se borra la ficha en la posición anterior, tambien se verifica si llego a la posición limite en
+donde esa ficha se convierte en king, posteriormente llama a la función de eatPiece la cual verifica si la ficha hizo
+un movimiento de dos espacios, si es asi, borra la ficha que brinco (en este punto no es necesario verificar si quizo
+saltar una ficha de su mismo color, ya que eso lo toma en cuenta la función de pieceUp y pieceDown anteriormente) y
+resta la ficha que se elimino al equipo contrario.
+
+void isPossible(gameStructRef game, int currentX, int currentY);
+void pieceUp(gameStructRef game, int currentX, int currentY, int op_piece);
+void pieceDown(gameStructRef game, int currentX, int currentY, int op_piece);
+void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int op_piece);
+void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int currentPlayer);
+
+
+Con la realización de este proyecto me di cuenta que todos los proyectos se necesitan pensar con una buena estructura
+antes de empezar a realizarlos, ya que esa es la base fundamental del código que se hará. Personalmente siento que si
+aprendí los conceptos vistos en clase, porque de esa manera pudimos desarrollar lo fundamental del proyecto.
 
 
 
