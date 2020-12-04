@@ -152,7 +152,7 @@ void drawMain(gameStructRef game, mainButtonsStruct board)
 
 }
 
-void checkSaveButton(ScreenFlag *screen, Queue* queue)
+void checkSaveButton(gameStructRef game, ScreenFlag *screen, Queue* queue)
 {
     bool click = IsMouseButtonPressed(MOUSE_LEFT_BUTTON);
     Vector2 mouse = GetMousePosition();
@@ -170,7 +170,7 @@ void checkSaveButton(ScreenFlag *screen, Queue* queue)
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            saveGame(1, queue);
+            saveGame(game, 1, queue);
             DrawRectangle(200, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 200, 605, 20, WHITE);
         }
@@ -179,7 +179,7 @@ void checkSaveButton(ScreenFlag *screen, Queue* queue)
         DrawRectangle(500, 200, 250, 400, SKYBLUE);
         DrawRectangle(800, 200, 250, 400, GRAY);
         if(click == true){
-            saveGame(2, queue);
+            saveGame(game, 2, queue);
             DrawRectangle(500, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 500, 605, 20, WHITE);
         }
@@ -188,7 +188,7 @@ void checkSaveButton(ScreenFlag *screen, Queue* queue)
         DrawRectangle(500, 200, 250, 400, GRAY);
         DrawRectangle(800, 200, 250, 400, SKYBLUE);
         if(click == true){
-            saveGame(3, queue);
+            saveGame(game, 3, queue);
             DrawRectangle(800, 600, 250, 30, RED);
             DrawText("        Sobreescribir", 800, 605, 20, WHITE);
         }

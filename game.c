@@ -101,7 +101,7 @@ pieceStructRef newPiece(int color, int type)
     return new;
 }
 
-void saveGame(int slot, Queue* queue)
+void saveGame(gameStructRef game, int slot, Queue* queue)
 {
     FILE* gameData;
     printf("\033[1;31m          [GUARDANDO JUEGO]\033[0m\n");
@@ -125,7 +125,6 @@ void saveGame(int slot, Queue* queue)
         fprintf(gameData, "%d,%d,%d,%d,%d\n", focusNode->currentX, focusNode->currentY, focusNode->newX, focusNode->newY, focusNode->currentPlayer);
         focusNode = focusNode->next;
     }
-
     printf("\033[1;32m          [JUEGO GUARDADO]\033[0m\n");
     fclose(gameData);
 }

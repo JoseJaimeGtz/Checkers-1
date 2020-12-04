@@ -32,7 +32,7 @@ void drawMain(gameStructRef game, mainButtonsStruct board);
  * @param screen receives a pointer to a struct where we select the screen that is being displayed
  * This function checks if you click a button in the save menu screen
  */
-void checkSaveButton(ScreenFlag *screen, Queue* queue);
+void checkSaveButton(gameStructRef game, ScreenFlag *screen, Queue* queue);
 
 /*
  * @param screen receives a pointer to a struct where we select the screen that is being displayed

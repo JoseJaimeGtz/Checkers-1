@@ -62,7 +62,7 @@ int main() {
                     winWhite = 0;
                     winBlack = 0;
                 }
-                checkSaveButton(screen, queue);
+                checkSaveButton(&game, screen, queue);
                 break;
 
             case LOAD:
