@@ -107,6 +107,7 @@ void queueDestroy(Queue* queue);
 nodeRef newNode(int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 /*
+ * @param game receives gameStruct
  * @param slot receives a number from 1 to 3
  * @param queue receives a pointer to a queue that already exists
  * This function saves the current game in a text file
