@@ -16,11 +16,7 @@ int main() {
     SetTargetFPS(60);
     while (!WindowShouldClose())
     {
-
-        Vector2 mouse = GetMousePosition();
-
         BeginDrawing();
-
         switch(*screen)
         {
             case MAIN:
@@ -28,7 +24,7 @@ int main() {
                     SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
                     SetWindowSize(1240, 760);
-                    drawMain(&game, &board, screen);
+                    drawMain(&game, &board);
                     mainDrawn = 1;
                     loadDrawn = 0;
                     gameDrawn = 0;
@@ -41,7 +37,7 @@ int main() {
             case GAME:
                 if(gameDrawn == 0){
                     ClearBackground(WHITE);
-                    drawGame(&game, &board, screen);
+                    drawGame(&game);
                     gameDrawn = 1;
                     saveDrawn = 0;
                     mainDrawn = 0;
@@ -49,7 +45,7 @@ int main() {
                     winWhite = 0;
                     winBlack = 0;
                 }
-                checkGameButton(&game, &board, screen, queue);
+                checkGameButton(&game, screen, queue);
                 winner(&game, screen);   
                 break;
 
@@ -58,7 +54,7 @@ int main() {
                     SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
                     SetWindowSize(1240, 760);
-                    drawSave(&game, &board, screen);
+                    drawSave();
                     saveDrawn = 1;
                     gameDrawn = 0;
                     mainDrawn = 0;
@@ -66,7 +62,7 @@ int main() {
                     winWhite = 0;
                     winBlack = 0;
                 }
-                checkSaveButton(&game, &board, screen, queue);   
+                checkSaveButton(screen, queue);
                 break;
 
             case LOAD:
@@ -74,7 +70,7 @@ int main() {
                     SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
                     SetWindowSize(1240, 760);
-                    drawLoad(&game, &board, screen);
+                    drawLoad();
                     loadDrawn = 1;
                     mainDrawn = 0;
                     gameDrawn = 0;
@@ -82,14 +78,14 @@ int main() {
                     winWhite = 0;
                     winBlack = 0;
                 }
-                checkLoadButton(&game, &board, screen, queue);   
+                checkLoadButton(&game, screen, queue);
                 break;
             case WIN_BLACK:
                 if(winBlack == 0){
                     SetWindowSize(1240, 760);
                     ClearBackground(BLACK);
                     SetWindowSize(1240, 760);
-                    drawWinBlack(&game, &board, screen);
+                    drawWinBlack();
                     winBlack = 1;
                     loadDrawn = 0;
                     mainDrawn = 0;
@@ -97,14 +93,14 @@ int main() {
                     saveDrawn = 0;
                     winWhite = 0;
                 }
-                checkBlackButton(&game, &board, screen, queue);
+                checkBlackButton(screen);
                 break;
             case WIN_WHITE:
                 if(winWhite == 0){
                     SetWindowSize(1240, 760);
                     ClearBackground(WHITE);
                     SetWindowSize(1240, 760);
-                    drawWinWhite(&game, &board, screen);
+                    drawWinWhite();
                     winWhite = 1;
                     loadDrawn = 0;
                     mainDrawn = 0;
@@ -112,12 +108,10 @@ int main() {
                     saveDrawn = 0;
                     winBlack = 0;
                 }
-                checkWhiteButton(&game, &board, screen, queue);
+                checkWhiteButton(screen);
                 break;
         }
-
         EndDrawing();
-
     }
     CloseWindow();
     queueDestroy(queue);

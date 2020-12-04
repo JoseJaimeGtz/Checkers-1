@@ -1,55 +1,5 @@
 #include "checkersLibrary.h"
 
-void deleteAll(gameStructRef game)
-{
-    for(int y = 1; y <= game->boardsize; y++){
-        for(int x = 1; x <= game->boardsize; x++){
-            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
-                if(game->board[x][y]->type == 3){
-                    game->board[x][y]->type = 0;
-                }
-            }
-        }
-    }
-}
-
-void winner(gameStructRef game, ScreenFlag *screen){
-    if(game->totalWhitePieces == 0) *screen = WIN_WHITE;
-    if(game->totalBlackPieces == 0) *screen = WIN_BLACK;
-}
-
-void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int op_piece){
-    int eatPiece = 0;
-    if(currentY - newY == 2 || currentY - newY == -2){
-        if(currentY - newY == 2){
-            if(currentX - newX == 2){
-                game->board[currentX-1][currentY-1]->color = 0;
-                game->board[currentX-1][currentY-1]->type = 0;
-                eatPiece = 1;
-            } else {
-                game->board[currentX+1][currentY-1]->color = 0;
-                game->board[currentX+1][currentY-1]->type = 0;
-                eatPiece = 1;
-            }
-        } else {
-            if(currentX - newX == 2){
-                game->board[currentX-1][currentY+1]->color = 0;
-                game->board[currentX-1][currentY+1]->type = 0;
-                eatPiece = 1;
-            } else {
-                game->board[currentX+1][currentY+1]->color = 0;
-                game->board[currentX+1][currentY+1]->type = 0;
-                eatPiece = 1;
-            }
-        }
-    }
-    if(op_piece == 0 && eatPiece == 1){
-        game->totalBlackPieces--;
-    } else if(op_piece == 1 && eatPiece == 1) {
-        game->totalWhitePieces--;
-    }
-}
-
 void movePiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int currentPlayer)
 {
     if(game->currentPlayer == 1 || currentPlayer == 1){
@@ -85,6 +35,38 @@ void movePiece(gameStructRef game, int newX, int newY, int currentX, int current
         eatPiece(game, newX, newY, currentX, currentY, 1);
     }
     updateBoard(game);
+}
+
+void eatPiece(gameStructRef game, int newX, int newY, int currentX, int currentY, int op_piece){
+    int eatPiece = 0;
+    if(currentY - newY == 2 || currentY - newY == -2){
+        if(currentY - newY == 2){
+            if(currentX - newX == 2){
+                game->board[currentX-1][currentY-1]->color = 0;
+                game->board[currentX-1][currentY-1]->type = 0;
+                eatPiece = 1;
+            } else {
+                game->board[currentX+1][currentY-1]->color = 0;
+                game->board[currentX+1][currentY-1]->type = 0;
+                eatPiece = 1;
+            }
+        } else {
+            if(currentX - newX == 2){
+                game->board[currentX-1][currentY+1]->color = 0;
+                game->board[currentX-1][currentY+1]->type = 0;
+                eatPiece = 1;
+            } else {
+                game->board[currentX+1][currentY+1]->color = 0;
+                game->board[currentX+1][currentY+1]->type = 0;
+                eatPiece = 1;
+            }
+        }
+    }
+    if(op_piece == 0 && eatPiece == 1){
+        game->totalBlackPieces--;
+    } else if(op_piece == 1 && eatPiece == 1) {
+        game->totalWhitePieces--;
+    }
 }
 
 void pieceDown(gameStructRef game, int currentX, int currentY, int op_piece){
@@ -204,6 +186,11 @@ void isPossible(gameStructRef game, int currentX, int currentY)
     }
 }
 
+void winner(gameStructRef game, ScreenFlag *screen){
+    if(game->totalWhitePieces == 0) *screen = WIN_WHITE;
+    if(game->totalBlackPieces == 0) *screen = WIN_BLACK;
+}
+
 void turnPieces(gameStructRef game, int x, int y){
     deleteAll(game);
     if(game->currentPlayer){
@@ -213,6 +200,19 @@ void turnPieces(gameStructRef game, int x, int y){
     } else {
         if(game->board[x][y]->color == 1){
             isPossible(game, x, y);
+        }
+    }
+}
+
+void deleteAll(gameStructRef game)
+{
+    for(int y = 1; y <= game->boardsize; y++){
+        for(int x = 1; x <= game->boardsize; x++){
+            if((y%2!=0 && x%2==0) || (y%2==0 && x%2!=0)){
+                if(game->board[x][y]->type == 3){
+                    game->board[x][y]->type = 0;
+                }
+            }
         }
     }
 }
