@@ -27,4 +27,12 @@ lo que lo compensamos creando el archivo checkersLibrary.h donde incluimos todas
 librerías necesarias, y el órden en que deben ser agregadas
 
 
-Jaime
+José Jaime Gutiérrez Martínez
+
+
+
+
+
+
+
+

@@ -74,57 +74,56 @@ Queue* queueCreate();
  * @param newX receives the new X position of the piece in the board
  * @param newY receives the new Y position of the piece in the board
  * @param currentPlayer receives the player that moved the piece
+ * This function creates a new queue
 */
 void queueOffer(Queue* queue, int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 /*
- * This function removes the first node from the queue, and returns a struct of the removed node
  * @param queue receives a pointer to a queue that already exists
+ * This function removes the first node from the queue, and returns a struct of the removed node
 */
 nodeRef queuePoll(Queue* queue);
 
 /*
- * This function removes the last node from the queue, and returns a struct of the removed node
  * @param queue receives a pointer to a queue that already exists
+ * This function removes the last node from the queue, and returns a struct of the removed node
 */
 nodeRef queuePollInv(Queue* queue);
 
 /*
- * This function destroy the queue
  * @param queue receives a pointer to a queue that already exists
+ * This function destroy the queue
 */
 void queueDestroy(Queue* queue);
 
 /*
- * This function creates a new node with the given parameters
  * @param currentX receives the current X position of the piece
  * @param currentY receives the current Y position of the piece
  * @param newX receives the new X position of the piece
  * @param newY receives the new Y position of the piece
  * @param currentPlayer receives the player that moved the piece
+ * This function creates a new node with the given parameters
 */
 nodeRef newNode(int currentX, int currentY, int newX, int newY, int currentPlayer);
 
 /*
+ * @param slot receives a number from 1 to 3
+ * @param queue receives a pointer to a queue that already exists
  * This function saves the current game in a text file
- * @param game receives gameStruct
- * @param slot receives a number from 1 to 3
- * @param queue receives a pointer to a queue that already exists
 */
-void saveGame(gameStructRef game, int slot, Queue* queue);
+void saveGame(int slot, Queue* queue);
 
 /*
- * This function loads a saved game from a text file
  * @param game receives gameStruct
  * @param slot receives a number from 1 to 3
- * @param board receives a pointer to a struct where positions from buttons are saved
  * @param screen receives a pointer to a struct where we select the screen that is being displayed
+ * This function loads a saved game from a text file
 */
-void loadGame(gameStructRef game, int slot, mainButtonsStruct board, ScreenFlag *screen, Queue* queue);
+void loadGame(gameStructRef game, int slot, ScreenFlag *screen, Queue* queue);
 
 /*
- * This function makes the game go back 1 movement
  * @param game receives gameStruct
  * @param queue receives a pointer to a queue that already exists
+ * This function makes the game go back 1 movement
 */
 void previousMovement(gameStructRef game, Queue* queue);

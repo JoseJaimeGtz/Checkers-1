@@ -61,6 +61,14 @@ void isPossible(gameStructRef game, int currentX, int currentY);
 
 /*
  * @param game receives gameStruct
+ * @param screen receives a pointer to a struct where we select the screen that is being displayed
+ * This function compares if one player wins and shows a new window with the name of the winner player.
+ * This function is called by eatPiece function.
+ */
+void winner(gameStructRef game, ScreenFlag *screen);
+
+/*
+ * @param game receives gameStruct
  * @param x receives position x of the piece selected
  * @param y receives position y of the piece selected
  * This function checks the current payer and the piece selected, if it's true, call isPossible function.
@@ -75,10 +83,3 @@ void turnPieces(gameStructRef game, int x, int y);
  * This function is called by turnPieces function.
  */
 void deleteAll(gameStructRef game);
-
-/*
- * @param game receives gameStruct
- * This function compares if one player wins and shows a new window with the name of the winner player.
- * This function is called by eatPiece function.
- */
-void winner(gameStructRef game, ScreenFlag *screen);
