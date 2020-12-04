@@ -187,8 +187,8 @@ void isPossible(gameStructRef game, int currentX, int currentY)
 }
 
 void winner(gameStructRef game, ScreenFlag *screen){
-    if(game->totalWhitePieces == 0) *screen = WIN_WHITE;
-    if(game->totalBlackPieces == 0) *screen = WIN_BLACK;
+    if(game->totalBlackPieces == 0) *screen = WIN_WHITE;
+    if(game->totalWhitePieces == 0) *screen = WIN_BLACK;
 }
 
 void turnPieces(gameStructRef game, int x, int y){
