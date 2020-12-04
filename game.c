@@ -120,7 +120,7 @@ void saveGame(int slot, Queue* queue)
             break;
     }
     nodeRef focusNode = queue->First;
-    printf("\033[0;33m queueCount = %d\033[0m\n", queue->count);
+    fprintf(gameData, "%d,%d,%d,%d,%d,%d,%d,%d,%d\n", queue->count, game->boardsize, game->screenWidth, game->screenHeight, game->currentPlayer, game->currentPiecex, game->currentPiecey, game->totalWhitePieces, game->totalBlackPieces);
     while(focusNode != NULL){
         fprintf(gameData, "%d,%d,%d,%d,%d\n", focusNode->currentX, focusNode->currentY, focusNode->newX, focusNode->newY, focusNode->currentPlayer);
         focusNode = focusNode->next;
